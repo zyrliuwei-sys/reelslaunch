@@ -20,6 +20,7 @@ import {
   type ProactivHeroComposerLabels,
 } from '@/components/proactiv/proactiv-hero-composer';
 import { ProactivNav } from '@/components/proactiv/proactiv-nav';
+import { CanvasRevealEffect } from '@/components/ui/canvas-reveal-effect';
 
 const REEL_AUTOPILOT_NAME = 'ReelAutopilot';
 
@@ -186,6 +187,7 @@ export const reelslaunchFaqs = [
 export function ReelslaunchHomepage() {
   const router = useRouter();
   const [openFaq, setOpenFaq] = useState(0);
+  const [ctaHovered, setCtaHovered] = useState(false);
 
   return (
     <div className="relative isolate overflow-hidden bg-[#08090a] text-white">
@@ -626,9 +628,25 @@ export function ReelslaunchHomepage() {
           </div>
         </section>
 
-        <section className="relative overflow-hidden border-t border-white/8 px-5 py-28 sm:px-8 md:py-40">
+        <section
+          className="relative overflow-hidden border-t border-white/8 px-5 py-28 sm:px-8 md:py-40"
+          onMouseEnter={() => setCtaHovered(true)}
+          onMouseLeave={() => setCtaHovered(false)}
+        >
+          {ctaHovered ? (
+            <CanvasRevealEffect
+              animationSpeed={5}
+              containerClassName="pointer-events-none opacity-80"
+              colors={[
+                [59, 130, 246],
+                [139, 92, 246],
+              ]}
+              opacities={[0.2, 0.2, 0.2, 0.35, 0.5, 0.8]}
+              dotSize={2}
+            />
+          ) : null}
           <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_65%_45%,rgba(57,195,239,0.18),transparent_32%)]" />
-          <div className="relative mx-auto flex max-w-6xl flex-col items-center justify-between gap-10 md:flex-row">
+          <div className="relative z-10 mx-auto flex max-w-6xl flex-col items-center justify-between gap-10 md:flex-row">
             <div>
               <h2 className="max-w-xl text-3xl font-semibold tracking-[-0.045em] sm:text-5xl">
                 Get started today and kickstart your marketing.
@@ -647,7 +665,7 @@ export function ReelslaunchHomepage() {
               <ArrowRight className="size-4 transition-transform group-hover:translate-x-1" />
             </Link>
           </div>
-          <div className="mx-auto mt-20 max-w-5xl overflow-hidden rounded-t-3xl border-x border-t border-white/15 bg-[#101214] p-3 shadow-[0_-10px_70px_rgba(255,255,255,0.08)]">
+          <div className="relative z-10 mx-auto mt-20 max-w-5xl overflow-hidden rounded-t-3xl border-x border-t border-white/15 bg-[#101214] p-3 shadow-[0_-10px_70px_rgba(255,255,255,0.08)]">
             <img
               src="/proactiv/fourth-backup.png"
               alt="ReelAutopilot video workspace preview"
