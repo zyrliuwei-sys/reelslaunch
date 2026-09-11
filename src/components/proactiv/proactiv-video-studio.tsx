@@ -504,8 +504,11 @@ export function ProactivVideoStudio({
       setFreeImageTrialAvailable(null);
       return;
     }
-    setFreeImageTrialAvailable(session.user.freeImageTrialAvailable ?? null);
-  }, [session?.user, session?.user?.freeImageTrialAvailable]);
+    const userWithTrial = session.user as typeof session.user & {
+      freeImageTrialAvailable?: boolean;
+    };
+    setFreeImageTrialAvailable(userWithTrial.freeImageTrialAvailable ?? null);
+  }, [session?.user]);
 
   const enabledPaymentProviders = useMemo(
     () =>

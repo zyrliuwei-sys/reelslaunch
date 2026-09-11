@@ -32,7 +32,7 @@ function stringArray(value: unknown): string[] {
     .filter(Boolean);
 }
 
-function optionalString<T extends string>(value: unknown): T | undefined {
+function optionalString<T>(value: unknown): T | undefined {
   return typeof value === 'string' && value.trim()
     ? (value.trim() as T)
     : undefined;
@@ -44,13 +44,13 @@ function optionalNumber(value: unknown): number | undefined {
 
 function parseInput(body: unknown): GrokImagineImageInput {
   const value = isRecord(body) ? body : {};
-  const resolution = optionalString<GrokImagineImageInput['resolution']>(
-    value.resolution
-  );
-  const quality = optionalString<GrokImagineImageInput['quality']>(
+  const resolution = optionalString<
+    NonNullable<GrokImagineImageInput['resolution']>
+  >(value.resolution);
+  const quality = optionalString<NonNullable<GrokImagineImageInput['quality']>>(
     value.quality
   );
-  const size = optionalString(value.size);
+  const size = optionalString<string>(value.size);
   const n = optionalNumber(value.n);
 
   return {

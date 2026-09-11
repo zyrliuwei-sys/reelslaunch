@@ -78,7 +78,7 @@ try {
   assert.equal(signedIn.status, 200, 'verified login');
   const cookie = signedIn.headers
     .getSetCookie()
-    .map((value) => value.split(';')[0])
+    .map((value: string) => value.split(';')[0])
     .join('; ');
   assert.ok(cookie.includes('session_token'), 'persistent session cookie');
   for (let i = 0; i < 2; i++) {

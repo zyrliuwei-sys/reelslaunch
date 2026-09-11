@@ -1,54 +1,45 @@
 import { createFileRoute } from '@tanstack/react-router';
 
-import { h3RouteHead } from '@/lib/h3-route-head';
-import { SITE_URL } from '@/lib/h3-seo';
-import { FAL_H3_MAX_MODEL_URL, REGULAR } from '@/lib/pricing';
-import { m } from '@/paraglide/messages.js';
-import { ProactivReferenceLanding } from '@/blocks/proactiv-reference-landing';
+import {
+  reelslaunchFaqs,
+  ReelslaunchHomepage,
+} from '@/blocks/reelslaunch-homepage';
+
+const title = 'can chatgpt create videos - Yes, but... | ReelAutopilot';
+const description =
+  'Can ChatGPT create videos? Learn the limits, then make H3 Max Reels faster with native audio and automatic Instagram scheduling. Try ReelAutopilot now.';
 
 function HomePage() {
-  const faqs = m['reference.faq.records']()
-    .split('\n')
-    .filter(Boolean)
-    .map((record) => {
-      const [question, answer] = record.split('||');
-      return { question: question ?? '', answer: answer ?? '' };
-    });
   const structuredData = [
     {
       '@context': 'https://schema.org',
-      '@type': 'Product',
-      name: 'MiniMax H3 Max by fal',
-      url: SITE_URL,
-      brand: {
-        '@type': 'Brand',
-        name: 'fal',
-      },
+      '@type': 'WebApplication',
+      name: 'ReelAutopilot',
+      url: 'https://reelsautopilot.ai/',
+      description:
+        'H3 Max powered AI video generation and automatic Instagram Reels publishing for faceless channels.',
+      applicationCategory: 'MultimediaApplication',
       offers: {
         '@type': 'Offer',
-        url: FAL_H3_MAX_MODEL_URL,
-        price: String(REGULAR['768p']),
+        price: '0',
         priceCurrency: 'USD',
-        description: 'Published regular API price per second at 768p.',
+        description: 'Pricing varies by plan; trial availability may apply.',
       },
     },
     {
       '@context': 'https://schema.org',
       '@type': 'FAQPage',
-      mainEntity: faqs.map((faq) => ({
+      mainEntity: reelslaunchFaqs.map(([question, answer]) => ({
         '@type': 'Question',
-        name: faq.question,
-        acceptedAnswer: {
-          '@type': 'Answer',
-          text: faq.answer,
-        },
+        name: question,
+        acceptedAnswer: { '@type': 'Answer', text: answer },
       })),
     },
   ];
 
   return (
     <>
-      <ProactivReferenceLanding />
+      <ReelslaunchHomepage />
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(structuredData) }}
@@ -58,6 +49,28 @@ function HomePage() {
 }
 
 export const Route = createFileRoute('/')({
-  head: () => h3RouteHead('home'),
+  head: () => ({
+    meta: [
+      { title },
+      { name: 'description', content: description },
+      { name: 'robots', content: 'index,follow' },
+      { property: 'og:type', content: 'website' },
+      { property: 'og:title', content: title },
+      { property: 'og:description', content: description },
+      { property: 'og:url', content: 'https://reelsautopilot.ai/' },
+      { property: 'og:image', content: 'https://reelsautopilot.ai/logo.png' },
+      { property: 'og:image:width', content: '1516' },
+      { property: 'og:image:height', content: '1130' },
+      { name: 'twitter:card', content: 'summary_large_image' },
+      { name: 'twitter:title', content: title },
+      { name: 'twitter:description', content: description },
+      { name: 'twitter:image', content: 'https://reelsautopilot.ai/logo.png' },
+    ],
+    links: [
+      { rel: 'canonical', href: 'https://reelsautopilot.ai/' },
+      { rel: 'icon', href: '/favicon.png', type: 'image/png' },
+      { rel: 'apple-touch-icon', href: '/favicon.png' },
+    ],
+  }),
   component: HomePage,
 });

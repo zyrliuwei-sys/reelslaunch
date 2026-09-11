@@ -1,7 +1,5 @@
 import { createFileRoute } from '@tanstack/react-router';
 
-import { SITE_URL } from '@/lib/motion-control-seo';
-
 export const Route = createFileRoute('/robots.txt')({
   server: {
     handlers: {
@@ -14,7 +12,7 @@ export const Route = createFileRoute('/robots.txt')({
           'Disallow: /api/',
           'Disallow: /*?*',
           '',
-          `Sitemap: ${SITE_URL}/sitemap.xml`,
+          'Sitemap: https://reelsautopilot.ai/sitemap.xml',
           '',
         ].join('\n');
         return new Response(body, {
