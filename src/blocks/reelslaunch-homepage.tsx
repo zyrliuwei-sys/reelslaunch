@@ -202,12 +202,27 @@ export function ReelslaunchHomepage() {
 
       <main>
         <section className="relative mx-auto flex min-h-[900px] max-w-7xl flex-col items-center px-5 pt-36 pb-24 sm:px-8 md:pt-48">
+          <video
+            aria-hidden="true"
+            autoPlay
+            loop
+            muted
+            playsInline
+            preload="metadata"
+            poster="/logo.png"
+            src="/reelautopilot-hero-minimax-h3.mp4"
+            className="pointer-events-none absolute inset-y-0 left-1/2 z-0 h-full w-screen max-w-none -translate-x-1/2 object-cover object-center opacity-100 motion-reduce:hidden"
+          />
+          <div
+            aria-hidden="true"
+            className="pointer-events-none absolute inset-y-0 left-1/2 z-[1] h-full w-screen max-w-none -translate-x-1/2 bg-[linear-gradient(180deg,rgba(8,9,10,0.28)_0%,rgba(8,9,10,0.38)_42%,rgba(8,9,10,0.88)_100%)]"
+          />
           <div className="pointer-events-none absolute inset-0 -z-10 bg-[radial-gradient(circle_at_50%_10%,rgba(57,195,239,0.2),transparent_35%),radial-gradient(circle_at_15%_45%,rgba(53,83,255,0.14),transparent_26%)]" />
           <div className="pointer-events-none absolute inset-x-0 top-0 -z-10 h-[620px] bg-[linear-gradient(180deg,rgba(8,9,10,0.25),#08090a)]" />
           <div className="relative z-10 inline-flex items-center gap-2 rounded-full border border-cyan-300/20 bg-cyan-300/8 px-4 py-2 text-xs font-medium tracking-[0.22em] text-cyan-200 uppercase">
             <Film className="size-3.5" /> AI motion direction
           </div>
-          <h1 className="proactiv-reference-heading mt-7 max-w-6xl text-center text-5xl leading-[0.98] font-semibold tracking-[-0.065em] sm:text-7xl lg:text-[7.4rem]">
+          <h1 className="relative z-10 mt-7 max-w-6xl text-center text-5xl leading-[0.98] font-semibold tracking-[-0.065em] text-white drop-shadow-[0_4px_18px_rgba(0,0,0,0.95)] sm:text-7xl lg:text-[7.4rem]">
             Can ChatGPT Create Videos? Yes, But Here&apos;s What It Can&apos;t
             Do
           </h1>
@@ -646,9 +661,31 @@ export function ReelslaunchHomepage() {
       </main>
 
       <footer className="border-t border-white/8 bg-[#08090a] px-5 py-10 sm:px-8">
-        <div className="mx-auto flex max-w-6xl flex-col justify-between gap-5 text-sm text-neutral-500 sm:flex-row">
+        <div className="mx-auto flex max-w-6xl flex-col gap-6 text-sm text-neutral-500 sm:flex-row sm:items-center sm:justify-between">
           <span className="font-medium text-white">{REEL_AUTOPILOT_NAME}</span>
-          <span>Built for teams that care about the work.</span>
+          <nav
+            aria-label="Footer navigation"
+            className="flex flex-wrap items-center gap-x-5 gap-y-2"
+          >
+            <Link
+              href="/privacy-policy"
+              className="transition-colors hover:text-white"
+            >
+              Privacy Policy
+            </Link>
+            <Link
+              href="/terms-of-service"
+              className="transition-colors hover:text-white"
+            >
+              Terms of Service
+            </Link>
+            <a
+              href="mailto:zyrliuwei@gmail.com"
+              className="transition-colors hover:text-white"
+            >
+              Contact us
+            </a>
+          </nav>
           <span>
             © {new Date().getFullYear()} {REEL_AUTOPILOT_NAME}
           </span>

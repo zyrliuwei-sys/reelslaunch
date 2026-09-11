@@ -1,28 +1,29 @@
-import { m } from '@/paraglide/messages.js';
 import { SiteFooter, type FooterColumn } from '@/components/site-footer';
 
 export function Footer() {
   const columns: FooterColumn[] = [
     {
-      title: m['h3.tools.title'](),
+      title: 'reelslaunch ai',
       links: [
-        { label: m['h3.tools.home'](), href: '/' },
-        { label: m['h3.tools.prompt'](), href: '/prompt-generator' },
-        { label: m['h3.tools.calculator'](), href: '/cost-calculator' },
-        { label: m['h3.tools.vs'](), href: '/vs/veo-3-1' },
+        { label: 'AI video workspace', href: '/text-to-video' },
+        {
+          label: 'Support: zyrliuwei@gmail.com',
+          href: 'mailto:zyrliuwei@gmail.com',
+          external: true,
+        },
       ],
     },
     {
-      title: m['h3.footer.legal'](),
+      title: 'Legal',
       links: [
-        { label: m['h3.footer.privacy'](), href: '/privacy-policy' },
-        { label: m['h3.footer.terms'](), href: '/terms-of-service' },
+        { label: 'Privacy Policy', href: '/privacy-policy' },
+        { label: 'Terms of Service', href: '/terms-of-service' },
       ],
     },
   ];
   return (
     <SiteFooter
-      tagline={m['h3.footer.tagline']()}
+      tagline="Experience the latest AI video generation capabilities — see video, hear audio, read text, and reason across modalities."
       columns={columns}
       socials={[]}
       badges={[

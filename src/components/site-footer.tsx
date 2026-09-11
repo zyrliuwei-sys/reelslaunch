@@ -13,7 +13,8 @@ export interface FooterColumn {
 }
 
 /** Off-site URLs render as plain <a>; internal paths use the locale-aware Link. */
-const isExternalHref = (href: string) => /^https?:\/\//.test(href);
+const isExternalHref = (href: string) =>
+  /^(https?:\/\/|mailto:|tel:)/.test(href);
 
 export interface FooterSocial {
   icon: ComponentType<SVGProps<SVGSVGElement>>;

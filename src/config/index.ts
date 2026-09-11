@@ -17,13 +17,13 @@ export const envConfigs: Record<string, string> = {
   // App (public)
   // `||` (not `??`): an explicitly empty VITE_APP_NAME / VITE_SITE_URL in the
   // deploy environment must not blank out the brand name and canonical origin.
-  site_url: publicEnv('VITE_SITE_URL') || 'https://www.h3price.com',
+  site_url: publicEnv('VITE_SITE_URL') || 'https://reelslaunch.ai',
   app_url: publicEnv('VITE_APP_URL') || 'http://localhost:3000',
-  app_name: publicEnv('VITE_APP_NAME') || 'h3price ai',
+  app_name: publicEnv('VITE_APP_NAME') || 'reelslaunch',
   app_description:
     publicEnv('VITE_APP_DESCRIPTION') ??
-    'H3 Max pricing, a cost calculator, and a MiniMax H3 prompt generator.',
-  app_logo: publicEnv('VITE_APP_LOGO') ?? '',
+    'AI video production platform for video, audio, text, understanding, and reasoning.',
+  app_logo: publicEnv('VITE_APP_LOGO') || '/logo.png',
 
   // Database
   database_url: procEnv.DATABASE_URL ?? '',

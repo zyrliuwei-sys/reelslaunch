@@ -1,0 +1,13 @@
+{
+  "name": "reelslaunch ai",
+  "slug": "reelslaunchai",
+  "description": "AI video production platform for video, audio, text, understanding, and reasoning.",
+  "support_email": "zyrliuwei@gmail.com",
+  "features": [
+    "AI video generation",
+    "Video understanding",
+    "Audio understanding",
+    "Text understanding",
+    "Multimodal reasoning"
+  ]
+}
