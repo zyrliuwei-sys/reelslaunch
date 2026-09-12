@@ -22,7 +22,7 @@ import {
 import { ProactivNav } from '@/components/proactiv/proactiv-nav';
 import { CanvasRevealEffect } from '@/components/ui/canvas-reveal-effect';
 
-const REEL_AUTOPILOT_NAME = 'ReelAutopilot';
+const REEL_AUTOPILOT_NAME = 'reelslaunch';
 
 const composerLabels = (): ProactivHeroComposerLabels => ({
   addReference: m['proactiv.hero.composer.add_reference'](),
@@ -171,15 +171,15 @@ export const reelslaunchFaqs = [
     'ChatGPT is useful for ideation and individual generations, but it is not a faceless-channel autopilot with a batch queue and automatic social publishing.',
   ],
   [
-    'How fast can ReelAutopilot create videos?',
-    'ReelAutopilot uses H3 Max to create 3-second and 5-second clips with native audio, then prepares them for an automated Reels publishing schedule.',
+    'How fast can reelslaunch create videos?',
+    'reelslaunch uses H3 Max to create 3-second and 5-second clips with native audio, then prepares them for an automated Reels publishing schedule.',
   ],
   [
-    'Does ReelAutopilot automatically publish Instagram Reels?',
-    'Yes. Connect your workflow, choose a schedule, and ReelAutopilot handles the queue for Instagram Reels instead of requiring manual uploads for every clip.',
+    'Does reelslaunch automatically publish Instagram Reels?',
+    'Yes. Connect your workflow, choose a schedule, and reelslaunch handles the queue for Instagram Reels instead of requiring manual uploads for every clip.',
   ],
   [
-    'Is ReelAutopilot free to try?',
+    'Is reelslaunch free to try?',
     'Plans and trial availability can change. Start with the workspace to see the current offer and available generation options.',
   ],
 ] as const;
@@ -229,11 +229,11 @@ export function ReelslaunchHomepage() {
             Do
           </h1>
           <p className="relative z-10 mt-7 max-w-2xl text-center text-base leading-7 text-neutral-400 sm:text-lg sm:leading-8">
-            ChatGPT can create videos, but ReelAutopilot is built for creators
-            who want fast H3 Max clips and automatic Instagram Reels publishing.
+            ChatGPT can create videos, but reelslaunch is built for creators who
+            want fast H3 Max clips and automatic Instagram Reels publishing.
           </p>
           <p className="relative z-10 mt-5 text-center text-xs text-neutral-500">
-            By the ReelAutopilot team · Last updated September 11, 2026
+            By the reelslaunch team · Last updated September 11, 2026
           </p>
 
           <div
@@ -320,7 +320,7 @@ export function ReelslaunchHomepage() {
         <section className="mx-auto max-w-6xl px-5 pb-28 sm:px-8">
           <div className="mx-auto max-w-2xl text-center">
             <h2 className="text-3xl font-semibold tracking-[-0.045em] sm:text-5xl">
-              ChatGPT Video vs ReelAutopilot
+              ChatGPT Video vs reelslaunch
             </h2>
             <p className="mt-4 text-neutral-400">
               The difference is not whether a tool can make one video. It is
@@ -330,14 +330,14 @@ export function ReelslaunchHomepage() {
           <div className="mt-12 overflow-x-auto rounded-2xl border border-white/10">
             <table className="w-full min-w-[620px] border-collapse text-left text-sm">
               <caption className="sr-only">
-                Comparison of ChatGPT video creation and ReelAutopilot
+                Comparison of ChatGPT video creation and reelslaunch
               </caption>
               <thead className="bg-white/[0.06] text-neutral-200">
                 <tr>
                   <th className="px-5 py-4 font-medium">Capability</th>
                   <th className="px-5 py-4 font-medium">ChatGPT Video</th>
                   <th className="px-5 py-4 font-medium text-cyan-200">
-                    ReelAutopilot
+                    reelslaunch
                   </th>
                 </tr>
               </thead>
@@ -668,7 +668,7 @@ export function ReelslaunchHomepage() {
           <div className="relative z-10 mx-auto mt-20 max-w-5xl overflow-hidden rounded-t-3xl border-x border-t border-white/15 bg-[#101214] p-3 shadow-[0_-10px_70px_rgba(255,255,255,0.08)]">
             <img
               src="/proactiv/fourth-backup.png"
-              alt="ReelAutopilot video workspace preview"
+              alt="reelslaunch video workspace preview"
               width={886}
               height={665}
               loading="lazy"

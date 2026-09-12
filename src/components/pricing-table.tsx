@@ -174,10 +174,10 @@ export function PricingTable({
             <motion.article
               animate={{ opacity: 1, y: 0 }}
               className={cn(
-                'relative flex min-w-0 flex-col overflow-hidden rounded-[26px] border border-white/10 bg-[#121416] p-6 shadow-[inset_0_1px_0_rgba(255,255,255,0.035)] transition-[transform,border-color,background-color] duration-200 ease-out sm:p-8',
+                'group relative flex min-w-0 flex-col rounded-[26px] border border-white/[0.08] bg-[#151719] p-1 shadow-[0_20px_70px_rgba(0,0,0,0.22)] transition-[transform,border-color,background-color] duration-200 ease-out hover:-translate-y-1 sm:p-2',
                 plan.featured
-                  ? 'border-cyan-200/35 bg-[radial-gradient(circle_at_top,rgba(50,95,111,0.55),#121416_48%)] ring-1 ring-cyan-100/10'
-                  : 'hover:border-white/25 hover:bg-[#17191b]'
+                  ? 'border-cyan-200/40 bg-[#26383d] ring-1 ring-cyan-100/15'
+                  : 'hover:border-white/20'
               )}
               initial={reduceMotion ? { opacity: 0 } : { opacity: 0, y: 8 }}
               key={`${activeGroup}-${plan.id}`}
@@ -186,107 +186,115 @@ export function PricingTable({
                 delay: reduceMotion ? 0 : index * 0.05,
               }}
             >
-              <div className="flex min-h-7 items-center justify-between gap-3">
-                {plan.name && (
-                  <p className="text-base leading-7 font-semibold text-white">
-                    {plan.name}
-                  </p>
-                )}
-                {plan.badge && (
-                  <span className="rounded-full border border-cyan-100/15 bg-cyan-200/10 px-2.5 py-1 text-xs font-semibold whitespace-nowrap text-cyan-100">
-                    {plan.badge}
-                  </span>
-                )}
-              </div>
-
-              <div className="mt-6 min-h-[104px]">
-                <div className="flex items-end gap-1.5">
-                  <motion.span
-                    aria-live="polite"
-                    animate={{ opacity: 1, y: 0 }}
-                    className="font-serif text-5xl font-semibold tracking-tight text-white tabular-nums"
-                    initial={
-                      reduceMotion ? { opacity: 0 } : { opacity: 0, y: 6 }
-                    }
-                    key={`${activeGroup}-${plan.id}-price`}
-                    transition={panelTransition}
-                  >
-                    {plan.price}
-                  </motion.span>
-                  {plan.interval && (
-                    <span className="mb-1 text-sm font-medium text-neutral-500">
-                      /{plan.interval}
+              <div className="flex h-full flex-col overflow-hidden rounded-[21px] border border-white/[0.07] bg-[#0f1112] p-5 sm:p-6">
+                <div className="flex min-h-7 items-center justify-between gap-3">
+                  {plan.name && (
+                    <p className="text-base leading-7 font-semibold tracking-wide text-white">
+                      {plan.name}
+                    </p>
+                  )}
+                  {plan.badge && (
+                    <span className="rounded-full border border-cyan-100/20 bg-cyan-200/10 px-3 py-1 text-[11px] font-semibold tracking-wide whitespace-nowrap text-cyan-100">
+                      {plan.badge}
                     </span>
                   )}
                 </div>
-                {plan.originalPrice && (
-                  <span className="mt-1 block text-sm text-neutral-500 tabular-nums line-through">
-                    {plan.originalPrice}
-                  </span>
-                )}
-                {plan.billingNote && (
-                  <p className="mt-2 text-xs font-medium text-neutral-500">
-                    {plan.billingNote}
-                  </p>
-                )}
-                {plan.includedValue ? (
-                  <p className="mt-4 text-sm font-medium text-cyan-100">
-                    {plan.includedValue}
-                  </p>
-                ) : typeof plan.credits === 'number' ? (
-                  <p className="mt-4 text-sm font-medium text-white">
-                    <span className="tabular-nums">
-                      {m['landing.pricing.credits_after_payment']({
-                        credits: plan.credits.toLocaleString('en-US'),
-                      })}
-                    </span>
-                  </p>
-                ) : null}
-              </div>
 
-              <p className="mt-3 min-h-10 text-sm leading-5 text-neutral-400">
-                {plan.description}
-              </p>
-
-              <Button
-                className={cn(
-                  'mt-7 h-11 w-full rounded-full border text-sm font-semibold whitespace-nowrap !transition-[transform,background-color,border-color] duration-150 ease-out active:translate-y-px',
-                  plan.featured
-                    ? '!border-white !bg-white !text-[#0b0c0d] hover:!bg-cyan-50'
-                    : 'border-white/15 bg-white/[0.035] text-white hover:bg-white/[0.1]'
-                )}
-                disabled={loadingId === plan.id}
-                onClick={() => handleCheckout(plan)}
-                type="button"
-                variant={plan.featured ? 'default' : 'outline'}
-              >
-                {loadingId === plan.id
-                  ? m['common.pricing.processing']()
-                  : plan.buttonText || m['common.pricing.get_started']()}
-              </Button>
-
-              <ul className="mt-8 space-y-3 pt-6">
-                {plan.features.map((feature, featureIndex) => {
-                  const label =
-                    typeof feature === 'string' ? feature : feature.label;
-
-                  return (
-                    <li
-                      key={featureIndex}
-                      className="flex items-start gap-x-3 text-sm leading-6"
+                <div className="mt-8 min-h-[104px]">
+                  <div className="flex items-end gap-1.5">
+                    <motion.span
+                      aria-live="polite"
+                      animate={{ opacity: 1, y: 0 }}
+                      className="font-serif text-5xl font-semibold tracking-[-0.04em] text-white tabular-nums sm:text-6xl"
+                      initial={
+                        reduceMotion ? { opacity: 0 } : { opacity: 0, y: 6 }
+                      }
+                      key={`${activeGroup}-${plan.id}-price`}
+                      transition={panelTransition}
                     >
-                      <CircleCheck
-                        aria-hidden="true"
-                        className={cn(
-                          'mt-0.5 size-4 shrink-0',
-                          plan.featured ? 'text-cyan-200' : 'text-neutral-500'
-                        )}
-                      />
-                      <span className="text-neutral-200">{label}</span>
-                    </li>
-                  );
-                })}
-              </ul>
+                      {plan.price}
+                    </motion.span>
+                    {plan.interval && (
+                      <span className="mb-2 text-sm font-medium text-neutral-500">
+                        /{plan.interval}
+                      </span>
+                    )}
+                  </div>
+                  {plan.originalPrice && (
+                    <span className="mt-1 block text-sm text-neutral-500 tabular-nums line-through">
+                      {plan.originalPrice}
+                    </span>
+                  )}
+                  {plan.billingNote && (
+                    <p className="mt-2 text-xs font-medium text-neutral-500">
+                      {plan.billingNote}
+                    </p>
+                  )}
+                  {plan.includedValue ? (
+                    <p className="mt-4 text-sm font-medium text-cyan-100">
+                      {plan.includedValue}
+                    </p>
+                  ) : typeof plan.credits === 'number' ? (
+                    <p className="mt-4 text-sm font-medium text-white">
+                      <span className="tabular-nums">
+                        {m['landing.pricing.credits_after_payment']({
+                          credits: plan.credits.toLocaleString('en-US'),
+                        })}
+                      </span>
+                    </p>
+                  ) : null}
+                </div>
+
+                <p className="mt-3 min-h-10 text-sm leading-5 text-neutral-400">
+                  {plan.description}
+                </p>
+
+                <Button
+                  className={cn(
+                    'mt-7 h-11 w-full rounded-xl border text-sm font-semibold whitespace-nowrap !transition-[transform,background-color,border-color] duration-150 ease-out active:translate-y-px',
+                    plan.featured
+                      ? '!border-cyan-100 !bg-cyan-100 !text-[#0c1719] hover:!bg-white'
+                      : 'border-white/15 bg-white/[0.035] text-white hover:bg-white/[0.1]'
+                  )}
+                  disabled={loadingId === plan.id}
+                  onClick={() => handleCheckout(plan)}
+                  type="button"
+                  variant={plan.featured ? 'default' : 'outline'}
+                >
+                  {loadingId === plan.id
+                    ? m['common.pricing.processing']()
+                    : plan.buttonText || m['common.pricing.get_started']()}
+                </Button>
+
+                {plan.includedValue && (
+                  <div className="mt-7 border-y border-white/[0.08] py-4 text-sm font-medium text-cyan-100">
+                    {plan.includedValue}
+                  </div>
+                )}
+
+                <ul className="mt-6 space-y-3 pt-1">
+                  {plan.features.map((feature, featureIndex) => {
+                    const label =
+                      typeof feature === 'string' ? feature : feature.label;
+
+                    return (
+                      <li
+                        key={featureIndex}
+                        className="flex items-start gap-x-3 text-sm leading-6"
+                      >
+                        <CircleCheck
+                          aria-hidden="true"
+                          className={cn(
+                            'mt-0.5 size-4 shrink-0',
+                            plan.featured ? 'text-cyan-200' : 'text-neutral-600'
+                          )}
+                        />
+                        <span className="text-neutral-200">{label}</span>
+                      </li>
+                    );
+                  })}
+                </ul>
+              </div>
             </motion.article>
           );
         })}

@@ -5,16 +5,16 @@ import {
   ReelslaunchHomepage,
 } from '@/blocks/reelslaunch-homepage';
 
-const title = 'can chatgpt create videos - Yes, but... | ReelAutopilot';
+const title = 'can chatgpt create videos - Yes, but... | reelslaunch';
 const description =
-  'Can ChatGPT create videos? Learn the limits, then make H3 Max Reels faster with native audio and automatic Instagram scheduling. Try ReelAutopilot now.';
+  'Can ChatGPT create videos? Learn the limits, then make H3 Max Reels faster with native audio and automatic Instagram scheduling. Try reelslaunch now.';
 
 function HomePage() {
   const structuredData = [
     {
       '@context': 'https://schema.org',
       '@type': 'WebApplication',
-      name: 'ReelAutopilot',
+      name: 'reelslaunch',
       url: 'https://reelsautopilot.ai/',
       description:
         'H3 Max powered AI video generation and automatic Instagram Reels publishing for faceless channels.',
