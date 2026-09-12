@@ -1041,7 +1041,17 @@ export function ProactivVideoStudio({
             backdrop scroll here while the sidebar, preview panel and composer
             stay fixed. A matte charcoal backdrop keeps attention on output. */}
         <div className="relative h-full min-w-0 flex-1 overflow-y-auto">
-          {!hasGeneratedVideo && workspaceIntro}
+          {!hasGeneratedVideo && workspaceIntro ? (
+            <div
+              className="min-h-full"
+              style={{
+                paddingBottom:
+                  composerInset > 0 ? `${composerInset + 32}px` : '240px',
+              }}
+            >
+              {workspaceIntro}
+            </div>
+          ) : null}
           {hasGeneratedVideo && motionTask ? (
             <VideoResultWorkspace
               bottomPadding={videoWorkspaceBottomPadding}

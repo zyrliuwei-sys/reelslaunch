@@ -57,11 +57,11 @@ function TextToVideoRoute() {
   }, [router]);
 
   const workspaceIntro = (
-    <article className="mx-auto max-w-4xl px-5 py-16 text-neutral-300 sm:px-8 sm:py-20">
+    <article className="mx-auto max-w-4xl px-5 pt-8 pb-10 text-neutral-300 sm:px-8 sm:pt-10 sm:pb-12">
       <h1 className="text-3xl font-semibold tracking-tight text-white sm:text-4xl">
         H3 Max Text to Video Generator
       </h1>
-      <p className="mt-6 text-base leading-7">
+      <p className="mt-4 text-base leading-6 sm:mt-5 sm:leading-7">
         H3 Max text to video turns a written direction into a short clip you can
         review, refine, and use in a publishing workflow. Describe the subject,
         action, setting, camera movement, and mood in one prompt; the generator
@@ -71,7 +71,7 @@ function TextToVideoRoute() {
         video placements. You can begin with text and keep the creative
         direction in one workspace from the first draft onward.
       </p>
-      <p className="mt-5 text-base leading-7">
+      <p className="mt-4 text-base leading-6 sm:mt-5 sm:leading-7">
         Choose resolution and duration together. 480p is a practical option when
         you want to explore more seconds or test several prompt ideas while
         keeping generation spend predictable. 768p gives a frame more detail
@@ -82,7 +82,7 @@ function TextToVideoRoute() {
         direction works, adjust the duration or resolution to fit the finished
         post.
       </p>
-      <p className="mt-5 text-base leading-7">
+      <p className="mt-4 text-base leading-6 sm:mt-5 sm:leading-7">
         From generation to publishing, the workflow is designed to reduce
         repeated manual steps. Create a clip with native audio, review the
         result, then add it to a queue and schedule it for Instagram Reels. Set
@@ -94,7 +94,7 @@ function TextToVideoRoute() {
         overview for a concise product introduction.
       </p>
 
-      <section className="mt-12" aria-labelledby="text-to-video-faq">
+      <section className="mt-8 sm:mt-10" aria-labelledby="text-to-video-faq">
         <h2
           id="text-to-video-faq"
           className="text-2xl font-semibold text-white"

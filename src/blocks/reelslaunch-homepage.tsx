@@ -1,8 +1,10 @@
-import { useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import {
   ArrowRight,
   Check,
   ChevronDown,
+  ChevronLeft,
+  ChevronRight,
   Gauge,
   Layers3,
   Plus,
@@ -17,10 +19,21 @@ import {
   ReelslaunchHeroComposer,
   type ReelslaunchHeroComposerLabels,
 } from '@/components/reelslaunch/hero-composer';
+import { HomepageCreatorsNote } from '@/components/reelslaunch/homepage-creators-note';
+import { HomepageShortAnswer } from '@/components/reelslaunch/homepage-short-answer';
+import { HomepageWorkflowComparison } from '@/components/reelslaunch/homepage-workflow-comparison';
 import { ReelslaunchNav } from '@/components/reelslaunch/nav';
 import { CanvasRevealEffect } from '@/components/ui/canvas-reveal-effect';
 
 const REEL_AUTOPILOT_NAME = 'reelslaunch';
+
+type ToolGalleryItem = {
+  title: string;
+  description: string;
+  poster: string;
+  video: string;
+  linkText?: string;
+};
 
 const composerLabels = (): ReelslaunchHeroComposerLabels => ({
   addReference: m['reelslaunch.hero.composer.add_reference'](),
@@ -65,36 +78,121 @@ const features = [
   },
 ];
 
-const tools = [
-  [
-    'H3 Max short clips',
-    'Generate 3- or 5-second clips with fast-queue processing and clear per-second pricing.',
-    '/reelslaunch-showcase/posters/first.png',
-    '/reelslaunch-showcase/email-automation.mp4',
-    'text to video workspace',
-  ],
-  [
-    'Native audio',
-    'Every finished clip comes with native audio, so there is no need to add a voice track in post.',
-    '/reelslaunch-showcase/posters/second.png',
-    '/reelslaunch-showcase/cross-platform.mp4',
-    'native audio video generator',
-  ],
-  [
-    'Auto-publish to Instagram Reels',
-    'Set a publishing schedule once and let the queue keep your Reels workflow moving.',
-    '/reelslaunch-showcase/posters/fourth.png',
-    '/reelslaunch-showcase/managed-crm-office.mp4',
-    'Instagram Reels scheduler',
-  ],
-  [
-    'Batch generation',
-    'Keep a faceless channel supplied with a steady queue of short-form videos.',
-    '/reelslaunch-showcase/posters/third.png',
-    '/reelslaunch-showcase/app-automation.mp4',
-    'batch video generation',
-  ],
-] as const;
+const tools: ToolGalleryItem[] = [
+  {
+    title: 'H3 Max short clips',
+    description:
+      'Generate 3- or 5-second clips with fast-queue processing and clear per-second pricing.',
+    poster: '/reelslaunch-showcase/gallery/golden-dog.jpg',
+    video: '/reelslaunch-showcase/gallery/golden-dog.mp4',
+    linkText: 'text to video workspace',
+  },
+  {
+    title: 'Native audio',
+    description:
+      'Every finished clip comes with native audio, so there is no need to add a voice track in post.',
+    poster: '/reelslaunch-showcase/gallery/blue-whale.jpg',
+    video: '/reelslaunch-showcase/gallery/blue-whale.mp4',
+    linkText: 'native audio video generator',
+  },
+  {
+    title: 'Auto-publish to Instagram Reels',
+    description:
+      'Set a publishing schedule once and let the queue keep your Reels workflow moving.',
+    poster: '/reelslaunch-showcase/gallery/vr-studio.jpg',
+    video: '/reelslaunch-showcase/gallery/vr-studio.mp4',
+    linkText: 'Instagram Reels scheduler',
+  },
+  {
+    title: 'Batch generation',
+    description:
+      'Keep a faceless channel supplied with a steady queue of short-form videos.',
+    poster: '/reelslaunch-showcase/gallery/neon-city.jpg',
+    video: '/reelslaunch-showcase/gallery/neon-city.mp4',
+    linkText: 'batch video generation',
+  },
+  {
+    title: 'A wild idea, in motion',
+    description:
+      'Explore a sunlit wildlife scene made from a simple creative direction.',
+    poster: '/reelslaunch-showcase/gallery/wildlife.jpg',
+    video: '/reelslaunch-showcase/gallery/wildlife.mp4',
+  },
+  {
+    title: 'A city with its own rhythm',
+    description:
+      'Try a neon-soaked city scene with movement from the first frame.',
+    poster: '/reelslaunch-showcase/gallery/neon-runner.jpg',
+    video: '/reelslaunch-showcase/gallery/neon-runner.mp4',
+  },
+  {
+    title: 'A little beyond reality',
+    description:
+      'Build an atmospheric fantasy scene with a striking subject and setting.',
+    poster: '/reelslaunch-showcase/gallery/fantasy-bird.jpg',
+    video: '/reelslaunch-showcase/gallery/fantasy-bird.mp4',
+  },
+  {
+    title: 'Make the ordinary cinematic',
+    description:
+      'Give a familiar object a futuristic setting and a fresh visual point of view.',
+    poster: '/reelslaunch-showcase/gallery/futuristic-car.jpg',
+    video: '/reelslaunch-showcase/gallery/futuristic-car.mp4',
+  },
+];
+
+function GalleryVideoPreview({
+  src,
+  poster,
+  title,
+}: {
+  src: string;
+  poster: string;
+  title: string;
+}) {
+  const videoRef = useRef<HTMLVideoElement>(null);
+
+  useEffect(() => {
+    const video = videoRef.current;
+    if (
+      !video ||
+      window.matchMedia('(prefers-reduced-motion: reduce)').matches
+    ) {
+      return;
+    }
+
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting && entry.intersectionRatio >= 0.55) {
+          void video.play().catch(() => undefined);
+        } else {
+          video.pause();
+        }
+      },
+      { threshold: [0, 0.55] }
+    );
+    observer.observe(video);
+    return () => {
+      observer.disconnect();
+      video.pause();
+    };
+  }, []);
+
+  return (
+    <video
+      ref={videoRef}
+      src={src}
+      poster={poster}
+      aria-label={`${title} video example`}
+      aria-hidden="true"
+      muted
+      loop
+      playsInline
+      preload="none"
+      className="h-full w-full object-cover"
+    />
+  );
+}
 
 export const reelslaunchFaqs = [
   [
@@ -123,9 +221,41 @@ export const reelslaunchFaqs = [
   ],
 ] as const;
 
+const featureDetails = [
+  [
+    { value: 'One sentence', label: 'to set the scene' },
+    { value: 'Cinematic brief', label: 'to shape the direction' },
+    { value: 'Your idea', label: 'stays in focus' },
+  ],
+  [
+    { value: 'First + last', label: 'frames to guide motion' },
+    { value: 'References', label: 'to anchor the look' },
+    { value: 'One editor', label: 'for framing and detail' },
+  ],
+  [
+    { value: 'H3 Max', label: 'short-form generation' },
+    { value: 'Native audio', label: 'in the finished clip' },
+    { value: 'One workspace', label: 'from idea to render' },
+  ],
+] as const;
+
 export function ReelslaunchHomepage() {
   const router = useRouter();
   const [ctaHovered, setCtaHovered] = useState(false);
+  const [activeFeatureIndex, setActiveFeatureIndex] = useState(0);
+  const activeFeature = features[activeFeatureIndex]!;
+  const ActiveFeatureIcon = activeFeature.icon;
+  const galleryRef = useRef<HTMLUListElement>(null);
+
+  const moveGallery = (direction: -1 | 1) => {
+    const gallery = galleryRef.current;
+    if (!gallery) return;
+    const card = gallery.querySelector('li');
+    gallery.scrollBy({
+      left: direction * ((card?.getBoundingClientRect().width ?? 420) + 24),
+      behavior: 'smooth',
+    });
+  };
 
   return (
     <div className="relative isolate overflow-hidden bg-[#08090a] text-white">
@@ -203,169 +333,9 @@ export function ReelslaunchHomepage() {
           </div>
         </section>
 
-        <section className="mx-auto max-w-6xl px-5 pt-24 pb-28 sm:px-8">
-          <div className="relative space-y-16 before:absolute before:top-5 before:bottom-8 before:left-[11px] before:w-px before:bg-gradient-to-b before:from-cyan-300/70 before:via-white/15 before:to-transparent md:space-y-20 md:before:left-[251px]">
-            <article className="relative grid gap-6 md:grid-cols-[220px_minmax(0,1fr)] md:gap-16">
-              <div className="relative pl-9 md:pl-0">
-                <span className="absolute top-1 left-[5px] z-10 size-3.5 rounded-full border-2 border-cyan-200 bg-[#08090a] shadow-[0_0_0_5px_#08090a] md:left-[246px]" />
-                <p className="text-xs font-semibold tracking-[0.16em] text-cyan-200 uppercase">
-                  The short answer
-                </p>
-              </div>
-              <div className="rounded-2xl border border-white/10 bg-[#111315] p-6 sm:p-9">
-                <h2 className="text-3xl font-semibold tracking-[-0.045em] sm:text-4xl">
-                  Yes, but there are limits.
-                </h2>
-                <ul className="mt-8 grid gap-4 text-sm leading-6 text-neutral-300 sm:grid-cols-2">
-                  <li className="flex gap-3">
-                    <Check className="mt-1 size-4 shrink-0 text-cyan-300" />
-                    You need the right subscription and video-generation access.
-                  </li>
-                  <li className="flex gap-3">
-                    <Check className="mt-1 size-4 shrink-0 text-cyan-300" />
-                    Individual generations can be slow when you need a steady
-                    content queue.
-                  </li>
-                  <li className="flex gap-3">
-                    <Check className="mt-1 size-4 shrink-0 text-cyan-300" />
-                    There is no built-in faceless-channel batch autopilot for
-                    every creator.
-                  </li>
-                  <li className="flex gap-3">
-                    <Check className="mt-1 size-4 shrink-0 text-cyan-300" />
-                    You still have to export, schedule, and publish each social
-                    clip manually.
-                  </li>
-                </ul>
-                <p className="mt-8 text-sm leading-7 text-neutral-400">
-                  OpenAI explains its video-generation capabilities in the{' '}
-                  <a
-                    className="text-cyan-200 underline underline-offset-4"
-                    href="https://help.openai.com/en/articles/8932459-sora-frequently-asked-questions"
-                    rel="noreferrer"
-                  >
-                    official Sora FAQ
-                  </a>
-                  . Creator discussions on{' '}
-                  <a
-                    className="text-cyan-200 underline underline-offset-4"
-                    href="https://www.reddit.com/r/ChatGPT/"
-                    rel="noreferrer"
-                  >
-                    Reddit&apos;s ChatGPT community
-                  </a>{' '}
-                  also show why a production queue and social scheduling layer
-                  matter.
-                </p>
-              </div>
-            </article>
-
-            <article className="relative grid gap-6 md:grid-cols-[220px_minmax(0,1fr)] md:gap-16">
-              <div className="relative pl-9 md:pl-0">
-                <span className="absolute top-1 left-[5px] z-10 size-3.5 rounded-full border-2 border-cyan-200 bg-[#08090a] shadow-[0_0_0_5px_#08090a] md:left-[246px]" />
-                <p className="text-xs font-semibold tracking-[0.16em] text-cyan-200 uppercase">
-                  The workflow
-                </p>
-                <h2 className="mt-3 text-2xl font-semibold tracking-[-0.04em] sm:text-3xl">
-                  ChatGPT Video vs reelslaunch
-                </h2>
-                <p className="mt-4 max-w-sm text-sm leading-6 text-neutral-500">
-                  The difference is not whether a tool can make one video. It is
-                  what happens after the idea.
-                </p>
-              </div>
-              <div className="overflow-x-auto rounded-2xl border border-white/10 bg-[#0d0f10]">
-                <table className="w-full min-w-[620px] border-collapse text-left text-sm">
-                  <caption className="sr-only">
-                    Comparison of ChatGPT video creation and reelslaunch
-                  </caption>
-                  <thead className="bg-white/[0.06] text-neutral-200">
-                    <tr>
-                      <th className="px-5 py-4 font-medium">Capability</th>
-                      <th className="px-5 py-4 font-medium">ChatGPT Video</th>
-                      <th className="px-5 py-4 font-medium text-cyan-200">
-                        reelslaunch
-                      </th>
-                    </tr>
-                  </thead>
-                  <tbody className="divide-y divide-white/10 text-neutral-400">
-                    <tr>
-                      <th className="px-5 py-4 font-medium text-neutral-200">
-                        Automatic publishing
-                      </th>
-                      <td className="px-5 py-4">Manual export and upload</td>
-                      <td className="px-5 py-4 text-cyan-100">
-                        Scheduled Instagram Reels
-                      </td>
-                    </tr>
-                    <tr>
-                      <th className="px-5 py-4 font-medium text-neutral-200">
-                        Batch creation
-                      </th>
-                      <td className="px-5 py-4">Not a channel autopilot</td>
-                      <td className="px-5 py-4 text-cyan-100">
-                        Queue content for a faceless channel
-                      </td>
-                    </tr>
-                    <tr>
-                      <th className="px-5 py-4 font-medium text-neutral-200">
-                        Creation speed
-                      </th>
-                      <td className="px-5 py-4">
-                        Can take time per generation
-                      </td>
-                      <td className="px-5 py-4 text-cyan-100">
-                        H3 Max 3-second and 5-second clips
-                      </td>
-                    </tr>
-                    <tr>
-                      <th className="px-5 py-4 font-medium text-neutral-200">
-                        Per-clip cost
-                      </th>
-                      <td className="px-5 py-4">Can be high at volume</td>
-                      <td className="px-5 py-4 text-cyan-100">
-                        Built for repeatable short-form production
-                      </td>
-                    </tr>
-                    <tr>
-                      <th className="px-5 py-4 font-medium text-neutral-200">
-                        Manual work
-                      </th>
-                      <td className="px-5 py-4">
-                        Prompt, export, upload, schedule
-                      </td>
-                      <td className="px-5 py-4 text-cyan-100">
-                        Set the workflow once, then let the queue run
-                      </td>
-                    </tr>
-                  </tbody>
-                </table>
-              </div>
-            </article>
-
-            <article className="relative grid gap-6 md:grid-cols-[220px_minmax(0,1fr)] md:gap-16">
-              <div className="relative pl-9 md:pl-0">
-                <span className="absolute top-1 left-[5px] z-10 size-3.5 rounded-full border-2 border-cyan-200 bg-[#08090a] shadow-[0_0_0_5px_#08090a] md:left-[246px]" />
-                <p className="text-xs font-semibold tracking-[0.16em] text-cyan-200 uppercase">
-                  For creators
-                </p>
-              </div>
-              <div className="max-w-3xl pb-3">
-                <h2 className="text-3xl font-semibold tracking-[-0.045em] sm:text-5xl">
-                  Can ChatGPT Make Videos? What Creators Should Know
-                </h2>
-                <p className="mt-6 text-base leading-8 text-neutral-400">
-                  When people ask can ChatGPT make videos, they usually mean two
-                  different things: can it generate a clip, and can it operate a
-                  content channel? The first answer is yes with the right
-                  access. The second needs a focused workflow that handles short
-                  clips, native audio, a publishing queue, and Instagram Reels
-                  scheduling.
-                </p>
-              </div>
-            </article>
-          </div>
-        </section>
+        <HomepageShortAnswer />
+        <HomepageWorkflowComparison />
+        <HomepageCreatorsNote />
 
         <section className="mx-auto max-w-4xl px-5 py-16 text-neutral-300 sm:px-8 sm:py-20">
           <h2 className="text-3xl font-semibold tracking-[-0.04em] text-white sm:text-4xl">
@@ -424,32 +394,79 @@ export function ReelslaunchHomepage() {
               Less prompting. More directing.
             </h2>
           </div>
-          <div className="relative space-y-0 before:absolute before:top-5 before:bottom-5 before:left-[11px] before:w-px before:bg-gradient-to-b before:from-cyan-300/70 before:via-white/15 before:to-transparent md:before:left-[31px]">
-            {features.map(({ icon: Icon, title, body }) => (
-              <article
-                key={title}
-                className="relative grid gap-4 border-b border-white/[0.07] py-8 pl-9 first:pt-5 last:border-0 md:grid-cols-[64px_minmax(0,1fr)] md:gap-8 md:py-10 md:pl-0"
-              >
-                <span className="absolute top-9 left-[5px] z-10 grid size-[14px] place-items-center rounded-full border border-cyan-200/70 bg-[#08090a] shadow-[0_0_0_5px_#08090a] md:top-11 md:left-[25px]" />
-                <div className="hidden pt-1 md:block">
-                  <Icon className="size-6 text-cyan-300" strokeWidth={1.5} />
+          <div className="overflow-hidden rounded-[28px] border border-white/[0.09] bg-[#0e1012] shadow-[0_30px_100px_rgba(0,0,0,0.25)]">
+            <div className="flex flex-col items-start justify-between gap-5 border-b border-white/[0.07] px-6 py-5 sm:flex-row sm:items-center sm:px-8">
+              <div>
+                <p className="text-[10px] font-medium tracking-[0.18em] text-neutral-500 uppercase">
+                  Explore the workflow
+                </p>
+                <p className="mt-1 text-sm text-neutral-300">
+                  Select a step to see what you can direct.
+                </p>
+              </div>
+              <label className="relative flex min-h-11 w-full items-center rounded-full border border-white/[0.12] bg-white/[0.045] pr-10 pl-4 text-sm text-white shadow-[0_8px_24px_rgba(0,0,0,0.22)] sm:w-auto sm:min-w-64">
+                <span className="sr-only">Choose a workflow step</span>
+                <select
+                  aria-label="Choose a workflow step"
+                  className="absolute inset-0 z-10 h-full w-full cursor-pointer appearance-none rounded-full opacity-0"
+                  value={activeFeatureIndex}
+                  onChange={(event) =>
+                    setActiveFeatureIndex(Number(event.currentTarget.value))
+                  }
+                >
+                  {features.map((feature, index) => (
+                    <option key={feature.title} value={index}>
+                      {String(index + 1).padStart(2, '0')} · {feature.title}
+                    </option>
+                  ))}
+                </select>
+                <span aria-hidden="true" className="truncate">
+                  {String(activeFeatureIndex + 1).padStart(2, '0')}{' '}
+                  <span className="px-2 text-neutral-600">/</span>{' '}
+                  {activeFeature.title}
+                </span>
+                <ChevronDown
+                  aria-hidden="true"
+                  className="absolute right-4 size-4 text-neutral-400"
+                />
+              </label>
+            </div>
+
+            <div
+              aria-live="polite"
+              className="grid min-h-[310px] gap-10 px-6 py-9 sm:px-10 sm:py-12 md:grid-cols-[minmax(0,1fr)_minmax(360px,0.95fr)] md:items-center md:gap-14"
+            >
+              <div>
+                <div className="flex items-center gap-3 text-cyan-300">
+                  <ActiveFeatureIcon className="size-5" strokeWidth={1.5} />
+                  <span className="font-mono text-[10px] tracking-[0.16em] uppercase">
+                    Step {String(activeFeatureIndex + 1).padStart(2, '0')}
+                  </span>
                 </div>
-                <div className="max-w-2xl">
-                  <div className="flex items-center gap-3">
-                    <Icon
-                      className="size-5 shrink-0 text-cyan-300 md:hidden"
-                      strokeWidth={1.5}
-                    />
-                    <h3 className="text-xl font-medium tracking-[-0.025em] md:text-2xl">
-                      {title}
-                    </h3>
+                <h3 className="mt-5 max-w-xl text-3xl leading-tight font-medium tracking-[-0.045em] text-white sm:text-4xl">
+                  {activeFeature.title}
+                </h3>
+                <p className="mt-4 max-w-xl text-sm leading-7 text-neutral-400 sm:text-base">
+                  {activeFeature.body}
+                </p>
+              </div>
+
+              <div className="grid grid-cols-1 divide-y divide-white/[0.08] border-y border-white/[0.08] sm:grid-cols-3 sm:divide-x sm:divide-y-0">
+                {featureDetails[activeFeatureIndex]!.map((detail) => (
+                  <div
+                    key={detail.value}
+                    className="py-5 sm:px-4 sm:py-2 first:sm:pl-0 last:sm:pr-0"
+                  >
+                    <p className="text-base font-medium tracking-[-0.02em] text-white sm:text-sm lg:text-base">
+                      {detail.value}
+                    </p>
+                    <p className="mt-1.5 text-xs leading-5 text-neutral-500">
+                      {detail.label}
+                    </p>
                   </div>
-                  <p className="mt-3 text-sm leading-6 text-neutral-500 sm:text-base sm:leading-7">
-                    {body}
-                  </p>
-                </div>
-              </article>
-            ))}
+                ))}
+              </div>
+            </div>
           </div>
           <div className="mt-16 flex flex-col items-start justify-between gap-6 rounded-2xl border border-white/10 bg-gradient-to-r from-white/[0.06] to-transparent p-7 sm:flex-row sm:items-center sm:p-10">
             <div>
@@ -471,67 +488,93 @@ export function ReelslaunchHomepage() {
           </div>
         </section>
 
-        <section className="relative overflow-hidden border-y border-white/8 bg-[#0b0d0f] px-5 pt-16 pb-28 sm:px-8 md:pt-24 md:pb-40">
-          <div className="mx-auto max-w-6xl">
-            <div className="mx-auto max-w-2xl text-center">
+        <section className="relative overflow-hidden border-y border-white/8 bg-[#0b0d0f] pt-16 pb-24 sm:pt-20 md:pt-24 md:pb-32">
+          <div className="mx-auto max-w-[1440px]">
+            <div className="mx-auto max-w-3xl px-5 text-center sm:px-8">
               <div className="mx-auto flex size-12 items-center justify-center rounded-xl border border-cyan-300/20 bg-cyan-300/8">
                 <Sparkles className="size-5 text-cyan-300" />
               </div>
-              <h2 className="mt-5 text-4xl font-semibold tracking-[-0.05em] sm:text-6xl">
-                Tools for a repeatable Reels workflow.
+              <h2 className="mt-5 text-4xl font-semibold tracking-[-0.055em] sm:text-6xl">
+                Every scene. Every sound.
               </h2>
               <p className="mt-5 text-neutral-400">
                 Create short clips, keep native audio, and automate the work of
                 publishing a faceless Reels channel.
               </p>
             </div>
-            <div className="mt-20 space-y-24 md:mt-28">
-              {tools.map(
-                ([title, description, poster, video, linkText], index) => (
-                  <article
-                    key={title}
-                    className={`grid items-center gap-10 md:grid-cols-2 md:gap-20 ${index % 2 ? '' : ''}`}
-                  >
-                    <div className={index % 2 ? 'md:order-2' : ''}>
-                      <div className="mb-5 flex size-12 items-center justify-center rounded-xl border border-white/10 bg-white/5">
-                        <Layers3 className="size-5 text-cyan-300" />
+            <div className="mt-12 flex items-center justify-between px-5 sm:px-8 md:mt-16">
+              <p className="text-xs font-medium tracking-[0.2em] text-neutral-500 uppercase">
+                Made with H3 Max
+              </p>
+              <div className="flex gap-2">
+                <button
+                  type="button"
+                  aria-label="Scroll video gallery left"
+                  onClick={() => moveGallery(-1)}
+                  className="flex size-10 items-center justify-center rounded-full border border-white/15 text-neutral-300 transition-colors hover:border-cyan-300/50 hover:text-cyan-200 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-cyan-300"
+                >
+                  <ChevronLeft className="size-5" />
+                </button>
+                <button
+                  type="button"
+                  aria-label="Scroll video gallery right"
+                  onClick={() => moveGallery(1)}
+                  className="flex size-10 items-center justify-center rounded-full border border-white/15 text-neutral-300 transition-colors hover:border-cyan-300/50 hover:text-cyan-200 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-cyan-300"
+                >
+                  <ChevronRight className="size-5" />
+                </button>
+              </div>
+            </div>
+            <ul
+              ref={galleryRef}
+              aria-label="H3 Max video examples and workflow features"
+              className="mt-5 flex snap-x snap-mandatory gap-5 overflow-x-auto overscroll-x-contain px-5 pb-6 [scrollbar-width:none] sm:gap-6 sm:px-8 [&::-webkit-scrollbar]:hidden"
+            >
+              {tools.map((item, index) => (
+                <li
+                  key={item.title}
+                  className="w-[min(84vw,520px)] shrink-0 snap-start sm:w-[min(68vw,520px)] lg:w-[min(46vw,520px)]"
+                  style={{ animationDelay: `${index * 70}ms` }}
+                >
+                  <article className="h-full">
+                    <div className="mb-5 min-h-[12.5rem] max-w-lg px-1">
+                      <div className="mb-3 flex items-center gap-2 text-[11px] font-medium tracking-[0.18em] text-cyan-300 uppercase">
+                        <span className="size-1.5 rounded-full bg-cyan-300" />
+                        {index < 4 ? 'Workflow' : 'Made with H3 Max'}
                       </div>
-                      <h3 className="text-3xl font-semibold tracking-[-0.045em]">
-                        {title}
+                      <h3 className="text-2xl font-semibold tracking-[-0.04em] text-white sm:text-3xl">
+                        {item.title}
                       </h3>
-                      <p className="mt-4 max-w-md leading-7 text-neutral-400">
-                        {description}
+                      <p className="mt-2 max-w-md text-sm leading-6 text-neutral-400 sm:text-base">
+                        {item.description}
                       </p>
-                      <Link
-                        href="/text-to-video"
-                        className="group mt-7 inline-flex items-center gap-2 text-sm font-medium text-cyan-200"
-                      >
-                        {linkText}{' '}
-                        <ArrowRight className="size-4 transition-transform group-hover:translate-x-1" />
-                      </Link>
+                      {item.linkText ? (
+                        <Link
+                          href="/text-to-video"
+                          className="group mt-3 inline-flex items-center gap-1.5 text-sm font-medium text-cyan-200"
+                        >
+                          {item.linkText}
+                          <ArrowRight className="size-4 transition-transform group-hover:translate-x-1" />
+                        </Link>
+                      ) : null}
                     </div>
-                    <div className={index % 2 ? 'md:order-1' : ''}>
-                      <div className="relative overflow-hidden rounded-2xl border border-white/10 bg-[#101214] p-3 shadow-2xl">
-                        <video
-                          src={video}
-                          poster={poster}
-                          aria-label={`${title} workflow video preview`}
-                          width={886}
-                          height={665}
-                          autoPlay
-                          loop
-                          muted
-                          playsInline
-                          preload="metadata"
-                          className="aspect-[4/3] w-full rounded-xl object-cover opacity-90"
+                    <div className="relative overflow-hidden rounded-[1.4rem] border border-white/10 bg-[#101214] p-2 shadow-[0_24px_80px_rgba(0,0,0,0.32)] sm:p-3">
+                      <div className="aspect-[4/3] overflow-hidden rounded-[1rem] bg-black">
+                        <GalleryVideoPreview
+                          src={item.video}
+                          poster={item.poster}
+                          title={item.title}
                         />
-                        <div className="absolute bottom-3 left-1/2 h-px w-2/3 -translate-x-1/2 bg-gradient-to-r from-transparent via-cyan-300 to-transparent" />
                       </div>
+                      <div className="absolute bottom-3 left-1/2 h-px w-1/2 -translate-x-1/2 bg-gradient-to-r from-transparent via-cyan-300/80 to-transparent" />
                     </div>
                   </article>
-                )
-              )}
-            </div>
+                </li>
+              ))}
+            </ul>
+            <p className="px-5 text-xs text-neutral-600 sm:px-8">
+              Swipe or use the arrows to explore more scenes.
+            </p>
           </div>
         </section>
 

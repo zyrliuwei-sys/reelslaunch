@@ -54,7 +54,7 @@ const h3PricingCatalog: Record<string, PricingProduct> = Object.fromEntries(
         planName: name,
         description: `${name} video credits`,
         type: recurring ? PaymentType.SUBSCRIPTION : PaymentType.ONE_TIME,
-        currency: 'usd',
+        currency: 'cny',
         ...(recurring
           ? {
               plan: {

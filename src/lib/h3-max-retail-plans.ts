@@ -1,7 +1,6 @@
 /**
  * H3 Max's published post-promotion API rates multiplied by the platform's
- * 7× retail multiplier. One credit represents one second of 768p output, so
- * every plan price is an exact multiple of the 56¢ 768p retail unit.
+ * 7× retail multiplier. One credit represents one second of 768p output.
  */
 export const H3_MAX_RETAIL_MULTIPLIER = 7;
 
@@ -32,6 +31,7 @@ export function h3MaxCreditsForSeconds(params: {
 
 type H3MaxRetailPlan = {
   credits: number;
+  /** CNY cents. These match the previous homepage pricing. */
   priceInCents: number;
   productId: string;
 };
@@ -39,52 +39,52 @@ type H3MaxRetailPlan = {
 export const h3MaxRetailPlans = {
   essentials: {
     oneTime: {
-      credits: 35,
-      priceInCents: 1_960,
+      credits: 193,
+      priceInCents: 1_900,
       productId: 'h3_max_start_one_time',
     },
     monthly: {
-      credits: 50,
-      priceInCents: 2_800,
+      credits: 294,
+      priceInCents: 2_900,
       productId: 'h3_max_start_monthly',
     },
     yearly: {
-      credits: 600,
-      priceInCents: 33_600,
+      credits: 3_030,
+      priceInCents: 29_900,
       productId: 'h3_max_start_yearly',
     },
   },
   studio: {
     oneTime: {
-      credits: 90,
-      priceInCents: 5_040,
+      credits: 497,
+      priceInCents: 4_900,
       productId: 'h3_max_creator_one_time',
     },
     monthly: {
-      credits: 150,
-      priceInCents: 8_400,
+      credits: 800,
+      priceInCents: 7_900,
       productId: 'h3_max_creator_monthly',
     },
     yearly: {
-      credits: 1_800,
-      priceInCents: 100_800,
+      credits: 8_097,
+      priceInCents: 79_900,
       productId: 'h3_max_creator_yearly',
     },
   },
   production: {
     oneTime: {
-      credits: 225,
-      priceInCents: 12_600,
+      credits: 1_003,
+      priceInCents: 9_900,
       productId: 'h3_max_studio_one_time',
     },
     monthly: {
-      credits: 400,
-      priceInCents: 22_400,
+      credits: 1_510,
+      priceInCents: 14_900,
       productId: 'h3_max_studio_monthly',
     },
     yearly: {
-      credits: 4_800,
-      priceInCents: 268_800,
+      credits: 15_185,
+      priceInCents: 149_900,
       productId: 'h3_max_studio_yearly',
     },
   },

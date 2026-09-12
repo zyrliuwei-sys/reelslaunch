@@ -2,12 +2,19 @@ import { useState, type ComponentType, type SVGProps } from 'react';
 import { useMutation } from '@tanstack/react-query';
 import { CircleCheck } from 'lucide-react';
 import { motion, useReducedMotion } from 'motion/react';
+import { toast } from 'sonner';
 
-import { Link } from '@/core/i18n/navigation';
+import { useSession } from '@/core/auth/client';
+import { Link, useRouter } from '@/core/i18n/navigation';
 import { apiPost } from '@/lib/api-client';
 import { currentPathWithQuery } from '@/lib/redirect';
 import { cn } from '@/lib/utils';
 import { m } from '@/paraglide/messages.js';
+import { usePublicConfig } from '@/hooks/use-public-config';
+import {
+  PaymentProviderModal,
+  type PaymentProvider,
+} from '@/components/payment-provider-modal';
 import { Button, buttonVariants } from '@/components/ui/button';
 
 type IconComponent = ComponentType<SVGProps<SVGSVGElement>>;
@@ -33,7 +40,7 @@ export interface PricingPlan {
   buttonText?: string;
   productId?: string;
   productName?: string;
-  paymentProvider?: string;
+  paymentProvider?: PaymentProvider;
   priceInCents?: number;
   credits?: number;
   creditsValidDays?: number;
@@ -67,12 +74,28 @@ export function PricingTable({
     initialGroupKey || groups[0]?.key || ''
   );
   const [loadingId, setLoadingId] = useState<string | null>(null);
+  const [loadingProvider, setLoadingProvider] =
+    useState<PaymentProvider | null>(null);
+  const [providerModalOpen, setProviderModalOpen] = useState(false);
+  const [selectedPlan, setSelectedPlan] = useState<PricingPlan | null>(null);
   const reduceMotion = useReducedMotion();
+  const router = useRouter();
+  const { data: session } = useSession();
+  const { data: publicConfigs } = usePublicConfig();
+  const enabledProviders = (
+    ['stripe', 'creem', 'paypal', 'alipay', 'wechat'] as const
+  ).filter((provider) => publicConfigs?.[`${provider}_enabled`] === 'true');
 
   const currentGroup = groups.find((g) => g.key === activeGroup) || groups[0];
 
   const checkoutMutation = useMutation({
-    mutationFn: (plan: PricingPlan) =>
+    mutationFn: ({
+      plan,
+      provider,
+    }: {
+      plan: PricingPlan;
+      provider?: PaymentProvider;
+    }) =>
       apiPost<{ checkout_url?: string }>('/api/payment/checkout', {
         product_id: plan.productId,
         product_name: plan.productName || plan.name,
@@ -84,19 +107,29 @@ export function PricingTable({
         plan: plan.plan,
         credits: plan.credits,
         credits_valid_days: plan.creditsValidDays,
-        payment_provider: plan.paymentProvider || 'stripe',
+        ...(provider ? { payment_provider: provider } : {}),
         // Come back to the page the user paid from.
         redirect: currentPathWithQuery('/settings/billing'),
       }),
     onSuccess: (data) => {
       if (data?.checkout_url) {
         window.location.href = data.checkout_url;
+      } else {
+        toast.error('Checkout did not return a payment URL.');
       }
     },
+    onError: (error: Error) => toast.error(error.message),
     onSettled: () => {
       setLoadingId(null);
+      setLoadingProvider(null);
     },
   });
+
+  function startCheckout(plan: PricingPlan, provider?: PaymentProvider) {
+    setLoadingId(plan.id);
+    setLoadingProvider(provider ?? null);
+    checkoutMutation.mutate({ plan, provider });
+  }
 
   function handleCheckout(plan: PricingPlan) {
     if (onCheckout) {
@@ -106,8 +139,30 @@ export function PricingTable({
 
     if (!plan.productId || !plan.priceInCents) return;
 
-    setLoadingId(plan.id);
-    checkoutMutation.mutate(plan);
+    if (!session?.user) {
+      router.push(
+        `/sign-in?callbackUrl=${encodeURIComponent(currentPathWithQuery('/pricing'))}`
+      );
+      return;
+    }
+
+    if (
+      publicConfigs?.select_payment_enabled === 'true' &&
+      enabledProviders.length > 1
+    ) {
+      setSelectedPlan(plan);
+      setProviderModalOpen(true);
+      return;
+    }
+
+    const defaultProvider =
+      plan.paymentProvider ??
+      (enabledProviders.length === 1
+        ? enabledProviders[0]
+        : (publicConfigs?.default_payment_provider as
+            | PaymentProvider
+            | undefined));
+    startCheckout(plan, defaultProvider);
   }
 
   return (
@@ -332,6 +387,22 @@ export function PricingTable({
           );
         })}
       </div>
+      <PaymentProviderModal
+        open={providerModalOpen}
+        onOpenChange={(open) => {
+          setProviderModalOpen(open);
+          if (!open) setSelectedPlan(null);
+        }}
+        providers={enabledProviders as PaymentProvider[]}
+        loadingProvider={loadingProvider}
+        onSelect={(provider) => {
+          if (!selectedPlan) return;
+          setProviderModalOpen(false);
+          startCheckout(selectedPlan, provider);
+        }}
+        planName={selectedPlan?.name}
+        price={selectedPlan?.price}
+      />
     </section>
   );
 }

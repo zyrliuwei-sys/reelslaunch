@@ -16,7 +16,11 @@ export function PricingPage() {
           {m['common.pages.back_to_home']()}
         </Link>
       </div>
-      <Pricing headingLevel="h1" />
+      <Pricing
+        title={m['landing.pricing.title']()}
+        description={m['landing.pricing.description']()}
+        headingLevel="h1"
+      />
       <footer className="mx-auto flex max-w-5xl flex-wrap gap-x-6 gap-y-3 px-4 pb-12 text-sm text-neutral-400 sm:px-6">
         <Link href="/text-to-video" className="hover:text-white">
           H3 Max text to video workspace

@@ -1,3 +1,4 @@
+import { h3MaxRetailPlans } from '@/lib/h3-max-retail-plans';
 import { m } from '@/paraglide/messages.js';
 import {
   PricingTable,
@@ -5,86 +6,105 @@ import {
   type PricingPlan,
 } from '@/components/pricing-table';
 
-// Preview basis: standard EvoLink top-up tiers are about 68 credits / USD.
-// Convert CNY packages to credits at a fixed 6.71 CNY / USD reference rate.
-const CREDITS_PER_USD = 68;
-const CNY_PER_USD = 6.71;
-const RETAIL_CREDITS_PER_SECOND = {
-  '480p': 0.05 * 7 * CREDITS_PER_USD,
-  '768p': 0.08 * 7 * CREDITS_PER_USD,
-} as const;
-
-function creditsForPriceYuan(priceYuan: number) {
-  return Math.round((priceYuan / CNY_PER_USD) * CREDITS_PER_USD);
-}
+const RETAIL_CREDITS_PER_SECOND = { '480p': 0.35, '768p': 0.56 } as const;
 
 function outputSeconds(credits: number, resolution: '480p' | '768p') {
-  return Math.floor(credits / RETAIL_CREDITS_PER_SECOND[resolution]);
+  return Math.floor((credits * 0.56) / RETAIL_CREDITS_PER_SECOND[resolution]);
 }
 
+function formatCny(priceInCents: number) {
+  return `¥${Math.round(priceInCents / 100).toLocaleString('en-US')}`;
+}
+
+const tiers = [
+  {
+    key: 'essentials',
+    name: m['landing.pricing.essentials'](),
+    description: m['landing.pricing.essentials_desc'](),
+  },
+  {
+    key: 'studio',
+    name: m['landing.pricing.studio'](),
+    description: m['landing.pricing.studio_desc'](),
+  },
+  {
+    key: 'production',
+    name: m['landing.pricing.production'](),
+    description: m['landing.pricing.production_desc'](),
+  },
+] as const;
+
+const periods = [
+  { id: 'one-time', planKey: 'oneTime', interval: undefined },
+  { id: 'monthly', planKey: 'monthly', interval: 'month' },
+  { id: 'yearly', planKey: 'yearly', interval: 'year' },
+] as const;
+
 function makePlan(params: {
-  id: string;
-  name: string;
-  description: string;
-  priceYuan: number;
-  displayPrice?: string;
-  billingNote?: string;
-  checkoutPrice?: string;
-  interval?: string;
-  featured?: boolean;
-  badge?: string;
+  tier: (typeof tiers)[number];
+  period: (typeof periods)[number];
+  featured: boolean;
 }): PricingPlan {
-  const credits = creditsForPriceYuan(params.priceYuan);
+  const retail = h3MaxRetailPlans[params.tier.key][params.period.planKey];
+  const yearly = params.period.id === 'yearly';
+  const recurring = params.period.interval !== undefined;
+  const displayedPrice = yearly
+    ? Math.round(retail.priceInCents / 12)
+    : retail.priceInCents;
+  const periodLabel =
+    params.period.interval === 'month'
+      ? m['pricing.h3.interval_month']()
+      : params.period.interval === 'year'
+        ? m['pricing.h3.interval_month']()
+        : undefined;
   return {
-    id: params.id,
-    name: params.name,
-    description: params.description,
-    price:
-      params.displayPrice ?? `¥${params.priceYuan.toLocaleString('en-US')}`,
-    ...(params.checkoutPrice ? { checkoutPrice: params.checkoutPrice } : {}),
-    ...(params.billingNote ? { billingNote: params.billingNote } : {}),
-    ...(params.interval ? { interval: params.interval } : {}),
-    credits,
+    id: retail.productId,
+    productId: retail.productId,
+    productName: `H3 Max ${params.tier.name} ${yearly ? 'Annual' : params.period.id === 'monthly' ? 'Monthly' : 'Credit Pack'}`,
+    name: params.tier.name,
+    description: params.tier.description,
+    price: formatCny(displayedPrice),
+    priceInCents: retail.priceInCents,
+    currency: 'cny',
+    ...(yearly
+      ? {
+          checkoutPrice: formatCny(retail.priceInCents),
+          billingNote: m['pricing.h3.annual_total']({
+            total: formatCny(retail.priceInCents),
+          }),
+        }
+      : {}),
+    ...(periodLabel ? { interval: periodLabel } : {}),
+    credits: retail.credits,
     includedValue: m['pricing.h3.package_value']({
-      credits: credits.toLocaleString('en-US'),
-      seconds768: outputSeconds(credits, '768p').toLocaleString('en-US'),
-      seconds480: outputSeconds(credits, '480p').toLocaleString('en-US'),
+      credits: retail.credits.toLocaleString('en-US'),
+      seconds768: outputSeconds(retail.credits, '768p').toLocaleString('en-US'),
+      seconds480: outputSeconds(retail.credits, '480p').toLocaleString('en-US'),
     }),
     featured: params.featured,
-    badge: params.badge,
+    badge: params.featured
+      ? yearly
+        ? m['landing.pricing.best_value']()
+        : m['landing.pricing.popular']()
+      : undefined,
     features: [
       m['pricing.h3.feature_text_to_video'](),
       m['pricing.h3.feature_first_last_frame'](),
       m['pricing.h3.feature_short_clips'](),
     ],
+    ...(recurring
+      ? {
+          plan: {
+            name: `H3 Max ${params.tier.name}`,
+            interval: params.period.interval!,
+            intervalCount: 1,
+          },
+        }
+      : {}),
   };
 }
 
-const periods = [
-  { id: 'one-time', interval: undefined, prices: [19, 49, 99] },
-  { id: 'monthly', interval: 'month', prices: [29, 79, 149] },
-  { id: 'yearly', interval: 'year', prices: [299, 799, 1_499] },
-] as const;
-
 function createPricingGroups(): PricingGroup[] {
-  const tiers = [
-    {
-      id: 'start',
-      name: m['landing.pricing.essentials'](),
-      description: m['landing.pricing.essentials_desc'](),
-    },
-    {
-      id: 'creator',
-      name: m['landing.pricing.studio'](),
-      description: m['landing.pricing.studio_desc'](),
-    },
-    {
-      id: 'studio',
-      name: m['landing.pricing.production'](),
-      description: m['landing.pricing.production_desc'](),
-    },
-  ];
-
   return periods.map((period) => ({
     key: period.id,
     label:
@@ -94,38 +114,7 @@ function createPricingGroups(): PricingGroup[] {
           ? m['landing.pricing.monthly']()
           : m['landing.pricing.yearly'](),
     plans: tiers.map((tier, index) =>
-      makePlan({
-        id: `${period.id}-${tier.id}-preview`,
-        name: tier.name,
-        description: tier.description,
-        priceYuan: period.prices[index],
-        ...(period.id === 'yearly'
-          ? {
-              displayPrice: `¥${Math.round(period.prices[index] / 12).toLocaleString('en-US')}`,
-              billingNote: m['pricing.h3.annual_total']({
-                total: `¥${period.prices[index].toLocaleString('en-US')}`,
-              }),
-              checkoutPrice: `¥${period.prices[index].toLocaleString('en-US')}`,
-            }
-          : {}),
-        ...(period.interval
-          ? {
-              interval:
-                period.interval === 'month'
-                  ? m['pricing.h3.interval_month']()
-                  : m['pricing.h3.interval_month'](),
-            }
-          : {}),
-        ...(index === 1
-          ? {
-              featured: true,
-              badge:
-                period.id === 'yearly'
-                  ? m['landing.pricing.best_value']()
-                  : m['landing.pricing.popular'](),
-            }
-          : {}),
-      })
+      makePlan({ tier, period, featured: index === 1 })
     ),
   }));
 }
@@ -169,7 +158,7 @@ export function Pricing({
             {description ?? m['landing.pricing.description']()}
           </p>
         </div>
-        <PricingTable groups={groups} initialGroupKey="monthly" previewOnly />
+        <PricingTable groups={groups} initialGroupKey="monthly" />
         <p className="mx-auto mt-8 max-w-3xl text-center text-xs leading-5 text-neutral-500">
           {m['pricing.h3.pricing_basis']()}
         </p>
