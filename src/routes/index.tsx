@@ -10,43 +10,35 @@ const title = 'can chatgpt create videos - Yes, but... | reelslaunch';
 const description =
   'Can ChatGPT create videos? Learn the limits, then make H3 Max Reels faster with native audio and automatic Instagram scheduling. Try reelslaunch now.';
 
-function HomePage() {
-  const structuredData = [
-    {
-      '@context': 'https://schema.org',
-      '@type': 'WebApplication',
-      name: 'reelslaunch',
-      url: `${SITE_URL}/`,
-      description:
-        'H3 Max powered AI video generation and automatic Instagram Reels publishing for faceless channels.',
-      applicationCategory: 'MultimediaApplication',
-      offers: {
-        '@type': 'Offer',
-        price: '0',
-        priceCurrency: 'USD',
-        description: 'Pricing varies by plan; trial availability may apply.',
-      },
-    },
-    {
-      '@context': 'https://schema.org',
-      '@type': 'FAQPage',
-      mainEntity: reelslaunchFaqs.map(([question, answer]) => ({
-        '@type': 'Question',
-        name: question,
-        acceptedAnswer: { '@type': 'Answer', text: answer },
-      })),
-    },
-  ];
+const structuredData = [
+  {
+    '@context': 'https://schema.org',
+    '@type': 'WebApplication',
+    name: 'reelslaunch',
+    url: `${SITE_URL}/`,
+    description:
+      'H3 Max powered AI video generation and automatic Instagram Reels publishing for faceless channels.',
+    applicationCategory: 'MultimediaApplication',
+    operatingSystem: 'Web',
+    offers: [
+      { '@type': 'Offer', price: '28', priceCurrency: 'USD', name: 'Start' },
+      { '@type': 'Offer', price: '84', priceCurrency: 'USD', name: 'Creator' },
+      { '@type': 'Offer', price: '224', priceCurrency: 'USD', name: 'Studio' },
+    ],
+  },
+  {
+    '@context': 'https://schema.org',
+    '@type': 'FAQPage',
+    mainEntity: reelslaunchFaqs.map(([question, answer]) => ({
+      '@type': 'Question',
+      name: question,
+      acceptedAnswer: { '@type': 'Answer', text: answer },
+    })),
+  },
+];
 
-  return (
-    <>
-      <ReelslaunchHomepage />
-      <script
-        type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(structuredData) }}
-      />
-    </>
-  );
+function HomePage() {
+  return <ReelslaunchHomepage />;
 }
 
 export const Route = createFileRoute('/')({
@@ -66,6 +58,7 @@ export const Route = createFileRoute('/')({
       { name: 'twitter:title', content: title },
       { name: 'twitter:description', content: description },
       { name: 'twitter:image', content: `${SITE_URL}/logo.png` },
+      { 'script:ld+json': structuredData },
     ],
     links: [
       { rel: 'canonical', href: `${SITE_URL}/` },

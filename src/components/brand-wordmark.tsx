@@ -46,6 +46,8 @@ export function BrandWordmark({
         src="/logo.png"
         alt=""
         aria-hidden="true"
+        width={400}
+        height={400}
         className="h-[1.55em] w-[1.55em] shrink-0 object-contain"
       />
       <span className="font-[780] tracking-[-0.075em]">{name}</span>

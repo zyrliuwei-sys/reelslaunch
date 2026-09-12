@@ -1,3 +1,5 @@
+import type { ReactNode } from 'react';
+
 import { envConfigs } from '@/config';
 import { h3MaxRetailPlans } from '@/lib/h3-max-retail-plans';
 import { m } from '@/paraglide/messages.js';
@@ -94,9 +96,11 @@ function studioCases(): ProactivVideoShowcaseCase[] {
 /** Localized content wiring for the immersive text-to-video workspace. */
 export function TextToVideo({
   initialPrompt,
+  workspaceIntro,
   showTemplateFeed = true,
 }: {
   initialPrompt?: string;
+  workspaceIntro?: ReactNode;
   showTemplateFeed?: boolean;
 }) {
   const cases = studioCases();
@@ -115,6 +119,7 @@ export function TextToVideo({
       <ProactivVideoStudio
         cases={cases}
         initialPrompt={initialPrompt}
+        workspaceIntro={workspaceIntro}
         showTemplateFeed={showTemplateFeed}
         videoModelEnabled
         composerLabels={{

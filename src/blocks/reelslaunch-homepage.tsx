@@ -98,34 +98,33 @@ const tools = [
 
 export const reelslaunchFaqs = [
   [
-    'Can ChatGPT create videos?',
-    'Yes. ChatGPT can help create video concepts and, with compatible video-generation access such as Sora, produce clips. The workflow still has limits around speed, volume, cost, and publishing.',
+    'Can reelslaunch generate H3 Max videos?',
+    'Yes. reelslaunch uses H3 Max to turn a written direction into a short clip with native audio. Describe the subject, movement, setting, and visual style, then review the generated result before adding it to a publishing queue. Available controls, resolution choices, duration limits, and generation costs are shown in the workspace so you can choose settings that suit each idea.',
   ],
   [
-    'Can ChatGPT make videos for Instagram Reels?',
-    'It can help make a video, but turning ideas into a repeatable Reels channel still requires manual export, scheduling, captions, and publishing steps.',
+    'Can I create Instagram Reels with reelslaunch?',
+    'Yes. Create a vertical-ready clip, review the result, and prepare it for your Instagram workflow. reelslaunch helps keep the production steps together, including generation, queue organization, and scheduled publishing. You remain in control of the final content and posting cadence, while the queue reduces the need to manually move every finished video through the same sequence.',
   ],
   [
-    'Can ChatGPT make video content in batches?',
-    'ChatGPT is useful for ideation and individual generations, but it is not a faceless-channel autopilot with a batch queue and automatic social publishing.',
+    'Can reelslaunch generate videos in batches?',
+    'reelslaunch is designed to help creators prepare a continuing queue of short H3 Max clips for a faceless channel. Organize multiple ideas, generate videos asynchronously, review each result, and move approved clips toward planned publishing slots. Generation capacity and completion time depend on selected settings and current demand, so the queue supports repeatable production without promising a fixed turnaround for every clip.',
   ],
   [
     'How fast can reelslaunch create videos?',
-    'reelslaunch uses H3 Max to create 3-second and 5-second clips with native audio, then prepares them for an automated Reels publishing schedule.',
+    'reelslaunch uses H3 Max to create short 3-second and 5-second clips with native audio, and submits requests through a fast asynchronous queue. Actual completion time varies with demand and the settings selected for a generation. The queue also helps with what follows: completed clips can be reviewed, organized, and prepared for a planned Instagram Reels schedule instead of waiting in a manual upload workflow.',
   ],
   [
     'Does reelslaunch automatically publish Instagram Reels?',
-    'Yes. Connect your workflow, choose a schedule, and reelslaunch handles the queue for Instagram Reels instead of requiring manual uploads for every clip.',
+    'Yes. Connect your Instagram workflow, choose a publishing cadence, and reelslaunch can move queued clips into scheduled Instagram Reels publishing. You can prepare additional videos while the queue runs instead of repeating the same upload steps for every post. Review the clips and schedule before publishing, and make sure the connected account and permissions are set up for the workflow you want to use.',
   ],
   [
     'Is reelslaunch free to try?',
-    'Plans and trial availability can change. Start with the workspace to see the current offer and available generation options.',
+    'You can open the reelslaunch workspace and explore prompt and video settings before choosing a plan. Video generation uses credits according to the current resolution and duration pricing, and any trial or introductory offer will be shown in the product when available. Check the live plan details before submitting paid generations, since plan features and promotional availability can change over time.',
   ],
 ] as const;
 
 export function ReelslaunchHomepage() {
   const router = useRouter();
-  const [openFaq, setOpenFaq] = useState(0);
   const [ctaHovered, setCtaHovered] = useState(false);
 
   return (
@@ -151,7 +150,7 @@ export function ReelslaunchHomepage() {
             playsInline
             preload="metadata"
             poster="/logo.png"
-            src="/reelautopilot-hero-minimax-h3.mp4"
+            src="/reelslaunch-hero-h3max.mp4"
             className="pointer-events-none absolute inset-y-0 left-1/2 z-0 h-full w-screen max-w-none -translate-x-1/2 object-cover object-center opacity-100 motion-reduce:hidden"
           />
           <div
@@ -368,6 +367,51 @@ export function ReelslaunchHomepage() {
           </div>
         </section>
 
+        <section className="mx-auto max-w-4xl px-5 py-16 text-neutral-300 sm:px-8 sm:py-20">
+          <h2 className="text-3xl font-semibold tracking-[-0.04em] text-white sm:text-4xl">
+            ChatGPT Video Generator
+          </h2>
+          <p className="mt-6 text-base leading-7">
+            A ChatGPT video generator workflow starts with an idea expressed in
+            ordinary language. Describe the subject, setting, movement, visual
+            style, and intended audience, then refine the prompt until the
+            direction is clear. ChatGPT can support ideation and prompt writing;
+            video-generation access determines which models and formats are
+            available. For creators making short-form content, the useful
+            question is not only whether a prompt can become a clip, but also
+            whether the result fits a consistent channel plan. H3 Max helps turn
+            a concise direction into short video drafts that can be reviewed
+            before they move into production.
+          </p>
+          <p className="mt-5 text-base leading-7">
+            Reelslaunch brings the generation settings into one focused
+            workspace. Set a prompt, select the framing and resolution, and
+            choose a short duration suited to the idea. Native audio is included
+            in the generated clip, so the first review can consider the full
+            audiovisual result rather than a silent placeholder. Creators can
+            organize multiple concepts for a faceless channel, compare drafts,
+            and keep the work moving without rebuilding every setup from
+            scratch. Generation is charged according to the selected model,
+            resolution, and duration; check the live pricing details before
+            submitting a render.
+          </p>
+          <p className="mt-5 text-base leading-7">
+            Once a clip is ready, the next step is preparing it for publication.
+            Queue approved videos, connect the Instagram workflow, and choose a
+            schedule that suits the channel. This makes a ChatGPT video
+            generator part of a wider repeatable process—from initial direction
+            to reviewed clip and planned Instagram Reels post. To explore the
+            controls and create a first draft, open the{' '}
+            <Link
+              href="/text-to-video"
+              className="text-cyan-200 underline underline-offset-4"
+            >
+              H3 Max text-to-video workspace
+            </Link>
+            .
+          </p>
+        </section>
+
         <section
           id="features"
           className="mx-auto max-w-6xl scroll-mt-28 px-5 pb-12 sm:px-8 sm:pb-16"
@@ -391,13 +435,15 @@ export function ReelslaunchHomepage() {
                   <Icon className="size-6 text-cyan-300" strokeWidth={1.5} />
                 </div>
                 <div className="max-w-2xl">
-                  <div className="flex items-center gap-3 md:hidden">
-                    <Icon className="size-5 text-cyan-300" strokeWidth={1.5} />
-                    <h3 className="text-xl font-medium">{title}</h3>
+                  <div className="flex items-center gap-3">
+                    <Icon
+                      className="size-5 shrink-0 text-cyan-300 md:hidden"
+                      strokeWidth={1.5}
+                    />
+                    <h3 className="text-xl font-medium tracking-[-0.025em] md:text-2xl">
+                      {title}
+                    </h3>
                   </div>
-                  <h3 className="hidden text-2xl font-medium tracking-[-0.025em] md:block">
-                    {title}
-                  </h3>
                   <p className="mt-3 text-sm leading-6 text-neutral-500 sm:text-base sm:leading-7">
                     {body}
                   </p>
@@ -499,23 +545,15 @@ export function ReelslaunchHomepage() {
           </div>
           <div className="mt-16 divide-y divide-white/10 border-y border-white/10">
             {reelslaunchFaqs.map(([question, answer], index) => (
-              <div key={question}>
-                <button
-                  type="button"
-                  className="flex w-full items-center justify-between gap-6 py-6 text-left text-base font-medium"
-                  onClick={() => setOpenFaq(openFaq === index ? -1 : index)}
-                >
+              <details key={question} className="group" open={index === 0}>
+                <summary className="flex cursor-pointer list-none items-center justify-between gap-6 py-6 text-left text-base font-medium">
                   {question}
-                  <ChevronDown
-                    className={`size-5 shrink-0 text-neutral-500 transition-transform ${openFaq === index ? 'rotate-180 text-cyan-300' : ''}`}
-                  />
-                </button>
-                {openFaq === index && (
-                  <p className="max-w-2xl pr-8 pb-6 text-sm leading-7 text-neutral-400">
-                    {answer}
-                  </p>
-                )}
-              </div>
+                  <ChevronDown className="size-5 shrink-0 text-neutral-500 transition-transform group-open:rotate-180 group-open:text-cyan-300" />
+                </summary>
+                <p className="max-w-2xl pr-8 pb-6 text-sm leading-7 text-neutral-400">
+                  {answer}
+                </p>
+              </details>
             ))}
           </div>
         </section>

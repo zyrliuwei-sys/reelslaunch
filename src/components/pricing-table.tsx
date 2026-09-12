@@ -54,12 +54,18 @@ export function PricingTable({
   groups,
   onCheckout,
   compact = false,
+  previewOnly = false,
+  initialGroupKey,
 }: {
   groups: PricingGroup[];
   onCheckout?: (plan: PricingPlan) => void;
   compact?: boolean;
+  previewOnly?: boolean;
+  initialGroupKey?: string;
 }) {
-  const [activeGroup, setActiveGroup] = useState(groups[0]?.key || '');
+  const [activeGroup, setActiveGroup] = useState(
+    initialGroupKey || groups[0]?.key || ''
+  );
   const [loadingId, setLoadingId] = useState<string | null>(null);
   const reduceMotion = useReducedMotion();
 
@@ -196,7 +202,7 @@ export function PricingTable({
                       {plan.name}
                     </p>
                   )}
-                  {!compact && plan.badge && (
+                  {(!compact || previewOnly) && plan.badge && (
                     <span className="rounded-full border border-cyan-100/20 bg-cyan-200/10 px-3 py-1 text-[11px] font-semibold tracking-wide whitespace-nowrap text-cyan-100">
                       {plan.badge}
                     </span>
@@ -219,7 +225,7 @@ export function PricingTable({
                     </motion.span>
                     {plan.interval && (
                       <span className="mb-2 text-sm font-medium text-neutral-500">
-                        /{plan.interval}
+                        {plan.interval}
                       </span>
                     )}
                   </div>
@@ -233,11 +239,12 @@ export function PricingTable({
                       {plan.billingNote}
                     </p>
                   )}
-                  {!compact && plan.includedValue ? (
+                  {(!compact || previewOnly) && plan.includedValue ? (
                     <p className="mt-4 text-sm font-medium text-cyan-100">
                       {plan.includedValue}
                     </p>
-                  ) : !compact && typeof plan.credits === 'number' ? (
+                  ) : (!compact || previewOnly) &&
+                    typeof plan.credits === 'number' ? (
                     <p className="mt-4 text-sm font-medium text-white">
                       <span className="tabular-nums">
                         {m['landing.pricing.credits_after_payment']({
@@ -252,7 +259,7 @@ export function PricingTable({
                   {plan.description}
                 </p>
 
-                {compact ? (
+                {compact && !previewOnly ? (
                   <Link
                     href="/sign-up"
                     className={cn(
@@ -275,24 +282,26 @@ export function PricingTable({
                         ? '!border-cyan-100 !bg-cyan-100 !text-[#0c1719] hover:!bg-white'
                         : 'border-white/15 bg-white/[0.035] text-white hover:bg-white/[0.1]'
                     )}
-                    disabled={loadingId === plan.id}
+                    disabled={previewOnly || loadingId === plan.id}
                     onClick={() => handleCheckout(plan)}
                     type="button"
                     variant={plan.featured ? 'default' : 'outline'}
                   >
-                    {loadingId === plan.id
-                      ? m['common.pricing.processing']()
-                      : plan.buttonText || m['common.pricing.get_started']()}
+                    {previewOnly
+                      ? m['pricing.h3.preview_only']()
+                      : loadingId === plan.id
+                        ? m['common.pricing.processing']()
+                        : plan.buttonText || m['common.pricing.get_started']()}
                   </Button>
                 )}
 
-                {!compact && plan.includedValue && (
+                {(!compact || previewOnly) && plan.includedValue && (
                   <div className="mt-7 border-y border-white/[0.08] py-4 text-sm font-medium text-cyan-100">
                     {plan.includedValue}
                   </div>
                 )}
 
-                {!compact && (
+                {(!compact || previewOnly) && (
                   <ul className="mt-6 space-y-3 pt-1">
                     {plan.features.map((feature, featureIndex) => {
                       const label =

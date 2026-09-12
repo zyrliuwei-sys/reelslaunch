@@ -44,7 +44,12 @@ export const Route = createFileRoute('/sitemap.xml')({
         const entries: Entry[] = STATIC_PATHS.map((path) => ({
           path,
           changeFrequency: 'weekly',
-          priority: path === '/' ? 1 : 0.8,
+          priority:
+            path === '/privacy-policy' || path === '/terms-of-service'
+              ? 0.3
+              : path === '/'
+                ? 1
+                : 0.8,
         }));
 
         const xml = [
