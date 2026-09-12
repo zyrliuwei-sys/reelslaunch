@@ -23,7 +23,7 @@ export const envConfigs: Record<string, string> = {
   app_name: publicEnv('VITE_APP_NAME') || 'reelslaunch',
   app_description:
     publicEnv('VITE_APP_DESCRIPTION') ??
-    'AI video production platform for video, audio, text, understanding, and reasoning.',
+    'Generate H3 Max videos from text or images with native audio, clear per-second pricing, and an Instagram Reels publishing workflow.',
   app_logo: publicEnv('VITE_APP_LOGO') || '/logo.png',
 
   // Database

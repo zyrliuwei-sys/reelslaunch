@@ -3,11 +3,12 @@ import { useMutation } from '@tanstack/react-query';
 import { CircleCheck } from 'lucide-react';
 import { motion, useReducedMotion } from 'motion/react';
 
+import { Link } from '@/core/i18n/navigation';
 import { apiPost } from '@/lib/api-client';
 import { currentPathWithQuery } from '@/lib/redirect';
 import { cn } from '@/lib/utils';
 import { m } from '@/paraglide/messages.js';
-import { Button } from '@/components/ui/button';
+import { Button, buttonVariants } from '@/components/ui/button';
 
 type IconComponent = ComponentType<SVGProps<SVGSVGElement>>;
 
@@ -52,9 +53,11 @@ export interface PricingGroup {
 export function PricingTable({
   groups,
   onCheckout,
+  compact = false,
 }: {
   groups: PricingGroup[];
   onCheckout?: (plan: PricingPlan) => void;
+  compact?: boolean;
 }) {
   const [activeGroup, setActiveGroup] = useState(groups[0]?.key || '');
   const [loadingId, setLoadingId] = useState<string | null>(null);
@@ -193,7 +196,7 @@ export function PricingTable({
                       {plan.name}
                     </p>
                   )}
-                  {plan.badge && (
+                  {!compact && plan.badge && (
                     <span className="rounded-full border border-cyan-100/20 bg-cyan-200/10 px-3 py-1 text-[11px] font-semibold tracking-wide whitespace-nowrap text-cyan-100">
                       {plan.badge}
                     </span>
@@ -230,11 +233,11 @@ export function PricingTable({
                       {plan.billingNote}
                     </p>
                   )}
-                  {plan.includedValue ? (
+                  {!compact && plan.includedValue ? (
                     <p className="mt-4 text-sm font-medium text-cyan-100">
                       {plan.includedValue}
                     </p>
-                  ) : typeof plan.credits === 'number' ? (
+                  ) : !compact && typeof plan.credits === 'number' ? (
                     <p className="mt-4 text-sm font-medium text-white">
                       <span className="tabular-nums">
                         {m['landing.pricing.credits_after_payment']({
@@ -249,51 +252,72 @@ export function PricingTable({
                   {plan.description}
                 </p>
 
-                <Button
-                  className={cn(
-                    'mt-7 h-11 w-full rounded-xl border text-sm font-semibold whitespace-nowrap !transition-[transform,background-color,border-color] duration-150 ease-out active:translate-y-px',
-                    plan.featured
-                      ? '!border-cyan-100 !bg-cyan-100 !text-[#0c1719] hover:!bg-white'
-                      : 'border-white/15 bg-white/[0.035] text-white hover:bg-white/[0.1]'
-                  )}
-                  disabled={loadingId === plan.id}
-                  onClick={() => handleCheckout(plan)}
-                  type="button"
-                  variant={plan.featured ? 'default' : 'outline'}
-                >
-                  {loadingId === plan.id
-                    ? m['common.pricing.processing']()
-                    : plan.buttonText || m['common.pricing.get_started']()}
-                </Button>
+                {compact ? (
+                  <Link
+                    href="/sign-up"
+                    className={cn(
+                      buttonVariants({
+                        variant: plan.featured ? 'default' : 'outline',
+                      }),
+                      'mt-7 h-11 w-full rounded-xl border text-sm font-semibold whitespace-nowrap !transition-[transform,background-color,border-color] duration-150 ease-out active:translate-y-px',
+                      plan.featured
+                        ? '!border-cyan-100 !bg-cyan-100 !text-[#0c1719] hover:!bg-white'
+                        : 'border-white/15 bg-white/[0.035] text-white hover:bg-white/[0.1]'
+                    )}
+                  >
+                    {m['common.pricing.get_started']()}
+                  </Link>
+                ) : (
+                  <Button
+                    className={cn(
+                      'mt-7 h-11 w-full rounded-xl border text-sm font-semibold whitespace-nowrap !transition-[transform,background-color,border-color] duration-150 ease-out active:translate-y-px',
+                      plan.featured
+                        ? '!border-cyan-100 !bg-cyan-100 !text-[#0c1719] hover:!bg-white'
+                        : 'border-white/15 bg-white/[0.035] text-white hover:bg-white/[0.1]'
+                    )}
+                    disabled={loadingId === plan.id}
+                    onClick={() => handleCheckout(plan)}
+                    type="button"
+                    variant={plan.featured ? 'default' : 'outline'}
+                  >
+                    {loadingId === plan.id
+                      ? m['common.pricing.processing']()
+                      : plan.buttonText || m['common.pricing.get_started']()}
+                  </Button>
+                )}
 
-                {plan.includedValue && (
+                {!compact && plan.includedValue && (
                   <div className="mt-7 border-y border-white/[0.08] py-4 text-sm font-medium text-cyan-100">
                     {plan.includedValue}
                   </div>
                 )}
 
-                <ul className="mt-6 space-y-3 pt-1">
-                  {plan.features.map((feature, featureIndex) => {
-                    const label =
-                      typeof feature === 'string' ? feature : feature.label;
+                {!compact && (
+                  <ul className="mt-6 space-y-3 pt-1">
+                    {plan.features.map((feature, featureIndex) => {
+                      const label =
+                        typeof feature === 'string' ? feature : feature.label;
 
-                    return (
-                      <li
-                        key={featureIndex}
-                        className="flex items-start gap-x-3 text-sm leading-6"
-                      >
-                        <CircleCheck
-                          aria-hidden="true"
-                          className={cn(
-                            'mt-0.5 size-4 shrink-0',
-                            plan.featured ? 'text-cyan-200' : 'text-neutral-600'
-                          )}
-                        />
-                        <span className="text-neutral-200">{label}</span>
-                      </li>
-                    );
-                  })}
-                </ul>
+                      return (
+                        <li
+                          key={featureIndex}
+                          className="flex items-start gap-x-3 text-sm leading-6"
+                        >
+                          <CircleCheck
+                            aria-hidden="true"
+                            className={cn(
+                              'mt-0.5 size-4 shrink-0',
+                              plan.featured
+                                ? 'text-cyan-200'
+                                : 'text-neutral-600'
+                            )}
+                          />
+                          <span className="text-neutral-200">{label}</span>
+                        </li>
+                      );
+                    })}
+                  </ul>
+                )}
               </div>
             </motion.article>
           );

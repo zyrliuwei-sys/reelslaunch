@@ -16,7 +16,15 @@ export function PricingPage() {
           {m['common.pages.back_to_home']()}
         </Link>
       </div>
-      <Pricing />
+      <Pricing headingLevel="h1" />
+      <footer className="mx-auto flex max-w-5xl flex-wrap gap-x-6 gap-y-3 px-4 pb-12 text-sm text-neutral-400 sm:px-6">
+        <Link href="/text-to-video" className="hover:text-white">
+          H3 Max text to video workspace
+        </Link>
+        <Link href="/" className="hover:text-white">
+          {m['common.pages.back_to_home']()}
+        </Link>
+      </footer>
     </main>
   );
 }

@@ -5,7 +5,7 @@ import { useMutation } from '@tanstack/react-query';
 import { toast } from 'sonner';
 
 import { useSession } from '@/core/auth/client';
-import { useRouter } from '@/core/i18n/navigation';
+import { Link, useRouter } from '@/core/i18n/navigation';
 import { apiPost } from '@/lib/api-client';
 import {
   h3Max480SecondsEquivalent,
@@ -38,10 +38,14 @@ type PricingPeriod = 'one-time' | 'monthly' | 'yearly';
 export function Pricing({
   title,
   description,
+  compact = false,
+  headingLevel = 'h2',
   periods = ['monthly', 'yearly', 'one-time'],
 }: {
   title?: string;
   description?: string;
+  compact?: boolean;
+  headingLevel?: 'h1' | 'h2';
   periods?: PricingPeriod[];
 } = {}) {
   const router = useRouter();
@@ -259,7 +263,7 @@ export function Pricing({
   ];
   const visibleGroups = (['monthly', 'yearly', 'one-time'] as const).flatMap(
     (period) =>
-      periods.includes(period)
+      periods.includes(period) && (!compact || period === 'monthly')
         ? groups.filter((group) => group.key === period)
         : []
   );
@@ -343,13 +347,31 @@ export function Pricing({
       />
       <div className="relative mx-auto max-w-5xl">
         <div className="mb-20 text-center">
-          <h2 className="font-serif text-4xl font-normal tracking-tight text-white sm:text-5xl">
-            {title ?? m['landing.pricing.title']()}
-          </h2>
+          {headingLevel === 'h1' ? (
+            <h1 className="font-serif text-4xl font-normal tracking-tight text-white sm:text-5xl">
+              {title ?? m['landing.pricing.title']()}
+            </h1>
+          ) : (
+            <h2 className="font-serif text-4xl font-normal tracking-tight text-white sm:text-5xl">
+              {title ?? m['landing.pricing.title']()}
+            </h2>
+          )}
           <p className="mx-auto mt-5 max-w-2xl text-neutral-400">
             {description ?? m['landing.pricing.description']()}
           </p>
         </div>
+        {compact && (
+          <p className="mx-auto -mt-10 mb-10 max-w-3xl text-center text-sm text-neutral-400">
+            See the full plan comparison and per-second pricing on the{' '}
+            <Link
+              href="/pricing"
+              className="text-cyan-200 underline underline-offset-4"
+            >
+              pricing page
+            </Link>
+            .
+          </p>
+        )}
         <div className="mx-auto mb-10 grid max-w-3xl gap-3 sm:grid-cols-2">
           <div className="rounded-2xl border border-white/10 bg-white/[0.03] p-5">
             <p className="text-sm text-neutral-400">
@@ -380,7 +402,11 @@ export function Pricing({
             </p>
           </div>
         </div>
-        <PricingTable groups={visibleGroups} onCheckout={handleCheckout} />
+        <PricingTable
+          groups={visibleGroups}
+          onCheckout={handleCheckout}
+          compact={compact}
+        />
       </div>
 
       <PaymentProviderModal

@@ -71,17 +71,17 @@ export function SenziaAppShell({
   };
 
   useEffect(() => {
-    const savedState = window.localStorage.getItem('proactiv-sidebar-open');
+    const savedState = window.localStorage.getItem('reelslaunch-sidebar-open');
     if (savedState === 'false') setIsSidebarOpen(false);
   }, []);
 
   const setSidebarOpen = (open: boolean) => {
     setIsSidebarOpen(open);
-    window.localStorage.setItem('proactiv-sidebar-open', String(open));
+    window.localStorage.setItem('reelslaunch-sidebar-open', String(open));
   };
 
   return (
-    <div className="proactiv-site min-h-dvh w-full overflow-x-hidden bg-[#08090a] text-neutral-100">
+    <div className="reelslaunch-site min-h-dvh w-full overflow-x-hidden bg-[#08090a] text-neutral-100">
       <header className="flex h-12 items-center justify-between border-b border-white/10 bg-[#0e1011] px-3 sm:px-5">
         <Link
           href={brandHref}

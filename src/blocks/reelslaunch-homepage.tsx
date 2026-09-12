@@ -71,24 +71,28 @@ const tools = [
     'Generate 3- or 5-second clips with fast-queue processing and clear per-second pricing.',
     '/reelslaunch-showcase/posters/first.png',
     '/reelslaunch-showcase/email-automation.mp4',
+    'text to video workspace',
   ],
   [
     'Native audio',
     'Every finished clip comes with native audio, so there is no need to add a voice track in post.',
     '/reelslaunch-showcase/posters/second.png',
     '/reelslaunch-showcase/cross-platform.mp4',
+    'native audio video generator',
   ],
   [
     'Auto-publish to Instagram Reels',
     'Set a publishing schedule once and let the queue keep your Reels workflow moving.',
     '/reelslaunch-showcase/posters/fourth.png',
     '/reelslaunch-showcase/managed-crm-office.mp4',
+    'Instagram Reels scheduler',
   ],
   [
     'Batch generation',
     'Keep a faceless channel supplied with a steady queue of short-form videos.',
     '/reelslaunch-showcase/posters/third.png',
     '/reelslaunch-showcase/app-automation.mp4',
+    'batch video generation',
   ],
 ] as const;
 
@@ -436,54 +440,56 @@ export function ReelslaunchHomepage() {
               </p>
             </div>
             <div className="mt-20 space-y-24 md:mt-28">
-              {tools.map(([title, description, poster, video], index) => (
-                <article
-                  key={title}
-                  className={`grid items-center gap-10 md:grid-cols-2 md:gap-20 ${index % 2 ? '' : ''}`}
-                >
-                  <div className={index % 2 ? 'md:order-2' : ''}>
-                    <div className="mb-5 flex size-12 items-center justify-center rounded-xl border border-white/10 bg-white/5">
-                      <Layers3 className="size-5 text-cyan-300" />
+              {tools.map(
+                ([title, description, poster, video, linkText], index) => (
+                  <article
+                    key={title}
+                    className={`grid items-center gap-10 md:grid-cols-2 md:gap-20 ${index % 2 ? '' : ''}`}
+                  >
+                    <div className={index % 2 ? 'md:order-2' : ''}>
+                      <div className="mb-5 flex size-12 items-center justify-center rounded-xl border border-white/10 bg-white/5">
+                        <Layers3 className="size-5 text-cyan-300" />
+                      </div>
+                      <h3 className="text-3xl font-semibold tracking-[-0.045em]">
+                        {title}
+                      </h3>
+                      <p className="mt-4 max-w-md leading-7 text-neutral-400">
+                        {description}
+                      </p>
+                      <Link
+                        href="/text-to-video"
+                        className="group mt-7 inline-flex items-center gap-2 text-sm font-medium text-cyan-200"
+                      >
+                        {linkText}{' '}
+                        <ArrowRight className="size-4 transition-transform group-hover:translate-x-1" />
+                      </Link>
                     </div>
-                    <h3 className="text-3xl font-semibold tracking-[-0.045em]">
-                      {title}
-                    </h3>
-                    <p className="mt-4 max-w-md leading-7 text-neutral-400">
-                      {description}
-                    </p>
-                    <Link
-                      href="/text-to-video"
-                      className="group mt-7 inline-flex items-center gap-2 text-sm font-medium text-cyan-200"
-                    >
-                      Try it in the workspace{' '}
-                      <ArrowRight className="size-4 transition-transform group-hover:translate-x-1" />
-                    </Link>
-                  </div>
-                  <div className={index % 2 ? 'md:order-1' : ''}>
-                    <div className="relative overflow-hidden rounded-2xl border border-white/10 bg-[#101214] p-3 shadow-2xl">
-                      <video
-                        src={video}
-                        poster={poster}
-                        aria-label={`${title} workflow video preview`}
-                        width={886}
-                        height={665}
-                        autoPlay
-                        loop
-                        muted
-                        playsInline
-                        preload="metadata"
-                        className="aspect-[4/3] w-full rounded-xl object-cover opacity-90"
-                      />
-                      <div className="absolute bottom-3 left-1/2 h-px w-2/3 -translate-x-1/2 bg-gradient-to-r from-transparent via-cyan-300 to-transparent" />
+                    <div className={index % 2 ? 'md:order-1' : ''}>
+                      <div className="relative overflow-hidden rounded-2xl border border-white/10 bg-[#101214] p-3 shadow-2xl">
+                        <video
+                          src={video}
+                          poster={poster}
+                          aria-label={`${title} workflow video preview`}
+                          width={886}
+                          height={665}
+                          autoPlay
+                          loop
+                          muted
+                          playsInline
+                          preload="metadata"
+                          className="aspect-[4/3] w-full rounded-xl object-cover opacity-90"
+                        />
+                        <div className="absolute bottom-3 left-1/2 h-px w-2/3 -translate-x-1/2 bg-gradient-to-r from-transparent via-cyan-300 to-transparent" />
+                      </div>
                     </div>
-                  </div>
-                </article>
-              ))}
+                  </article>
+                )
+              )}
             </div>
           </div>
         </section>
 
-        <Pricing />
+        <Pricing compact />
 
         <section className="mx-auto max-w-3xl px-5 py-28 sm:px-8 md:py-40">
           <div className="text-center">
