@@ -64,7 +64,7 @@ function SignUpPage() {
   const afterLoginUrl = resolveAfterAuthUrl({
     redirect: redirectParam,
     callbackUrl,
-    fallback: '/cost-calculator',
+    fallback: '/',
   });
 
   // Carry callbackUrl/redirect across to sign-in so the destination survives the switch.

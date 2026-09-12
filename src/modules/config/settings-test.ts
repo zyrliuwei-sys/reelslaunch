@@ -417,7 +417,7 @@ async function testEvoLink(
   const missing = need(configs, ['evolink_api_key']);
   if (missing) return { success: false, message: missing };
 
-  const resp = await fetch(`${EVOLINK_DIRECT_API_BASE_URL}/messages`, {
+  const resp = await fetch(`${EVOLINK_DIRECT_API_BASE_URL}/chat/completions`, {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
@@ -438,10 +438,10 @@ async function testEvoLink(
     };
   }
 
-  const reply = String(data?.content?.[0]?.text ?? '').trim();
+  const reply = String(data?.choices?.[0]?.message?.content ?? '').trim();
   return {
     success: true,
-    message: 'The AI image service accepted the request',
+    message: 'EvoLink accepted the request',
     details: {
       Model: data?.model || inputs.model,
       Reply: reply.slice(0, 200) || '(empty)',
