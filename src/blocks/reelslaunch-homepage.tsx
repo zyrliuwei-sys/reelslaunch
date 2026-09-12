@@ -334,10 +334,9 @@ export function ReelslaunchHomepage() {
         </section>
 
         <HomepageShortAnswer />
-        <HomepageWorkflowComparison />
         <HomepageCreatorsNote />
 
-        <section className="mx-auto max-w-4xl px-5 py-16 text-neutral-300 sm:px-8 sm:py-20">
+        <section className="mx-auto max-w-6xl px-5 pt-8 pb-16 text-neutral-300 sm:px-8 sm:pt-10 sm:pb-20">
           <h2 className="text-3xl font-semibold tracking-[-0.04em] text-white sm:text-4xl">
             ChatGPT Video Generator
           </h2>
@@ -489,7 +488,7 @@ export function ReelslaunchHomepage() {
         </section>
 
         <section className="relative overflow-hidden border-y border-white/8 bg-[#0b0d0f] pt-16 pb-24 sm:pt-20 md:pt-24 md:pb-32">
-          <div className="mx-auto max-w-[1440px]">
+          <div className="w-full">
             <div className="mx-auto max-w-3xl px-5 text-center sm:px-8">
               <div className="mx-auto flex size-12 items-center justify-center rounded-xl border border-cyan-300/20 bg-cyan-300/8">
                 <Sparkles className="size-5 text-cyan-300" />
@@ -502,7 +501,7 @@ export function ReelslaunchHomepage() {
                 publishing a faceless Reels channel.
               </p>
             </div>
-            <div className="mt-12 flex items-center justify-between px-5 sm:px-8 md:mt-16">
+            <div className="mt-12 flex items-center justify-between px-[clamp(1.25rem,4vw,4.5rem)] md:mt-16">
               <p className="text-xs font-medium tracking-[0.2em] text-neutral-500 uppercase">
                 Made with H3 Max
               </p>
@@ -528,7 +527,7 @@ export function ReelslaunchHomepage() {
             <ul
               ref={galleryRef}
               aria-label="H3 Max video examples and workflow features"
-              className="mt-5 flex snap-x snap-mandatory gap-5 overflow-x-auto overscroll-x-contain px-5 pb-6 [scrollbar-width:none] sm:gap-6 sm:px-8 [&::-webkit-scrollbar]:hidden"
+              className="mt-5 flex snap-x snap-mandatory gap-5 overflow-x-auto overscroll-x-contain px-0 pb-6 [scrollbar-width:none] sm:gap-6 [&::-webkit-scrollbar]:hidden"
             >
               {tools.map((item, index) => (
                 <li
@@ -572,13 +571,14 @@ export function ReelslaunchHomepage() {
                 </li>
               ))}
             </ul>
-            <p className="px-5 text-xs text-neutral-600 sm:px-8">
+            <p className="px-[clamp(1.25rem,4vw,4.5rem)] text-xs text-neutral-600">
               Swipe or use the arrows to explore more scenes.
             </p>
           </div>
         </section>
 
         <Pricing compact />
+        <HomepageWorkflowComparison />
 
         <section className="mx-auto max-w-3xl px-5 py-28 sm:px-8 md:py-40">
           <div className="text-center">
@@ -619,7 +619,7 @@ export function ReelslaunchHomepage() {
             />
           ) : null}
           <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_65%_45%,rgba(57,195,239,0.18),transparent_32%)]" />
-          <div className="relative z-10 mx-auto flex max-w-6xl flex-col items-center justify-between gap-10 md:flex-row">
+          <div className="relative z-10 mx-auto flex max-w-5xl flex-col items-center justify-between gap-10 md:flex-row">
             <div>
               <h2 className="max-w-xl text-3xl font-semibold tracking-[-0.045em] sm:text-5xl">
                 Start your first faceless Reels channel.
@@ -630,7 +630,7 @@ export function ReelslaunchHomepage() {
               </p>
             </div>
             <Link
-              href="/sign-up"
+              href="/text-to-video"
               className="group inline-flex shrink-0 items-center gap-2 rounded-md bg-white px-6 py-3.5 font-semibold text-black"
             >
               Start free{' '}
