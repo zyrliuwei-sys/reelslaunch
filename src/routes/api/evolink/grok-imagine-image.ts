@@ -120,7 +120,7 @@ async function downloadResult(params: {
   return new Response(upstream.body, {
     headers: {
       'Cache-Control': 'private, no-store',
-      'Content-Disposition': `attachment; filename="uncensored-ai-image-${params.taskId}-${params.index + 1}.${extension}"`,
+      'Content-Disposition': `attachment; filename="reelslaunch-image-${params.taskId}-${params.index + 1}.${extension}"`,
       'Content-Type': contentType || 'image/png',
     },
   });
