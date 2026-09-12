@@ -236,7 +236,7 @@ export const testSpecs: Record<string, TestSpec> = {
         name: 'model',
         label: 'Model',
         type: 'text',
-        defaultValue: 'claude-sonnet-4-5-20250929',
+        defaultValue: 'evolink/auto',
         required: true,
       },
       {

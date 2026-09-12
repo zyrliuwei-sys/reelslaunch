@@ -23,7 +23,6 @@ import {
 import { saveVideoComposerDraft } from '@/lib/video-composer-draft';
 import { m } from '@/paraglide/messages.js';
 import { Footer } from '@/blocks/footer';
-import { H3Tools } from '@/blocks/h3/tools';
 import { Header } from '@/blocks/header';
 import { Pricing } from '@/blocks/pricing';
 import {
@@ -191,10 +190,10 @@ export function ProactivReferenceLanding() {
               </p>
             </div>
             <Link
-              href="/prompt-generator"
+              href="/text-to-video"
               className="group inline-flex items-center gap-2 rounded-md bg-white px-5 py-3 text-base font-semibold text-black transition-transform hover:-translate-y-0.5"
             >
-              {m['reference.hero.cta']()}
+              {m['proactiv.hero.composer.open_editor']()}
               <ArrowRight className="size-4 transition-transform group-hover:translate-x-1" />
             </Link>
           </div>
@@ -327,23 +326,16 @@ export function ProactivReferenceLanding() {
             </a>
             <div className="mt-8 flex flex-wrap gap-3">
               <Link
-                href="/cost-calculator"
+                href="/text-to-video"
                 className="rounded-lg bg-cyan-200 px-5 py-3 font-semibold text-black"
               >
-                {m['h3.tools.calculator']()} →
-              </Link>
-              <Link
-                href="/prompt-generator"
-                className="rounded-lg border border-white/20 px-5 py-3 font-semibold text-white"
-              >
-                {m['h3.tools.prompt']()} →
+                {m['proactiv.hero.composer.open_editor']()} →
               </Link>
             </div>
           </div>
         </section>
 
         <Pricing />
-        <H3Tools />
 
         <section className="mx-auto max-w-7xl px-5 pt-4 pb-20 sm:px-8 md:pt-6 md:pb-32">
           <div className="mx-auto max-w-3xl">

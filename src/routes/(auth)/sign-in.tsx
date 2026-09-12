@@ -48,13 +48,13 @@ function SignInPage() {
   }, []);
 
   // Already signed in (visited /sign-in directly, or a stale callbackUrl looped
-  // back here) → go to the admin console. The auth pages never gate themselves,
+  // back here) → go to the homepage. The auth pages never gate themselves,
   // so this can't loop.
   useEffect(() => {
     if (sessionPending || navigatingRef.current) return;
     if (session?.user) {
       navigatingRef.current = true;
-      router.push('/cost-calculator');
+      router.push('/');
     }
   }, [sessionPending, session?.user, router]);
 
@@ -64,7 +64,7 @@ function SignInPage() {
   const afterLoginUrl = resolveAfterAuthUrl({
     redirect: redirectParam,
     callbackUrl,
-    fallback: '/cost-calculator',
+    fallback: '/',
   });
 
   // Carry callbackUrl/redirect across to sign-up so the destination survives the switch.

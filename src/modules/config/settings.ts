@@ -175,8 +175,8 @@ export function getSettingGroups(): SettingGroup[] {
     { name: 'fal', title: 'Fal', description: 'Fal AI API', tab: 'ai' },
     {
       name: 'evolink',
-      title: 'AI image service',
-      description: 'Image and video generation API settings',
+      title: 'EvoLink',
+      description: 'Unified AI model API settings',
       tab: 'ai',
     },
 
@@ -812,7 +812,7 @@ export function getSettings(): Setting[] {
       name: 'evolink_api_key',
       title: 'API Key',
       type: 'password',
-      placeholder: 'sk-xxx',
+      placeholder: 'Paste your EvoLink API key',
       group: 'evolink',
       tab: 'ai',
     },
