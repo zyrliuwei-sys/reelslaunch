@@ -115,7 +115,7 @@ const galleryLayouts = [
 const maximumImageReferenceCount = 10;
 const maximumGrokImageReferenceCount = 3;
 const GROK_IMAGINE_IMAGE_API = '/api/evolink/grok-imagine-image';
-const H3_MAX_API = '/api/fal/h3-max';
+const H3_MAX_API = '/api/evolink/h3-max';
 const paymentProviders: PaymentProvider[] = [
   'stripe',
   'creem',
@@ -526,7 +526,7 @@ export function ProactivVideoStudio({
   });
 
   const taskQuery = useQuery({
-    queryKey: ['fal-h3-max', motionTask?.id],
+    queryKey: ['evolink-h3-max', motionTask?.id],
     queryFn: () =>
       apiGet<MotionControlTask>(
         `${H3_MAX_API}?taskId=${encodeURIComponent(motionTask!.id)}`
@@ -552,7 +552,7 @@ export function ProactivVideoStudio({
   });
 
   const recentTasksQuery = useQuery({
-    queryKey: ['fal-h3-max', 'recent'],
+    queryKey: ['evolink-h3-max', 'recent'],
     queryFn: () => apiGet<MotionControlTask[]>(H3_MAX_API),
     enabled: Boolean(session?.user),
     staleTime: 15_000,
@@ -671,7 +671,7 @@ export function ProactivVideoStudio({
     if (taskQuery.data.status === 'success') {
       setShowRetry(false);
       void queryClient.invalidateQueries({
-        queryKey: ['fal-h3-max', 'recent'],
+        queryKey: ['evolink-h3-max', 'recent'],
       });
     } else if (['failed', 'canceled'].includes(taskQuery.data.status)) {
       setShowRetry(true);

@@ -10,6 +10,7 @@ import { apiPost } from '@/lib/api-client';
 import {
   h3Max480SecondsEquivalent,
   h3MaxRetailPlans,
+  h3MaxRetailRatePerSecond,
 } from '@/lib/h3-max-retail-plans';
 import { currentPathWithQuery } from '@/lib/redirect';
 import { m } from '@/paraglide/messages.js';
@@ -348,6 +349,36 @@ export function Pricing({
           <p className="mx-auto mt-5 max-w-2xl text-neutral-400">
             {description ?? m['landing.pricing.description']()}
           </p>
+        </div>
+        <div className="mx-auto mb-10 grid max-w-3xl gap-3 sm:grid-cols-2">
+          <div className="rounded-2xl border border-white/10 bg-white/[0.03] p-5">
+            <p className="text-sm text-neutral-400">
+              {m['pricing.h3.rate_480']()}
+            </p>
+            <p className="mt-2 text-2xl font-semibold text-white">
+              ${(h3MaxRetailRatePerSecond['480p'] / 100).toFixed(2)}
+              <span className="ml-1 text-sm font-normal text-neutral-400">
+                / sec
+              </span>
+            </p>
+            <p className="mt-1 text-sm text-neutral-400">
+              {m['pricing.h3.minimum_480']()}
+            </p>
+          </div>
+          <div className="rounded-2xl border border-cyan-300/30 bg-cyan-300/[0.06] p-5">
+            <p className="text-sm text-cyan-100/80">
+              {m['pricing.h3.rate_768']()}
+            </p>
+            <p className="mt-2 text-2xl font-semibold text-white">
+              ${(h3MaxRetailRatePerSecond['768p'] / 100).toFixed(2)}
+              <span className="ml-1 text-sm font-normal text-neutral-400">
+                / sec
+              </span>
+            </p>
+            <p className="mt-1 text-sm text-neutral-400">
+              {m['pricing.h3.minimum_768']()}
+            </p>
+          </div>
         </div>
         <PricingTable groups={visibleGroups} onCheckout={handleCheckout} />
       </div>

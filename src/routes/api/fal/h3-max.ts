@@ -8,20 +8,14 @@ import {
 } from '@/modules/ai-tasks/service';
 import { getAllConfigs } from '@/modules/config/service';
 import {
-  FAL_H3_MAX_IMAGE_TO_VIDEO_MODEL,
-  FAL_H3_MAX_REFERENCE_TO_VIDEO_MODEL,
-  FAL_H3_MAX_TEXT_TO_VIDEO_MODEL,
-  getFalH3MaxDownloadUrl,
-  getFalH3MaxTask,
-  h3MaxModelForMode,
-  listFalH3MaxTasks,
-  submitFalH3MaxTask,
-  validateFalH3MaxInput,
-  type FalH3MaxInput,
-  type FalH3MaxMode,
-  type FalH3MaxResolution,
-  type FalH3MaxTask,
-} from '@/modules/fal-h3-max/service';
+  getEvolinkH3MaxDownloadUrl,
+  getEvolinkH3MaxTask,
+  listEvolinkH3MaxTasks,
+  submitEvolinkH3MaxTask,
+  validateEvolinkH3MaxInput,
+  type EvolinkH3MaxInput,
+  type EvolinkH3MaxTask,
+} from '@/modules/evolink-h3-max/service';
 import { enqueueGeneration } from '@/modules/generation-queue/service';
 import { h3MaxCreditsForSeconds } from '@/lib/h3-max-retail-plans';
 import { enforceMinIntervalRateLimit } from '@/lib/rate-limit';
@@ -42,13 +36,13 @@ function stringArray(value: unknown): string[] {
     .filter(Boolean);
 }
 
-function parseInput(body: unknown): FalH3MaxInput {
+function parseInput(body: unknown): EvolinkH3MaxInput {
   const input = isRecord(body) ? body : {};
-  const mode: FalH3MaxMode =
+  const mode: EvolinkH3MaxInput['mode'] =
     input.mode === 'image-to-video' || input.mode === 'reference-to-video'
       ? input.mode
       : 'text-to-video';
-  const resolution: FalH3MaxResolution =
+  const resolution: EvolinkH3MaxInput['resolution'] =
     input.resolution === '480P' ? '480P' : '768P';
   const duration = typeof input.duration === 'number' ? input.duration : 5;
 
@@ -70,16 +64,16 @@ function parseInput(body: unknown): FalH3MaxInput {
 }
 
 async function configuredApiKey() {
-  const apiKey = (await getAllConfigs()).fal_api_key?.trim();
+  const apiKey = (await getAllConfigs()).evolink_api_key?.trim();
   if (!apiKey) {
     throw new Error(
-      'Fal API key is not configured. Add it in Admin → Settings → AI → Fal.'
+      'EvoLink API key is not configured. Add it in Admin → Settings → AI → EvoLink.'
     );
   }
   return apiKey;
 }
 
-async function settleFailedH3Task(task: FalH3MaxTask) {
+async function settleFailedH3Task(task: EvolinkH3MaxTask) {
   if (task.status === 'failed' || task.status === 'canceled') {
     await updateTask({
       taskId: task.id,
@@ -92,7 +86,7 @@ async function settleFailedH3Task(task: FalH3MaxTask) {
   return task;
 }
 
-async function POST({ request }: { request: Request }) {
+export async function POST({ request }: { request: Request }) {
   let billingTaskId: string | undefined;
   let submittedUpstream = false;
 
@@ -103,19 +97,22 @@ async function POST({ request }: { request: Request }) {
 
     const limited = enforceMinIntervalRateLimit(request, {
       intervalMs: 1_000,
-      keyPrefix: 'fal-h3-max',
+      keyPrefix: 'evolink-h3-max',
       extraKey: session.user.id,
     });
     if (limited) return limited;
 
     const input = parseInput(await request.json().catch(() => ({})));
-    validateFalH3MaxInput(input);
+    validateEvolinkH3MaxInput(input);
     const apiKey = await configuredApiKey();
-    const model = h3MaxModelForMode(input.mode);
+    const model =
+      input.mode === 'image-to-video'
+        ? 'minimax-h3-max-image-to-video'
+        : 'minimax-h3-max-text-to-video';
     const billingTask = await createTask({
       userId: session.user.id,
       mediaType: 'video',
-      provider: 'fal',
+      provider: 'evolink',
       model,
       prompt: input.prompt,
       options: input,
@@ -126,7 +123,7 @@ async function POST({ request }: { request: Request }) {
     });
     billingTaskId = billingTask.id;
     const task = await enqueueGeneration(() =>
-      submitFalH3MaxTask({
+      submitEvolinkH3MaxTask({
         apiKey,
         input,
         taskId: billingTask.id,
@@ -148,7 +145,7 @@ async function POST({ request }: { request: Request }) {
   }
 }
 
-async function GET({ request }: { request: Request }) {
+export async function GET({ request }: { request: Request }) {
   try {
     const auth = getAuth();
     const session = await auth.api.getSession({ headers: request.headers });
@@ -160,7 +157,7 @@ async function GET({ request }: { request: Request }) {
     if (wantsDownload) {
       if (!taskId) return respErr('taskId is required');
       const index = Number(search.get('index') ?? '0');
-      const url = await getFalH3MaxDownloadUrl({
+      const url = await getEvolinkH3MaxDownloadUrl({
         index,
         taskId,
         userId: session.user.id,
@@ -169,10 +166,10 @@ async function GET({ request }: { request: Request }) {
     }
 
     if (!taskId) {
-      return respData(await listFalH3MaxTasks({ userId: session.user.id }));
+      return respData(await listEvolinkH3MaxTasks({ userId: session.user.id }));
     }
 
-    const task = await getFalH3MaxTask({
+    const task = await getEvolinkH3MaxTask({
       apiKey: await configuredApiKey(),
       saveFiles: await getPersistentOutputSaver(),
       taskId,
@@ -185,14 +182,6 @@ async function GET({ request }: { request: Request }) {
     );
   }
 }
-
-// Keep the model constants reachable to route-level tests without allowing a
-// caller to select an arbitrary Fal model.
-export const H3_MAX_MODELS = [
-  FAL_H3_MAX_TEXT_TO_VIDEO_MODEL,
-  FAL_H3_MAX_IMAGE_TO_VIDEO_MODEL,
-  FAL_H3_MAX_REFERENCE_TO_VIDEO_MODEL,
-] as const;
 
 export const Route = createFileRoute('/api/fal/h3-max')({
   server: { handlers: { GET, POST } },
