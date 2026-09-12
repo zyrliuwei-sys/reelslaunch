@@ -1,8 +1,10 @@
 import { createFileRoute } from '@tanstack/react-router';
 
 import { SITE_URL } from '@/config';
-import { m } from '@/paraglide/messages.js';
-import { getLocale } from '@/paraglide/runtime.js';
+import {
+  PRICING_PAGE_DESCRIPTION,
+  PRICING_PAGE_TITLE,
+} from '@/lib/pricing-seo';
 import { PricingPage } from '@/blocks/pricing-page';
 
 const canonicalUrl = `${SITE_URL}/pricing`;
@@ -21,16 +23,9 @@ const breadcrumbStructuredData = {
 };
 
 export const Route = createFileRoute('/pricing')({
-  loader: () => {
-    const locale = getLocale();
-    return {
-      title: m['landing.pricing.title']({}, { locale }),
-      description: m['landing.pricing.description']({}, { locale }),
-    };
-  },
-  head: ({ loaderData }) => {
-    if (!loaderData) return {};
-    const { title, description } = loaderData;
+  head: () => {
+    const title = PRICING_PAGE_TITLE;
+    const description = PRICING_PAGE_DESCRIPTION;
     return {
       meta: [
         { title },

@@ -196,15 +196,15 @@ function GalleryVideoPreview({
 
 export const reelslaunchFaqs = [
   [
-    'Can reelslaunch generate H3 Max videos?',
+    'Can ChatGPT create videos?',
     'Yes. reelslaunch uses H3 Max to turn a written direction into a short clip with native audio. Describe the subject, movement, setting, and visual style, then review the generated result before adding it to a publishing queue. Available controls, resolution choices, duration limits, and generation costs are shown in the workspace so you can choose settings that suit each idea.',
   ],
   [
-    'Can I create Instagram Reels with reelslaunch?',
+    'Can ChatGPT make videos for Instagram Reels?',
     'Yes. Create a vertical-ready clip, review the result, and prepare it for your Instagram workflow. reelslaunch helps keep the production steps together, including generation, queue organization, and scheduled publishing. You remain in control of the final content and posting cadence, while the queue reduces the need to manually move every finished video through the same sequence.',
   ],
   [
-    'Can reelslaunch generate videos in batches?',
+    'Can ChatGPT make video content in batches?',
     'reelslaunch is designed to help creators prepare a continuing queue of short H3 Max clips for a faceless channel. Organize multiple ideas, generate videos asynchronously, review each result, and move approved clips toward planned publishing slots. Generation capacity and completion time depend on selected settings and current demand, so the queue supports repeatable production without promising a fixed turnaround for every clip.',
   ],
   [

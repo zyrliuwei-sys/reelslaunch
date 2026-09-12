@@ -1,6 +1,10 @@
 import { ArrowLeft } from 'lucide-react';
 
 import { Link } from '@/core/i18n/navigation';
+import {
+  PRICING_PAGE_DESCRIPTION,
+  PRICING_PAGE_HEADING,
+} from '@/lib/pricing-seo';
 import { m } from '@/paraglide/messages.js';
 import { Pricing } from '@/blocks/pricing';
 
@@ -17,9 +21,10 @@ export function PricingPage() {
         </Link>
       </div>
       <Pricing
-        title={m['landing.pricing.title']()}
-        description={m['landing.pricing.description']()}
+        title={PRICING_PAGE_HEADING}
+        description={PRICING_PAGE_DESCRIPTION}
         headingLevel="h1"
+        signupHref="/sign-up"
       />
       <footer className="mx-auto flex max-w-5xl flex-wrap gap-x-6 gap-y-3 px-4 pb-12 text-sm text-neutral-400 sm:px-6">
         <Link href="/text-to-video" className="hover:text-white">

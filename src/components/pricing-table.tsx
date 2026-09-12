@@ -62,12 +62,14 @@ export function PricingTable({
   onCheckout,
   compact = false,
   previewOnly = false,
+  signupHref,
   initialGroupKey,
 }: {
   groups: PricingGroup[];
   onCheckout?: (plan: PricingPlan) => void;
   compact?: boolean;
   previewOnly?: boolean;
+  signupHref?: string;
   initialGroupKey?: string;
 }) {
   const [activeGroup, setActiveGroup] = useState(
@@ -171,7 +173,7 @@ export function PricingTable({
       className="space-y-10"
     >
       <h3 id="subscription-plans-heading" className="sr-only">
-        {m['settings.billing.subscription']()}
+        Choose your plan
       </h3>
 
       {groups.length > 1 && (
@@ -315,8 +317,45 @@ export function PricingTable({
                 </p>
 
                 {compact && !previewOnly ? (
+                  <div className="mt-7">
+                    <Link
+                      href="/sign-up"
+                      className={cn(
+                        buttonVariants({
+                          variant: plan.featured ? 'default' : 'outline',
+                        }),
+                        'h-11 w-full rounded-xl border text-sm font-semibold whitespace-nowrap !transition-[transform,background-color,border-color] duration-150 ease-out active:translate-y-px',
+                        plan.featured
+                          ? '!border-cyan-100 !bg-cyan-100 !text-[#0c1719] hover:!bg-white'
+                          : 'border-white/15 bg-white/[0.035] text-white hover:bg-white/[0.1]'
+                      )}
+                    >
+                      {m['common.pricing.get_started']()}
+                    </Link>
+                    <Link
+                      href="/pricing"
+                      className="mt-3 block text-center text-xs text-neutral-400 underline-offset-4 transition-colors hover:text-white hover:underline"
+                    >
+                      View plan details
+                    </Link>
+                  </div>
+                ) : previewOnly ? (
+                  <Button
+                    className={cn(
+                      'mt-7 h-11 w-full rounded-xl border text-sm font-semibold whitespace-nowrap !transition-[transform,background-color,border-color] duration-150 ease-out active:translate-y-px',
+                      plan.featured
+                        ? '!border-cyan-100 !bg-cyan-100 !text-[#0c1719] hover:!bg-white'
+                        : 'border-white/15 bg-white/[0.035] text-white hover:bg-white/[0.1]'
+                    )}
+                    disabled
+                    type="button"
+                    variant={plan.featured ? 'default' : 'outline'}
+                  >
+                    {m['pricing.h3.preview_only']()}
+                  </Button>
+                ) : signupHref ? (
                   <Link
-                    href="/sign-up"
+                    href={signupHref}
                     className={cn(
                       buttonVariants({
                         variant: plan.featured ? 'default' : 'outline',
@@ -327,7 +366,7 @@ export function PricingTable({
                         : 'border-white/15 bg-white/[0.035] text-white hover:bg-white/[0.1]'
                     )}
                   >
-                    {m['common.pricing.get_started']()}
+                    {plan.buttonText || m['common.pricing.get_started']()}
                   </Link>
                 ) : (
                   <Button
@@ -337,16 +376,14 @@ export function PricingTable({
                         ? '!border-cyan-100 !bg-cyan-100 !text-[#0c1719] hover:!bg-white'
                         : 'border-white/15 bg-white/[0.035] text-white hover:bg-white/[0.1]'
                     )}
-                    disabled={previewOnly || loadingId === plan.id}
+                    disabled={loadingId === plan.id}
                     onClick={() => handleCheckout(plan)}
                     type="button"
                     variant={plan.featured ? 'default' : 'outline'}
                   >
-                    {previewOnly
-                      ? m['pricing.h3.preview_only']()
-                      : loadingId === plan.id
-                        ? m['common.pricing.processing']()
-                        : plan.buttonText || m['common.pricing.get_started']()}
+                    {loadingId === plan.id
+                      ? m['common.pricing.processing']()
+                      : plan.buttonText || m['common.pricing.get_started']()}
                   </Button>
                 )}
 

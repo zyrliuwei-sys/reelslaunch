@@ -124,11 +124,13 @@ export function Pricing({
   description,
   compact = false,
   headingLevel = 'h2',
+  signupHref,
 }: {
   title?: string;
   description?: string;
   compact?: boolean;
   headingLevel?: 'h1' | 'h2';
+  signupHref?: string;
   /** Kept for older call sites; the preview always presents all 3 billing periods. */
   periods?: ('one-time' | 'monthly' | 'yearly')[];
 } = {}) {
@@ -158,7 +160,11 @@ export function Pricing({
             {description ?? m['landing.pricing.description']()}
           </p>
         </div>
-        <PricingTable groups={groups} initialGroupKey="monthly" />
+        <PricingTable
+          groups={groups}
+          initialGroupKey="monthly"
+          signupHref={signupHref}
+        />
         <p className="mx-auto mt-8 max-w-3xl text-center text-xs leading-5 text-neutral-500">
           {m['pricing.h3.pricing_basis']()}
         </p>

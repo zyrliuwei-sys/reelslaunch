@@ -28,6 +28,12 @@ function ensureCloudflareEnv(): Promise<void> {
 // getLocale() resolves per-request (AsyncLocalStorage) during SSR.
 export default {
   async fetch(req: Request): Promise<Response> {
+    const requestUrl = new URL(req.url);
+    if (requestUrl.hostname.toLowerCase() === 'www.reelslaunch.com') {
+      requestUrl.hostname = 'reelslaunch.com';
+      return Response.redirect(requestUrl.toString(), 301);
+    }
+
     await ensureCloudflareEnv();
     const response = await paraglideMiddleware(req, () => handler.fetch(req));
     const utmSource = new URL(req.url).searchParams.get('utm_source');

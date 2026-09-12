@@ -21,9 +21,9 @@ const structuredData = [
     applicationCategory: 'MultimediaApplication',
     operatingSystem: 'Web',
     offers: [
-      { '@type': 'Offer', price: '28', priceCurrency: 'USD', name: 'Start' },
-      { '@type': 'Offer', price: '84', priceCurrency: 'USD', name: 'Creator' },
-      { '@type': 'Offer', price: '224', priceCurrency: 'USD', name: 'Studio' },
+      { '@type': 'Offer', price: '29', priceCurrency: 'CNY', name: 'Start' },
+      { '@type': 'Offer', price: '79', priceCurrency: 'CNY', name: 'Creator' },
+      { '@type': 'Offer', price: '149', priceCurrency: 'CNY', name: 'Studio' },
     ],
   },
   {
