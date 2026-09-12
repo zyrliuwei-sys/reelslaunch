@@ -1,6 +1,8 @@
 packages:
   - '.'
 
+includeWorkspaceRoot: true
+
 allowBuilds:
   esbuild: false
   msw: false
