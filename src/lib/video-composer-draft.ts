@@ -1,9 +1,9 @@
-import type { ProactivGenerationValues } from '@/components/proactiv/proactiv-hero-composer';
+import type { ReelslaunchGenerationValues } from '@/components/reelslaunch/hero-composer';
 
 // Keep local files across the landing page's client-side navigation.
-let draft: ProactivGenerationValues | undefined;
+let draft: ReelslaunchGenerationValues | undefined;
 
-export function saveVideoComposerDraft(value: ProactivGenerationValues) {
+export function saveVideoComposerDraft(value: ReelslaunchGenerationValues) {
   draft = value;
 }
 

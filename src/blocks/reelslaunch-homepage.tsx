@@ -6,9 +6,7 @@ import {
   Gauge,
   Layers3,
   Plus,
-  Quote,
   Sparkles,
-  UsersRound,
 } from 'lucide-react';
 
 import { Link, useRouter } from '@/core/i18n/navigation';
@@ -16,37 +14,37 @@ import { saveVideoComposerDraft } from '@/lib/video-composer-draft';
 import { m } from '@/paraglide/messages.js';
 import { Pricing } from '@/blocks/pricing';
 import {
-  ProactivHeroComposer,
-  type ProactivHeroComposerLabels,
-} from '@/components/proactiv/proactiv-hero-composer';
-import { ProactivNav } from '@/components/proactiv/proactiv-nav';
+  ReelslaunchHeroComposer,
+  type ReelslaunchHeroComposerLabels,
+} from '@/components/reelslaunch/hero-composer';
+import { ReelslaunchNav } from '@/components/reelslaunch/nav';
 import { CanvasRevealEffect } from '@/components/ui/canvas-reveal-effect';
 
 const REEL_AUTOPILOT_NAME = 'reelslaunch';
 
-const composerLabels = (): ProactivHeroComposerLabels => ({
-  addReference: m['proactiv.hero.composer.add_reference'](),
-  firstFrame: m['proactiv.hero.composer.first_frame'](),
-  lastFrame: m['proactiv.hero.composer.last_frame'](),
-  aspectRatio: m['proactiv.hero.composer.aspect_ratio'](),
-  avatar: m['proactiv.hero.composer.avatar'](),
-  duration: m['proactiv.hero.composer.duration'](),
-  durationLoading: m['proactiv.hero.composer.duration_loading'](),
-  durationPending: m['proactiv.hero.composer.duration_pending'](),
-  durationUnavailable: m['proactiv.hero.composer.duration_unavailable'](),
-  durationUnsupported: m['proactiv.hero.composer.duration_unsupported'](),
-  generate: m['proactiv.hero.composer.open_editor'](),
-  generated: m['proactiv.hero.composer.generated'](),
-  image: m['proactiv.hero.composer.image'](),
-  imageModel: m['proactiv.hero.composer.image_model'](),
-  model: m['proactiv.hero.composer.model'](),
-  placeholder: m['proactiv.hero.composer.placeholder'](),
-  product: m['proactiv.hero.composer.product'](),
-  removeAttachment: m['proactiv.hero.composer.remove_attachment'](),
-  resolution: m['proactiv.hero.composer.resolution'](),
-  textModel: m['proactiv.hero.composer.text_model'](),
-  video: m['proactiv.hero.composer.video'](),
-  videoModel: m['proactiv.hero.composer.video_model'](),
+const composerLabels = (): ReelslaunchHeroComposerLabels => ({
+  addReference: m['reelslaunch.hero.composer.add_reference'](),
+  firstFrame: m['reelslaunch.hero.composer.first_frame'](),
+  lastFrame: m['reelslaunch.hero.composer.last_frame'](),
+  aspectRatio: m['reelslaunch.hero.composer.aspect_ratio'](),
+  avatar: m['reelslaunch.hero.composer.avatar'](),
+  duration: m['reelslaunch.hero.composer.duration'](),
+  durationLoading: m['reelslaunch.hero.composer.duration_loading'](),
+  durationPending: m['reelslaunch.hero.composer.duration_pending'](),
+  durationUnavailable: m['reelslaunch.hero.composer.duration_unavailable'](),
+  durationUnsupported: m['reelslaunch.hero.composer.duration_unsupported'](),
+  generate: m['reelslaunch.hero.composer.open_editor'](),
+  generated: m['reelslaunch.hero.composer.generated'](),
+  image: m['reelslaunch.hero.composer.image'](),
+  imageModel: m['reelslaunch.hero.composer.image_model'](),
+  model: m['reelslaunch.hero.composer.model'](),
+  placeholder: m['reelslaunch.hero.composer.placeholder'](),
+  product: m['reelslaunch.hero.composer.product'](),
+  removeAttachment: m['reelslaunch.hero.composer.remove_attachment'](),
+  resolution: m['reelslaunch.hero.composer.resolution'](),
+  textModel: m['reelslaunch.hero.composer.text_model'](),
+  video: m['reelslaunch.hero.composer.video'](),
+  videoModel: m['reelslaunch.hero.composer.video_model'](),
 });
 
 const features = [
@@ -69,46 +67,28 @@ const features = [
 
 const tools = [
   [
-    'Email Automation',
-    'Automate your entire emailing process with a clean, repeatable workflow.',
-    '/proactiv/first.png',
+    'H3 Max short clips',
+    'Generate 3- or 5-second clips with fast-queue processing and clear per-second pricing.',
+    '/reelslaunch-showcase/posters/first.png',
     '/reelslaunch-showcase/email-automation.mp4',
   ],
   [
-    'Cross Platform Marketing',
-    'Reach your audience across every platform from one focused workspace.',
-    '/proactiv/second-backup.png',
+    'Native audio',
+    'Every finished clip comes with native audio, so there is no need to add a voice track in post.',
+    '/reelslaunch-showcase/posters/second.png',
     '/reelslaunch-showcase/cross-platform.mp4',
   ],
   [
-    'Managed CRM',
-    'Keep leads, conversations, and campaign context together in one place.',
-    '/proactiv/fourth-backup.png',
+    'Auto-publish to Instagram Reels',
+    'Set a publishing schedule once and let the queue keep your Reels workflow moving.',
+    '/reelslaunch-showcase/posters/fourth.png',
     '/reelslaunch-showcase/managed-crm-office.mp4',
   ],
   [
-    'Apps Automation',
-    'Connect the tools you already use and remove the busywork between ideas.',
-    '/proactiv/third.png',
+    'Batch generation',
+    'Keep a faceless channel supplied with a steady queue of short-form videos.',
+    '/reelslaunch-showcase/posters/third.png',
     '/reelslaunch-showcase/app-automation.mp4',
-  ],
-] as const;
-
-const testimonials = [
-  [
-    'Alex Rivera',
-    'Founder, Northstar',
-    'Proactiv gives our small team the feeling of a full production department.',
-  ],
-  [
-    'Maya Chen',
-    'Creative Director',
-    'The best part is how quickly a rough direction becomes something we can actually review.',
-  ],
-  [
-    'Jordan Blake',
-    'Growth Lead',
-    'Our team spends less time wrestling with tools and more time making work people remember.',
   ],
 ] as const;
 
@@ -146,7 +126,7 @@ export function ReelslaunchHomepage() {
 
   return (
     <div className="relative isolate overflow-hidden bg-[#08090a] text-white">
-      <ProactivNav
+      <ReelslaunchNav
         brand={REEL_AUTOPILOT_NAME}
         links={[
           { label: 'Features', href: '#features' },
@@ -196,7 +176,7 @@ export function ReelslaunchHomepage() {
             <div className="rounded-[30px] border-4 border-neutral-900 bg-[#161719] p-1.5 shadow-[0_9px_20px_rgba(0,0,0,0.5),0_37px_37px_rgba(0,0,0,0.36),0_84px_50px_rgba(0,0,0,0.22)] sm:p-2">
               <div className="relative rounded-[22px] border border-white/10 bg-[#0e1011] p-2 sm:p-3">
                 <div className="absolute top-0 left-[15%] h-px w-[70%] bg-gradient-to-r from-transparent via-cyan-300 to-transparent" />
-                <ProactivHeroComposer
+                <ReelslaunchHeroComposer
                   appearance="console"
                   enableFrameInputs
                   allowVideoMode={false}
@@ -448,11 +428,11 @@ export function ReelslaunchHomepage() {
                 <Sparkles className="size-5 text-cyan-300" />
               </div>
               <h2 className="mt-5 text-4xl font-semibold tracking-[-0.05em] sm:text-6xl">
-                Perfect tools for perfect jobs.
+                Tools for a repeatable Reels workflow.
               </h2>
               <p className="mt-5 text-neutral-400">
-                Proactiv comes with the tools your team needs to turn attention
-                into momentum.
+                Create short clips, keep native audio, and automate the work of
+                publishing a faceless Reels channel.
               </p>
             </div>
             <div className="mt-20 space-y-24 md:mt-28">
@@ -472,10 +452,10 @@ export function ReelslaunchHomepage() {
                       {description}
                     </p>
                     <Link
-                      href="#workflow"
+                      href="/text-to-video"
                       className="group mt-7 inline-flex items-center gap-2 text-sm font-medium text-cyan-200"
                     >
-                      Explore workflow{' '}
+                      Try it in the workspace{' '}
                       <ArrowRight className="size-4 transition-transform group-hover:translate-x-1" />
                     </Link>
                   </div>
@@ -498,37 +478,6 @@ export function ReelslaunchHomepage() {
                     </div>
                   </div>
                 </article>
-              ))}
-            </div>
-          </div>
-        </section>
-
-        <section className="relative px-5 py-28 sm:px-8 md:py-40">
-          <div className="mx-auto max-w-6xl text-center">
-            <div className="mx-auto flex size-12 items-center justify-center rounded-xl border border-cyan-300/20 bg-cyan-300/8">
-              <UsersRound className="size-5 text-cyan-300" />
-            </div>
-            <h2 className="mt-5 text-4xl font-semibold tracking-[-0.05em] sm:text-6xl">
-              Used by entrepreneurs.
-            </h2>
-            <p className="mx-auto mt-5 max-w-xl text-neutral-400">
-              Proactiv is used by serial entrepreneurs and overachievers.
-            </p>
-            <div className="mt-16 grid gap-4 md:grid-cols-3">
-              {testimonials.map(([name, role, quote]) => (
-                <figure
-                  key={name}
-                  className="rounded-2xl border border-white/10 bg-white/[0.035] p-7 text-left"
-                >
-                  <Quote className="size-5 text-cyan-300" />
-                  <blockquote className="mt-8 text-lg leading-7 text-neutral-200">
-                    “{quote}”
-                  </blockquote>
-                  <figcaption className="mt-8 text-sm">
-                    <span className="font-medium text-white">{name}</span>
-                    <span className="ml-2 text-neutral-500">{role}</span>
-                  </figcaption>
-                </figure>
               ))}
             </div>
           </div>
@@ -586,26 +535,25 @@ export function ReelslaunchHomepage() {
           <div className="relative z-10 mx-auto flex max-w-6xl flex-col items-center justify-between gap-10 md:flex-row">
             <div>
               <h2 className="max-w-xl text-3xl font-semibold tracking-[-0.045em] sm:text-5xl">
-                Get started today and kickstart your marketing.
+                Start your first faceless Reels channel.
               </h2>
               <p className="mt-6 max-w-lg leading-7 text-neutral-400">
-                Proactiv houses the best-in-class tools to kickstart your
-                marketing journey. Join thousands of creators building their
-                next big thing.
+                Create H3 Max clips, keep native audio, and build a repeatable
+                Instagram Reels publishing workflow from one workspace.
               </p>
             </div>
             <Link
               href="/sign-up"
               className="group inline-flex shrink-0 items-center gap-2 rounded-md bg-white px-6 py-3.5 font-semibold text-black"
             >
-              Book a demo{' '}
+              Start free{' '}
               <ArrowRight className="size-4 transition-transform group-hover:translate-x-1" />
             </Link>
           </div>
           <div className="relative z-10 mx-auto mt-20 max-w-5xl overflow-hidden rounded-t-3xl border-x border-t border-white/15 bg-[#101214] p-3 shadow-[0_-10px_70px_rgba(255,255,255,0.08)]">
             <video
               src="/reelslaunch-showcase/workspace-preview.mp4"
-              poster="/proactiv/fourth-backup.png"
+              poster="/reelslaunch-showcase/posters/fourth.png"
               aria-label="reelslaunch video workspace preview"
               width={886}
               height={665}

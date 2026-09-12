@@ -1,5 +1,6 @@
 import { createFileRoute } from '@tanstack/react-router';
 
+import { SITE_URL } from '@/config';
 import { baseLocale, localizeUrl } from '@/paraglide/runtime.js';
 
 const STATIC_PATHS = [
@@ -18,7 +19,7 @@ type Entry = {
 };
 
 function urlFor(path: string): string {
-  return localizeUrl(`https://reelsautopilot.ai${path || '/'}`, {
+  return localizeUrl(`${SITE_URL}${path || '/'}`, {
     locale: baseLocale,
   }).href;
 }

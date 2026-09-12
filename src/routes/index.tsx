@@ -1,5 +1,6 @@
 import { createFileRoute } from '@tanstack/react-router';
 
+import { SITE_URL } from '@/config';
 import {
   reelslaunchFaqs,
   ReelslaunchHomepage,
@@ -15,7 +16,7 @@ function HomePage() {
       '@context': 'https://schema.org',
       '@type': 'WebApplication',
       name: 'reelslaunch',
-      url: 'https://reelsautopilot.ai/',
+      url: `${SITE_URL}/`,
       description:
         'H3 Max powered AI video generation and automatic Instagram Reels publishing for faceless channels.',
       applicationCategory: 'MultimediaApplication',
@@ -57,17 +58,17 @@ export const Route = createFileRoute('/')({
       { property: 'og:type', content: 'website' },
       { property: 'og:title', content: title },
       { property: 'og:description', content: description },
-      { property: 'og:url', content: 'https://reelsautopilot.ai/' },
-      { property: 'og:image', content: 'https://reelsautopilot.ai/logo.png' },
+      { property: 'og:url', content: `${SITE_URL}/` },
+      { property: 'og:image', content: `${SITE_URL}/logo.png` },
       { property: 'og:image:width', content: '1516' },
       { property: 'og:image:height', content: '1130' },
       { name: 'twitter:card', content: 'summary_large_image' },
       { name: 'twitter:title', content: title },
       { name: 'twitter:description', content: description },
-      { name: 'twitter:image', content: 'https://reelsautopilot.ai/logo.png' },
+      { name: 'twitter:image', content: `${SITE_URL}/logo.png` },
     ],
     links: [
-      { rel: 'canonical', href: 'https://reelsautopilot.ai/' },
+      { rel: 'canonical', href: `${SITE_URL}/` },
       { rel: 'icon', href: '/favicon.png', type: 'image/png' },
       { rel: 'apple-touch-icon', href: '/favicon.png' },
     ],

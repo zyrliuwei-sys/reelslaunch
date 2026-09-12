@@ -26,9 +26,9 @@ import { Footer } from '@/blocks/footer';
 import { Header } from '@/blocks/header';
 import { Pricing } from '@/blocks/pricing';
 import {
-  ProactivHeroComposer,
-  type ProactivHeroComposerLabels,
-} from '@/components/proactiv/proactiv-hero-composer';
+  ReelslaunchHeroComposer,
+  type ReelslaunchHeroComposerLabels,
+} from '@/components/reelslaunch/hero-composer';
 import {
   RuixenBentoCards,
   type RuixenBentoCardItem,
@@ -47,7 +47,7 @@ function parseRecords(value: string): ReferenceRecord[] {
     });
 }
 
-const composerLabels = (): ProactivHeroComposerLabels => ({
+const composerLabels = (): ReelslaunchHeroComposerLabels => ({
   addReference: m['proactiv.hero.composer.add_reference'](),
   firstFrame: m['proactiv.hero.composer.first_frame'](),
   lastFrame: m['proactiv.hero.composer.last_frame'](),
@@ -156,7 +156,7 @@ export function ProactivReferenceLanding() {
               <div className="absolute top-0 left-[12%] h-px w-2/3 bg-gradient-to-r from-transparent via-cyan-300 to-transparent" />
               <div className="rounded-[18px] border border-white/10 bg-[#0e1011] p-2 sm:p-3">
                 <div id="proactiv-reference-composer" className="scroll-mt-24">
-                  <ProactivHeroComposer
+                  <ReelslaunchHeroComposer
                     enableFrameInputs
                     appearance="console"
                     allowVideoMode={false}

@@ -18,7 +18,7 @@ import {
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
 
-export interface ProactivHeroComposerLabels {
+export interface ReelslaunchHeroComposerLabels {
   addReference: string;
   firstFrame: string;
   lastFrame: string;
@@ -43,7 +43,7 @@ export interface ProactivHeroComposerLabels {
   videoModel: string;
 }
 
-export interface ProactivGenerationReference {
+export interface ReelslaunchGenerationReference {
   file: File;
   id: string;
   name: string;
@@ -51,18 +51,18 @@ export interface ProactivGenerationReference {
   type: 'image' | 'video';
 }
 
-export interface ProactivGenerationValues {
+export interface ReelslaunchGenerationValues {
   aspectRatio: string;
   batchSize: number;
   duration: 5 | 10;
   mode: 'edit' | 'text' | 'video';
   prompt: string;
-  references: ProactivGenerationReference[];
+  references: ReelslaunchGenerationReference[];
   resolution: '480P' | '768P';
   style: string;
 }
 
-export interface ProactivHeroComposerProps {
+export interface ReelslaunchHeroComposerProps {
   appearance?: 'light' | 'console';
   allowImageMode?: boolean;
   allowTextToImageMode?: boolean;
@@ -75,10 +75,10 @@ export interface ProactivHeroComposerProps {
   enableFrameInputs?: boolean;
   forceTextModeVersion?: number;
   isGenerating?: boolean;
-  labels: ProactivHeroComposerLabels;
+  labels: ReelslaunchHeroComposerLabels;
   maxImageReferences?: number;
   onPromptChange?: (prompt: string) => void;
-  onGenerate?: (values: ProactivGenerationValues) => void;
+  onGenerate?: (values: ReelslaunchGenerationValues) => void;
   promptValue?: string;
   referenceImageToAdd?: { file: File; id: string } | null;
   requireReferences?: boolean;
@@ -145,7 +145,7 @@ function formatDuration(seconds: number) {
 }
 
 /** A compact landing composer that can expose only the models currently available. */
-export function ProactivHeroComposer({
+export function ReelslaunchHeroComposer({
   appearance = 'light',
   allowImageMode = true,
   allowTextToImageMode = true,
@@ -166,7 +166,7 @@ export function ProactivHeroComposer({
   referenceImageToAdd,
   requireReferences = true,
   showReferenceControls = true,
-}: ProactivHeroComposerProps) {
+}: ReelslaunchHeroComposerProps) {
   const isConsoleAppearance = appearance === 'console';
   const [frameTarget, setFrameTarget] = useState<0 | 1>(0);
   const fileInputRef = useRef<HTMLInputElement>(null);
@@ -524,7 +524,7 @@ export function ProactivHeroComposer({
       mode,
       prompt,
       references: references.map(
-        ({ file, id, name, slot, type }): ProactivGenerationReference => ({
+        ({ file, id, name, slot, type }): ReelslaunchGenerationReference => ({
           file,
           id,
           name,

@@ -16,40 +16,40 @@ import {
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
 
-export interface ProactivNavLink {
+export interface ReelslaunchNavLink {
   href: string;
   label: string;
 }
 
-export interface ProactivNavProps {
-  /** Text rendered beside the local Proactiv mark. */
+export interface ReelslaunchNavProps {
+  /** Text rendered beside the local brand mark. */
   brand?: string;
   /** Destination used by the brand mark. */
   brandHref?: string;
-  links?: ProactivNavLink[];
+  links?: ReelslaunchNavLink[];
   loginLabel?: string;
   loginHref?: string;
   settingsLabel?: string;
   signOutLabel?: string;
 }
 
-const defaultLinks: ProactivNavLink[] = [
+const defaultLinks: ReelslaunchNavLink[] = [
   { label: 'Pricing', href: '#pricing' },
 ];
 
 /**
- * A self-contained navigation surface for the Proactiv marketing pages.
+ * A self-contained navigation surface for the marketing pages.
  * Its copy is intentionally supplied by props so page blocks can localize it.
  */
-export function ProactivNav({
-  brand = 'Proactiv',
+export function ReelslaunchNav({
+  brand = 'reelslaunch',
   brandHref = '/',
   links = defaultLinks,
   loginLabel = 'Login',
   loginHref = '/sign-in',
   settingsLabel = 'Settings',
   signOutLabel = 'Sign out',
-}: ProactivNavProps) {
+}: ReelslaunchNavProps) {
   const [mobileOpen, setMobileOpen] = useState(false);
   const { data: session } = useSession();
   const reduceMotion = useReducedMotion() ?? false;
@@ -103,7 +103,7 @@ export function ProactivNav({
               className="relative inline-flex size-9 items-center justify-center rounded-md text-zinc-500 transition-colors hover:bg-zinc-100 hover:text-zinc-950 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-zinc-950 lg:hidden"
               aria-label={mobileOpen ? 'Close menu' : 'Open menu'}
               aria-expanded={mobileOpen}
-              aria-controls="proactiv-mobile-menu"
+              aria-controls="reelslaunch-mobile-menu"
               onClick={() => setMobileOpen((isOpen) => !isOpen)}
             >
               {mobileOpen ? (
@@ -117,7 +117,7 @@ export function ProactivNav({
           <AnimatePresence initial={false}>
             {mobileOpen && (
               <m.nav
-                id="proactiv-mobile-menu"
+                id="reelslaunch-mobile-menu"
                 aria-label="Mobile navigation"
                 className="overflow-hidden border-t border-black/[0.06] lg:hidden"
                 initial={reduceMotion ? false : { height: 0, opacity: 0 }}

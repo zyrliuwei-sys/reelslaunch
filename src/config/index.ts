@@ -1,6 +1,8 @@
 export const AUTH_SECRET_PLACEHOLDER =
   'shipany-dev-secret-change-in-production';
 
+export const SITE_URL = 'https://reelslaunch.com';
+
 // Isomorphic env access:
 // - Public (client-visible) vars are VITE_-prefixed and read from
 //   import.meta.env (statically injected into the client bundle by Vite).
@@ -15,9 +17,8 @@ const publicEnv = (key: string) => metaEnv[key] ?? procEnv[key];
 
 export const envConfigs: Record<string, string> = {
   // App (public)
-  // `||` (not `??`): an explicitly empty VITE_APP_NAME / VITE_SITE_URL in the
-  // deploy environment must not blank out the brand name and canonical origin.
-  site_url: publicEnv('VITE_SITE_URL') || 'https://reelslaunch.ai',
+  // Canonical production origin is centralized in SITE_URL.
+  site_url: SITE_URL,
   app_url: publicEnv('VITE_APP_URL') || 'http://localhost:3000',
   app_name: publicEnv('VITE_APP_NAME') || 'reelslaunch',
   app_description:

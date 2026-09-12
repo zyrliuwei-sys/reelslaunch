@@ -1,10 +1,10 @@
 import { useRouter } from '@/core/i18n/navigation';
 import { saveVideoComposerDraft } from '@/lib/video-composer-draft';
-import {
-  ProactivHeroComposer,
-  type ProactivHeroComposerLabels,
-} from '@/components/proactiv/proactiv-hero-composer';
 import { ProactivHeroStream } from '@/components/proactiv/proactiv-hero-stream';
+import {
+  ReelslaunchHeroComposer,
+  type ReelslaunchHeroComposerLabels,
+} from '@/components/reelslaunch/hero-composer';
 
 export interface ProactivMarketingHeroProps {
   eyebrow?: string;
@@ -13,7 +13,7 @@ export interface ProactivMarketingHeroProps {
   motionStatement?: readonly string[];
   openEditorLabel?: string;
   title?: string;
-  composerLabels?: ProactivHeroComposerLabels;
+  composerLabels?: ReelslaunchHeroComposerLabels;
 }
 
 /** Marketing hero retained for the homepage; the text-to-video workspace lives on its own route. */
@@ -63,7 +63,7 @@ export function ProactivMarketingHero({
       />
       <div className="relative bg-[#fff8fa] px-4 py-8 sm:px-6 sm:py-10">
         <div className="mx-auto flex w-full max-w-[1440px] justify-center">
-          <ProactivHeroComposer
+          <ReelslaunchHeroComposer
             enableFrameInputs
             allowVideoMode={false}
             compactAction

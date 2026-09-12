@@ -24,13 +24,13 @@ import {
   PaymentProviderModal,
   type PaymentProvider,
 } from '@/components/payment-provider-modal';
-import {
-  ProactivHeroComposer,
-  type ProactivGenerationReference,
-  type ProactivGenerationValues,
-  type ProactivHeroComposerLabels,
-} from '@/components/proactiv/proactiv-hero-composer';
 import type { ProactivVideoShowcaseCase } from '@/components/proactiv/proactiv-video-showcase';
+import {
+  ReelslaunchHeroComposer,
+  type ReelslaunchGenerationReference,
+  type ReelslaunchGenerationValues,
+  type ReelslaunchHeroComposerLabels,
+} from '@/components/reelslaunch/hero-composer';
 import {
   Tooltip,
   TooltipContent,
@@ -91,7 +91,7 @@ export interface ProactivVideoStudioCopy {
 
 export interface ProactivVideoStudioProps {
   cases: ProactivVideoShowcaseCase[];
-  composerLabels: ProactivHeroComposerLabels;
+  composerLabels: ReelslaunchHeroComposerLabels;
   copy: ProactivVideoStudioCopy;
   initialPrompt?: string;
   showTemplateFeed?: boolean;
@@ -203,7 +203,7 @@ function taskLabel(status: string, copy: ProactivVideoStudioCopy) {
   }
 }
 
-function promptWithStyle(values: ProactivGenerationValues) {
+function promptWithStyle(values: ReelslaunchGenerationValues) {
   const prompt = values.prompt.trim();
   return values.style ? `${prompt}\n\nVisual style: ${values.style}` : prompt;
 }
@@ -226,7 +226,7 @@ function loadReferenceImage(file: File): Promise<HTMLImageElement> {
 }
 
 function createReferenceSheet(
-  references: ProactivGenerationReference[],
+  references: ReelslaunchGenerationReference[],
   sheetIndex: number
 ): Promise<File> {
   return Promise.all(
@@ -292,7 +292,7 @@ function createReferenceSheet(
 }
 
 async function prepareGrokReferenceUploads(
-  references: ProactivGenerationReference[]
+  references: ReelslaunchGenerationReference[]
 ) {
   if (references.length <= maximumGrokImageReferenceCount) {
     return {
@@ -303,7 +303,7 @@ async function prepareGrokReferenceUploads(
 
   const sheets = Array.from(
     { length: maximumGrokImageReferenceCount },
-    () => [] as ProactivGenerationReference[]
+    () => [] as ReelslaunchGenerationReference[]
   );
   references.forEach((reference, index) => {
     sheets[index % maximumGrokImageReferenceCount].push(reference);
@@ -318,7 +318,7 @@ async function prepareGrokReferenceUploads(
 }
 
 function promptWithReferenceGuidance(
-  values: ProactivGenerationValues,
+  values: ReelslaunchGenerationValues,
   usesReferenceSheets: boolean
 ) {
   const prompt = promptWithStyle(values);
@@ -472,7 +472,7 @@ export function ProactivVideoStudio({
   const [isVideoPreviewOpen, setIsVideoPreviewOpen] = useState(false);
   const [dismissedTaskId, setDismissedTaskId] = useState<string | null>(null);
   const [retryValues, setRetryValues] =
-    useState<ProactivGenerationValues | null>(null);
+    useState<ReelslaunchGenerationValues | null>(null);
   const [showRetry, setShowRetry] = useState(false);
   const [pendingPrompt, setPendingPrompt] = useState<string | null>(null);
   const [referenceImageToAdd, setReferenceImageToAdd] = useState<{
@@ -762,7 +762,7 @@ export function ProactivVideoStudio({
   // Every generation API requires a session, so route anonymous visitors to
   // sign-in (prompt preserved via the ?prompt= search param) instead of
   // surfacing a raw "Unauthorized" error and a misleading retry bar.
-  const signInForGeneration = (values: ProactivGenerationValues) => {
+  const signInForGeneration = (values: ReelslaunchGenerationValues) => {
     const trimmedPrompt = values.prompt.trim();
     const target = trimmedPrompt
       ? `/text-to-video?prompt=${encodeURIComponent(trimmedPrompt)}`
@@ -810,7 +810,7 @@ export function ProactivVideoStudio({
 
   const generationMutation = useMutation({
     mutationFn: async (
-      values: ProactivGenerationValues
+      values: ReelslaunchGenerationValues
     ): Promise<GenerationTask> => {
       const prompt = promptWithStyle(values);
       if (!prompt.trim()) throw new Error(copy.imageUploadsRequiredMessage);
@@ -905,7 +905,7 @@ export function ProactivVideoStudio({
     },
   });
 
-  function startGeneration(values: ProactivGenerationValues) {
+  function startGeneration(values: ReelslaunchGenerationValues) {
     if (!isSessionPending && !session?.user) {
       signInForGeneration(values);
       return;
@@ -1469,7 +1469,7 @@ export function ProactivVideoStudio({
                     </button>
                   </div>
                 ) : null}
-                <ProactivHeroComposer
+                <ReelslaunchHeroComposer
                   appearance="console"
                   allowVideoMode
                   compactGenerateAction

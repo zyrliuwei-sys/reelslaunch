@@ -13,10 +13,6 @@ import {
   type ProactivFooterColumn,
 } from '@/components/proactiv/proactiv-footer';
 import { ProactivMarketingHero } from '@/components/proactiv/proactiv-marketing-hero';
-import {
-  ProactivNav,
-  type ProactivNavLink,
-} from '@/components/proactiv/proactiv-nav';
 import { ProactivPricing } from '@/components/proactiv/proactiv-pricing';
 import {
   ProactivVideoShowcase,
@@ -27,6 +23,10 @@ import {
   ProactivWorkflow,
   type ProactivWorkflowStep,
 } from '@/components/proactiv/proactiv-workflow';
+import {
+  ReelslaunchNav,
+  type ReelslaunchNavLink,
+} from '@/components/reelslaunch/nav';
 
 const splitRows = (value: string) => value.split('\n').filter(Boolean);
 
@@ -227,7 +227,7 @@ const workflowStepImages = [
   },
 ] as const;
 
-function navigation(): ProactivNavLink[] {
+function navigation(): ReelslaunchNavLink[] {
   return m['proactiv.nav']()
     .split('~~')
     .map((item) => {
@@ -351,7 +351,7 @@ function workflowSteps(): ProactivWorkflowStep[] {
 export function ProactivLanding() {
   return (
     <div className="proactiv-site min-h-screen overflow-hidden">
-      <ProactivNav
+      <ReelslaunchNav
         brand={envConfigs.app_name}
         links={navigation()}
         loginLabel={m['common.nav.get_started']()}
