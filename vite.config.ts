@@ -24,8 +24,6 @@ loadEnvFiles();
 const isCloudflareBuild = (process.env.NITRO_PRESET || '').includes(
   'cloudflare'
 );
-const driverStub = new URL('./src/core/db/driver-stub.ts', import.meta.url)
-  .pathname;
 
 // Prefer wrangler.jsonc over the build-time env, which can be polluted by
 // .env.local (e.g. DATABASE_PROVIDER=sqlite for local dev).
@@ -56,14 +54,46 @@ export default defineConfig({
   },
   resolve: {
     tsconfigPaths: true,
-    alias: isCloudflareBuild
-      ? {
-          mysql2: driverStub,
-          ...(keepPostgres ? {} : { postgres: driverStub }),
-        }
-      : {},
   },
   plugins: [
+    {
+      name: 'cloudflare-db-driver-stubs',
+      enforce: 'pre',
+      resolveId(source) {
+        if (!isCloudflareBuild) return null;
+        if (source === 'mysql2' || source.startsWith('mysql2/')) {
+          return '\0cloudflare-db-stub:mysql2';
+        }
+        if (!keepPostgres && source === 'postgres') {
+          return '\0cloudflare-db-stub:postgres';
+        }
+        return null;
+      },
+      load(id) {
+        if (
+          id !== '\0cloudflare-db-stub:mysql2' &&
+          id !== '\0cloudflare-db-stub:postgres'
+        ) {
+          return null;
+        }
+
+        return `
+          function unavailable() {
+            throw new Error(
+              'This DB driver was stubbed out of the Cloudflare Workers build because it does not match vars.DATABASE_PROVIDER in wrangler.jsonc.'
+            );
+          }
+          const stub = new Proxy(unavailable, {
+            get: () => stub,
+            apply: unavailable,
+            construct: unavailable,
+          });
+          export default stub;
+          export const createPool = stub;
+          export const createConnection = stub;
+        `;
+      },
+    },
     // MDX must run before the react plugin so JSX in compiled MDX gets transformed.
     { enforce: 'pre', ...mdx({ providerImportSource: '@mdx-js/react' }) },
     tailwindcss(),
