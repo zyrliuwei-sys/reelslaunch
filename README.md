@@ -74,7 +74,7 @@ pnpm dev
 - **MDX Pages** — Privacy policy, terms of service (content in `src/content/pages/`), extensible via skill
 - **Database** — SQLite (dev) / PostgreSQL / MySQL via Drizzle ORM
 - **All code self-contained** — no external packages for business logic
-- https://www.h3price.com
+https://www.reelslaunch.com
 
 ## Tech Stack
 
