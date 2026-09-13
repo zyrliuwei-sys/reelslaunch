@@ -855,7 +855,7 @@
   "pricing.h3.interval_year": "/ year",
   "pricing.h3.annual_total": "Billed {total} once per year",
   "pricing.h3.package_value": "{credits} credits · about {seconds768}s at 768p or {seconds480}s at 480p",
-  "pricing.h3.pricing_basis": "Prices are in CNY. Video-time equivalents are estimates; each generation is charged by output seconds in whole credits.",
+  "pricing.h3.pricing_basis": "Prices are in USD. Video-time equivalents are estimates; each generation is charged by output seconds in whole credits.",
   "pricing.h3.preview_only": "Plan preview",
   "landing.faq.title": "Frequently asked questions",
   "landing.faq.description": "Everything you need to know before getting started.",

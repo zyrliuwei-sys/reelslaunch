@@ -855,7 +855,7 @@
   "pricing.h3.interval_year": "/年",
   "pricing.h3.annual_total": "每年一次性支付 {total}",
   "pricing.h3.package_value": "{credits} 积分 · 约可生成 {seconds768} 秒 768p 或 {seconds480} 秒 480p 视频",
-  "pricing.h3.pricing_basis": "价格以人民币计价。视频时长为估算值；每次生成按输出秒数折算并扣取整数积分。",
+  "pricing.h3.pricing_basis": "价格以美元计价。视频时长为估算值；每次生成按输出秒数折算并扣取整数积分。",
   "pricing.h3.preview_only": "方案预览",
   "landing.faq.title": "常见问题",
   "landing.faq.description": "开始之前你可能想了解的一切。",

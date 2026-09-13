@@ -12,8 +12,8 @@ function outputSeconds(credits: number, resolution: '480p' | '768p') {
   return Math.floor((credits * 0.56) / RETAIL_CREDITS_PER_SECOND[resolution]);
 }
 
-function formatCny(priceInCents: number) {
-  return `¥${Math.round(priceInCents / 100).toLocaleString('en-US')}`;
+function formatUsd(priceInCents: number) {
+  return `$${Math.round(priceInCents / 100).toLocaleString('en-US')}`;
 }
 
 const tiers = [
@@ -63,14 +63,14 @@ function makePlan(params: {
     productName: `H3 Max ${params.tier.name} ${yearly ? 'Annual' : params.period.id === 'monthly' ? 'Monthly' : 'Credit Pack'}`,
     name: params.tier.name,
     description: params.tier.description,
-    price: formatCny(displayedPrice),
+    price: formatUsd(displayedPrice),
     priceInCents: retail.priceInCents,
-    currency: 'cny',
+    currency: 'usd',
     ...(yearly
       ? {
-          checkoutPrice: formatCny(retail.priceInCents),
+          checkoutPrice: formatUsd(retail.priceInCents),
           billingNote: m['pricing.h3.annual_total']({
-            total: formatCny(retail.priceInCents),
+            total: formatUsd(retail.priceInCents),
           }),
         }
       : {}),
