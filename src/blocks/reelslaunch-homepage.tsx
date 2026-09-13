@@ -279,7 +279,7 @@ export function ReelslaunchHomepage() {
             muted
             playsInline
             preload="metadata"
-            poster="/logo.png"
+            poster="/reelslaunch-hero-h3max-poster.jpg"
             src="/reelslaunch-hero-h3max.mp4"
             className="pointer-events-none absolute inset-y-0 left-1/2 z-0 h-full w-screen max-w-none -translate-x-1/2 object-cover object-center opacity-100 motion-reduce:hidden"
           />

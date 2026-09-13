@@ -139,7 +139,7 @@ export function Pricing({
   return (
     <section
       id="pricing"
-      className={`relative overflow-hidden border-y border-white/10 bg-[#08090a] px-4 text-white ${compact ? 'py-16 sm:py-20' : 'py-24 sm:py-32'}`}
+      className={`relative overflow-hidden border-y border-white/10 bg-[#0d1b21] px-4 text-white ${compact ? 'py-16 sm:py-20' : 'py-24 sm:py-32'}`}
     >
       <div
         aria-hidden="true"
