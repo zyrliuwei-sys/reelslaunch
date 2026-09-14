@@ -4,6 +4,7 @@ import { Link } from '@/core/i18n/navigation';
 import { envConfigs } from '@/config';
 import { cn } from '@/lib/utils';
 import { BrandWordmark } from '@/components/brand-wordmark';
+import { FooterBadgeList } from '@/components/footer-badge-list';
 import { LocaleSelector } from '@/components/locale-selector';
 
 export interface FooterColumn {
@@ -132,6 +133,7 @@ export function SiteFooter({
                 />
               </a>
             ))}
+            <FooterBadgeList className="mt-6" />
             {socials && socials.length > 0 ? (
               <div className="mt-6 flex items-center gap-4">
                 {socials.map((s) => (

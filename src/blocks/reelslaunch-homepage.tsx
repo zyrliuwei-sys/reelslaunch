@@ -15,6 +15,7 @@ import { Link, useRouter } from '@/core/i18n/navigation';
 import { saveVideoComposerDraft } from '@/lib/video-composer-draft';
 import { m } from '@/paraglide/messages.js';
 import { Pricing } from '@/blocks/pricing';
+import { FooterBadgeList } from '@/components/footer-badge-list';
 import {
   ReelslaunchHeroComposer,
   type ReelslaunchHeroComposerLabels,
@@ -685,22 +686,7 @@ export function ReelslaunchHomepage() {
             © {new Date().getFullYear()} {REEL_AUTOPILOT_NAME}
           </span>
         </div>
-        <div className="mx-auto mt-8 max-w-6xl sm:px-8">
-          <a
-            href="https://fazier.com/launches/www.reelslaunch.com"
-            target="_blank"
-            rel="noopener noreferrer"
-            aria-label="Featured on Fazier"
-            className="inline-block transition-opacity hover:opacity-80"
-          >
-            <img
-              src="https://fazier.com/api/v1//public/badges/launch_badges.svg?badge_type=featured&theme=dark"
-              width={250}
-              alt="Fazier badge"
-              loading="lazy"
-            />
-          </a>
-        </div>
+        <FooterBadgeList className="mx-auto mt-8 max-w-6xl sm:px-8" />
       </footer>
     </div>
   );
