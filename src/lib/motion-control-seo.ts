@@ -4,7 +4,7 @@ import { SITE_URL } from '@/lib/h3-seo';
 export { SITE_URL };
 
 export const DEFAULT_SOCIAL_IMAGE_URL = `${SITE_URL}/proactiv/showcase-videos/neon-dancer.jpg`;
-export const TEXT_TO_VIDEO_SOCIAL_IMAGE_URL = `${SITE_URL}/logo.png`;
+export const PRODUCT_SOCIAL_IMAGE_URL = `${SITE_URL}/reelslaunch-og.png`;
 
 export const siteSeo = {
   home: {

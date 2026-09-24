@@ -1,14 +1,16 @@
 import { createFileRoute } from '@tanstack/react-router';
 
 import { SITE_URL } from '@/config';
+import { PRODUCT_SOCIAL_IMAGE_URL } from '@/lib/motion-control-seo';
 import {
   reelslaunchFaqs,
   ReelslaunchHomepage,
 } from '@/blocks/reelslaunch-homepage';
 
-const title = 'can chatgpt create videos - Yes, but... | reelslaunch';
+const title =
+  'AI Reels Generator - Make and Auto-Post H3 Max Clips | reelslaunch';
 const description =
-  'Can ChatGPT create videos? Learn the limits, then make H3 Max Reels faster with native audio and automatic Instagram scheduling. Try reelslaunch now.';
+  'Generate short videos with H3 Max and auto-publish them to Instagram Reels. Choose aspect ratio, resolution and duration, then queue the clips. Free to explore.';
 
 const structuredData = [
   {
@@ -16,8 +18,7 @@ const structuredData = [
     '@type': 'WebApplication',
     name: 'reelslaunch',
     url: `${SITE_URL}/`,
-    description:
-      'H3 Max powered AI video generation and automatic Instagram Reels publishing for faceless channels.',
+    description,
     applicationCategory: 'MultimediaApplication',
     operatingSystem: 'Web',
     offers: [
@@ -51,13 +52,13 @@ export const Route = createFileRoute('/')({
       { property: 'og:title', content: title },
       { property: 'og:description', content: description },
       { property: 'og:url', content: `${SITE_URL}/` },
-      { property: 'og:image', content: `${SITE_URL}/logo.png` },
+      { property: 'og:image', content: PRODUCT_SOCIAL_IMAGE_URL },
       { property: 'og:image:width', content: '1516' },
       { property: 'og:image:height', content: '1130' },
       { name: 'twitter:card', content: 'summary_large_image' },
       { name: 'twitter:title', content: title },
       { name: 'twitter:description', content: description },
-      { name: 'twitter:image', content: `${SITE_URL}/logo.png` },
+      { name: 'twitter:image', content: PRODUCT_SOCIAL_IMAGE_URL },
       { 'script:ld+json': structuredData },
     ],
     links: [

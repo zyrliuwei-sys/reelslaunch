@@ -6,6 +6,9 @@ const MAX_URLS_PER_SUBMISSION = 10_000;
 const PUBLIC_PATHS = [
   '/',
   '/pricing',
+  '/text-to-video',
+  '/h3-max-video-generator',
+  '/can-chatgpt-create-videos',
   '/privacy-policy',
   '/terms-of-service',
 ] as const;

@@ -40,6 +40,30 @@ const periods = [
   { id: 'yearly', planKey: 'yearly', interval: 'year' },
 ] as const;
 
+function featuresForTier(tierKey: (typeof tiers)[number]['key']) {
+  switch (tierKey) {
+    case 'essentials':
+      return [
+        m['pricing.h3.feature_text_to_video'](),
+        m['pricing.h3.feature_short_clips'](),
+        m['pricing.h3.feature_native_audio'](),
+      ];
+    case 'studio':
+      return [
+        m['pricing.h3.feature_everything_start'](),
+        m['pricing.h3.feature_first_last_frame'](),
+        m['pricing.h3.feature_768p'](),
+      ];
+    case 'production':
+      return [
+        m['pricing.h3.feature_everything_creator'](),
+        m['pricing.h3.feature_story_continuity'](),
+        m['pricing.h3.feature_all_aspects'](),
+        m['pricing.h3.feature_high_volume'](),
+      ];
+  }
+}
+
 function makePlan(params: {
   tier: (typeof tiers)[number];
   period: (typeof periods)[number];
@@ -87,11 +111,7 @@ function makePlan(params: {
         ? m['landing.pricing.best_value']()
         : m['landing.pricing.popular']()
       : undefined,
-    features: [
-      m['pricing.h3.feature_text_to_video'](),
-      m['pricing.h3.feature_first_last_frame'](),
-      m['pricing.h3.feature_short_clips'](),
-    ],
+    features: featuresForTier(params.tier.key),
     ...(recurring
       ? {
           plan: {

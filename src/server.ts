@@ -29,7 +29,12 @@ function ensureCloudflareEnv(): Promise<void> {
 export default {
   async fetch(req: Request): Promise<Response> {
     const requestUrl = new URL(req.url);
-    if (requestUrl.hostname.toLowerCase() === 'www.reelslaunch.com') {
+    const hostname = requestUrl.hostname.toLowerCase();
+    if (
+      (hostname === 'reelslaunch.com' || hostname === 'www.reelslaunch.com') &&
+      (hostname !== 'reelslaunch.com' || requestUrl.protocol !== 'https:')
+    ) {
+      requestUrl.protocol = 'https:';
       requestUrl.hostname = 'reelslaunch.com';
       return Response.redirect(requestUrl.toString(), 301);
     }

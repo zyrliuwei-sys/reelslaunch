@@ -7,6 +7,8 @@ const STATIC_PATHS = [
   '/',
   '/pricing',
   '/text-to-video',
+  '/h3-max-video-generator',
+  '/can-chatgpt-create-videos',
   '/privacy-policy',
   '/terms-of-service',
 ];
@@ -41,8 +43,10 @@ export const Route = createFileRoute('/sitemap.xml')({
   server: {
     handlers: {
       GET: async () => {
+        const lastModified = '2026-09-24';
         const entries: Entry[] = STATIC_PATHS.map((path) => ({
           path,
+          lastModified,
           changeFrequency: 'weekly',
           priority:
             path === '/privacy-policy' || path === '/terms-of-service'

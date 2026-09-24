@@ -20,9 +20,6 @@ import {
   ReelslaunchHeroComposer,
   type ReelslaunchHeroComposerLabels,
 } from '@/components/reelslaunch/hero-composer';
-import { HomepageCreatorsNote } from '@/components/reelslaunch/homepage-creators-note';
-import { HomepageShortAnswer } from '@/components/reelslaunch/homepage-short-answer';
-import { HomepageWorkflowComparison } from '@/components/reelslaunch/homepage-workflow-comparison';
 import { ReelslaunchNav } from '@/components/reelslaunch/nav';
 import { CanvasRevealEffect } from '@/components/ui/canvas-reveal-effect';
 
@@ -64,18 +61,18 @@ const composerLabels = (): ReelslaunchHeroComposerLabels => ({
 const features = [
   {
     icon: Sparkles,
-    title: 'Describe the shot',
-    body: 'Start with a sentence. The editor turns your direction into a cinematic brief.',
+    title: 'Write a prompt',
+    body: 'Describe the subject, movement, setting, sound, and mood in one clear direction.',
   },
   {
     icon: Layers3,
-    title: 'Direct every frame',
-    body: 'Add first and last frames, references, aspect ratio, and resolution in one place.',
+    title: 'Choose aspect ratio and resolution',
+    body: 'Pick one of six ratios and choose 480p or 768p before you submit the clip.',
   },
   {
     icon: Gauge,
-    title: 'Move from idea to render',
-    body: 'Keep the creative context intact while you move into the full video workspace.',
+    title: 'Queue and publish',
+    body: 'Review the result, add it to your queue, and set a cadence for Instagram Reels.',
   },
 ];
 
@@ -197,55 +194,34 @@ function GalleryVideoPreview({
 
 export const reelslaunchFaqs = [
   [
-    'Can ChatGPT create videos?',
-    'Yes. reelslaunch uses H3 Max to turn a written direction into a short clip with native audio. Describe the subject, movement, setting, and visual style, then review the generated result before adding it to a publishing queue. Available controls, resolution choices, duration limits, and generation costs are shown in the workspace so you can choose settings that suit each idea.',
+    'How do I use the reelslaunch AI Reels Generator?',
+    'Write a prompt describing the shot, choose an aspect ratio, resolution, and duration, then submit the generation. reelslaunch returns a short MiniMax H3 Max clip with native audio that you can review before adding it to your publishing queue.',
   ],
   [
-    'Can ChatGPT make videos for Instagram Reels?',
-    'Yes. Create a vertical-ready clip, review the result, and prepare it for your Instagram workflow. reelslaunch helps keep the production steps together, including generation, queue organization, and scheduled publishing. You remain in control of the final content and posting cadence, while the queue reduces the need to manually move every finished video through the same sequence.',
+    'How are H3 Max clips charged by the second?',
+    'Credits are calculated from output seconds and the selected resolution. A 768p second uses the standard rate, while 480p costs fewer credits, so the same balance can produce more seconds at 480p. The workspace shows the estimate before you submit.',
   ],
   [
-    'Can ChatGPT make video content in batches?',
-    'reelslaunch is designed to help creators prepare a continuing queue of short H3 Max clips for a faceless channel. Organize multiple ideas, generate videos asynchronously, review each result, and move approved clips toward planned publishing slots. Generation capacity and completion time depend on selected settings and current demand, so the queue supports repeatable production without promising a fixed turnaround for every clip.',
+    'Can reelslaunch publish directly to Instagram Reels?',
+    'Yes. Connect the Instagram workflow, review an approved clip, and add it to a publishing queue with your preferred cadence. The queue keeps generation and planned Reels publishing together so you do not have to move every finished clip manually.',
   ],
   [
-    'How fast can reelslaunch create videos?',
-    'reelslaunch uses H3 Max to create short 3-second and 5-second clips with native audio, and submits requests through a fast asynchronous queue. Actual completion time varies with demand and the settings selected for a generation. The queue also helps with what follows: completed clips can be reviewed, organized, and prepared for a planned Instagram Reels schedule instead of waiting in a manual upload workflow.',
+    'Which aspect ratios and resolutions are supported?',
+    'The generator supports six aspect ratios for vertical Reels, square posts, and wider placements. Choose 480p for efficient ideation or 768p when extra detail matters; the selected resolution and duration determine the credit estimate.',
   ],
   [
-    'Does reelslaunch automatically publish Instagram Reels?',
-    'Yes. Connect your Instagram workflow, choose a publishing cadence, and reelslaunch can move queued clips into scheduled Instagram Reels publishing. You can prepare additional videos while the queue runs instead of repeating the same upload steps for every post. Review the clips and schedule before publishing, and make sure the connected account and permissions are set up for the workflow you want to use.',
+    'How long can generated clips be?',
+    'MiniMax H3 Max clips are available from 5 to 15 seconds. Shorter clips are useful for testing a prompt and motion; longer clips give a scene more time to read before you queue it for publishing.',
   ],
   [
-    'Is reelslaunch free to try?',
-    'You can open the reelslaunch workspace and explore prompt and video settings before choosing a plan. Video generation uses credits according to the current resolution and duration pricing, and any trial or introductory offer will be shown in the product when available. Check the live plan details before submitting paid generations, since plan features and promotional availability can change over time.',
-  ],
-] as const;
-
-const featureDetails = [
-  [
-    { value: 'One sentence', label: 'to set the scene' },
-    { value: 'Cinematic brief', label: 'to shape the direction' },
-    { value: 'Your idea', label: 'stays in focus' },
-  ],
-  [
-    { value: 'First + last', label: 'frames to guide motion' },
-    { value: 'References', label: 'to anchor the look' },
-    { value: 'One editor', label: 'for framing and detail' },
-  ],
-  [
-    { value: 'H3 Max', label: 'short-form generation' },
-    { value: 'Native audio', label: 'in the finished clip' },
-    { value: 'One workspace', label: 'from idea to render' },
+    'Is there a free allowance to explore reelslaunch?',
+    'You can open the workspace and explore the prompt, framing, and generation settings without a credit card. Generation uses the current credit balance and per-second rates, so check the live plan details before submitting a paid clip.',
   ],
 ] as const;
 
 export function ReelslaunchHomepage() {
   const router = useRouter();
   const [ctaHovered, setCtaHovered] = useState(false);
-  const [activeFeatureIndex, setActiveFeatureIndex] = useState(0);
-  const activeFeature = features[activeFeatureIndex]!;
-  const ActiveFeatureIcon = activeFeature.icon;
   const galleryRef = useRef<HTMLUListElement>(null);
 
   const moveGallery = (direction: -1 | 1) => {
@@ -291,12 +267,12 @@ export function ReelslaunchHomepage() {
           <div className="pointer-events-none absolute inset-0 -z-10 bg-[radial-gradient(circle_at_50%_10%,rgba(57,195,239,0.2),transparent_35%),radial-gradient(circle_at_15%_45%,rgba(53,83,255,0.14),transparent_26%)]" />
           <div className="pointer-events-none absolute inset-x-0 top-0 -z-10 h-[620px] bg-[linear-gradient(180deg,rgba(8,9,10,0.25),#08090a)]" />
           <h1 className="relative z-10 mt-7 max-w-6xl text-center text-5xl leading-[0.98] font-semibold tracking-[-0.065em] text-white drop-shadow-[0_4px_18px_rgba(0,0,0,0.95)] sm:text-7xl lg:text-[7.4rem]">
-            Can ChatGPT Create Videos? Yes, But Here&apos;s What It Can&apos;t
-            Do
+            AI Reels Generator for Faceless Instagram Channels
           </h1>
           <p className="relative z-10 mt-7 max-w-2xl text-center text-base leading-7 text-neutral-400 sm:text-lg sm:leading-8">
-            ChatGPT can create videos, but reelslaunch is built for creators who
-            want fast H3 Max clips and automatic Instagram Reels publishing.
+            reelslaunch is an ai reels generator that turns a prompt into a
+            native-audio MiniMax H3 Max clip, then helps you queue and
+            auto-publish it to Instagram Reels.
           </p>
           <p className="relative z-10 mt-5 text-center text-xs text-neutral-500">
             By the reelslaunch team · Last updated September 11, 2026
@@ -334,139 +310,41 @@ export function ReelslaunchHomepage() {
           </div>
         </section>
 
-        <HomepageShortAnswer />
-        <HomepageCreatorsNote />
-
-        <section className="mx-auto max-w-6xl px-5 pt-8 pb-16 text-neutral-300 sm:px-8 sm:pt-10 sm:pb-20">
-          <h2 className="text-3xl font-semibold tracking-[-0.04em] text-white sm:text-4xl">
-            ChatGPT Video Generator
-          </h2>
-          <p className="mt-6 text-base leading-7">
-            A ChatGPT video generator workflow starts with an idea expressed in
-            ordinary language. Describe the subject, setting, movement, visual
-            style, and intended audience, then refine the prompt until the
-            direction is clear. ChatGPT can support ideation and prompt writing;
-            video-generation access determines which models and formats are
-            available. For creators making short-form content, the useful
-            question is not only whether a prompt can become a clip, but also
-            whether the result fits a consistent channel plan. H3 Max helps turn
-            a concise direction into short video drafts that can be reviewed
-            before they move into production.
-          </p>
-          <p className="mt-5 text-base leading-7">
-            Reelslaunch brings the generation settings into one focused
-            workspace. Set a prompt, select the framing and resolution, and
-            choose a short duration suited to the idea. Native audio is included
-            in the generated clip, so the first review can consider the full
-            audiovisual result rather than a silent placeholder. Creators can
-            organize multiple concepts for a faceless channel, compare drafts,
-            and keep the work moving without rebuilding every setup from
-            scratch. Generation is charged according to the selected model,
-            resolution, and duration; check the live pricing details before
-            submitting a render.
-          </p>
-          <p className="mt-5 text-base leading-7">
-            Once a clip is ready, the next step is preparing it for publication.
-            Queue approved videos, connect the Instagram workflow, and choose a
-            schedule that suits the channel. This makes a ChatGPT video
-            generator part of a wider repeatable process—from initial direction
-            to reviewed clip and planned Instagram Reels post. To explore the
-            controls and create a first draft, open the{' '}
-            <Link
-              href="/text-to-video"
-              className="text-cyan-200 underline underline-offset-4"
-            >
-              H3 Max text-to-video workspace
-            </Link>
-            .
-          </p>
-        </section>
-
         <section
           id="features"
           className="mx-auto max-w-6xl scroll-mt-28 px-5 pb-12 sm:px-8 sm:pb-16"
         >
           <div className="mb-12 max-w-xl">
             <p className="text-xs font-medium tracking-[0.22em] text-cyan-300 uppercase">
-              A calmer way to create
+              The workflow
             </p>
             <h2 className="mt-4 text-3xl font-semibold tracking-[-0.045em] sm:text-5xl">
-              Less prompting. More directing.
+              How It Works
             </h2>
           </div>
-          <div className="overflow-hidden rounded-[28px] border border-white/[0.09] bg-[#0e1012] shadow-[0_30px_100px_rgba(0,0,0,0.25)]">
-            <div className="flex flex-col items-start justify-between gap-5 border-b border-white/[0.07] px-6 py-5 sm:flex-row sm:items-center sm:px-8">
-              <div>
-                <p className="text-[10px] font-medium tracking-[0.18em] text-neutral-500 uppercase">
-                  Explore the workflow
-                </p>
-                <p className="mt-1 text-sm text-neutral-300">
-                  Select a step to see what you can direct.
-                </p>
-              </div>
-              <label className="relative flex min-h-11 w-full items-center rounded-full border border-white/[0.12] bg-white/[0.045] pr-10 pl-4 text-sm text-white shadow-[0_8px_24px_rgba(0,0,0,0.22)] sm:w-auto sm:min-w-64">
-                <span className="sr-only">Choose a workflow step</span>
-                <select
-                  aria-label="Choose a workflow step"
-                  className="absolute inset-0 z-10 h-full w-full cursor-pointer appearance-none rounded-full opacity-0"
-                  value={activeFeatureIndex}
-                  onChange={(event) =>
-                    setActiveFeatureIndex(Number(event.currentTarget.value))
-                  }
+          <div className="grid grid-cols-1 gap-4 md:grid-cols-3">
+            {features.map((feature, index) => {
+              const FeatureIcon = feature.icon;
+              return (
+                <article
+                  key={feature.title}
+                  className="rounded-[28px] border border-white/[0.09] bg-[#0e1012] p-6 shadow-[0_30px_100px_rgba(0,0,0,0.25)] sm:p-8"
                 >
-                  {features.map((feature, index) => (
-                    <option key={feature.title} value={index}>
-                      {String(index + 1).padStart(2, '0')} · {feature.title}
-                    </option>
-                  ))}
-                </select>
-                <span aria-hidden="true" className="truncate">
-                  {String(activeFeatureIndex + 1).padStart(2, '0')}{' '}
-                  <span className="px-2 text-neutral-600">/</span>{' '}
-                  {activeFeature.title}
-                </span>
-                <ChevronDown
-                  aria-hidden="true"
-                  className="absolute right-4 size-4 text-neutral-400"
-                />
-              </label>
-            </div>
-
-            <div
-              aria-live="polite"
-              className="grid min-h-[310px] gap-10 px-6 py-9 sm:px-10 sm:py-12 md:grid-cols-[minmax(0,1fr)_minmax(360px,0.95fr)] md:items-center md:gap-14"
-            >
-              <div>
-                <div className="flex items-center gap-3 text-cyan-300">
-                  <ActiveFeatureIcon className="size-5" strokeWidth={1.5} />
-                  <span className="font-mono text-[10px] tracking-[0.16em] uppercase">
-                    Step {String(activeFeatureIndex + 1).padStart(2, '0')}
-                  </span>
-                </div>
-                <h3 className="mt-5 max-w-xl text-3xl leading-tight font-medium tracking-[-0.045em] text-white sm:text-4xl">
-                  {activeFeature.title}
-                </h3>
-                <p className="mt-4 max-w-xl text-sm leading-7 text-neutral-400 sm:text-base">
-                  {activeFeature.body}
-                </p>
-              </div>
-
-              <div className="grid grid-cols-1 divide-y divide-white/[0.08] border-y border-white/[0.08] sm:grid-cols-3 sm:divide-x sm:divide-y-0">
-                {featureDetails[activeFeatureIndex]!.map((detail) => (
-                  <div
-                    key={detail.value}
-                    className="py-5 sm:px-4 sm:py-2 first:sm:pl-0 last:sm:pr-0"
-                  >
-                    <p className="text-base font-medium tracking-[-0.02em] text-white sm:text-sm lg:text-base">
-                      {detail.value}
-                    </p>
-                    <p className="mt-1.5 text-xs leading-5 text-neutral-500">
-                      {detail.label}
-                    </p>
+                  <div className="flex items-center gap-3 text-cyan-300">
+                    <FeatureIcon className="size-5" strokeWidth={1.5} />
+                    <span className="font-mono text-[10px] tracking-[0.16em] uppercase">
+                      Step {String(index + 1).padStart(2, '0')}
+                    </span>
                   </div>
-                ))}
-              </div>
-            </div>
+                  <h3 className="mt-8 text-2xl leading-tight font-medium tracking-[-0.045em] text-white">
+                    {feature.title}
+                  </h3>
+                  <p className="mt-4 text-sm leading-7 text-neutral-400 sm:text-base">
+                    {feature.body}
+                  </p>
+                </article>
+              );
+            })}
           </div>
           <div className="mt-16 flex flex-col items-start justify-between gap-6 rounded-2xl border border-white/10 bg-gradient-to-r from-white/[0.06] to-transparent p-7 sm:flex-row sm:items-center sm:p-10">
             <div>
@@ -495,11 +373,11 @@ export function ReelslaunchHomepage() {
                 <Sparkles className="size-5 text-cyan-300" />
               </div>
               <h2 className="mt-5 text-4xl font-semibold tracking-[-0.055em] sm:text-6xl">
-                Every scene. Every sound.
+                Built on MiniMax H3 Max
               </h2>
               <p className="mt-5 text-neutral-400">
-                Create short clips, keep native audio, and automate the work of
-                publishing a faceless Reels channel.
+                Generate 5–15 second clips with native audio, 480p or 768p
+                output, and six aspect ratios for faceless Instagram channels.
               </p>
             </div>
             <div className="mt-12 flex items-center justify-between px-[clamp(1.25rem,4vw,4.5rem)] md:mt-16">
@@ -578,13 +456,67 @@ export function ReelslaunchHomepage() {
           </div>
         </section>
 
-        <Pricing compact />
-        <HomepageWorkflowComparison />
+        <section className="mx-auto max-w-6xl px-5 py-20 text-neutral-300 sm:px-8 sm:py-28">
+          <div className="grid gap-8 md:grid-cols-[0.8fr_1.2fr] md:items-end">
+            <div>
+              <p className="text-xs font-medium tracking-[0.2em] text-cyan-300 uppercase">
+                Production after generation
+              </p>
+              <h2 className="mt-4 text-3xl font-semibold tracking-[-0.045em] text-white sm:text-5xl">
+                From Clip to Published Reel
+              </h2>
+            </div>
+            <p className="max-w-2xl text-base leading-8 text-neutral-400">
+              Review each generated clip, keep approved videos in a queue, and
+              set a publishing rhythm for Instagram Reels. While one clip is
+              waiting for its slot, you can prepare the next prompt and keep a
+              faceless channel supplied.
+            </p>
+          </div>
+          <div className="mt-10 grid gap-4 sm:grid-cols-3">
+            {[
+              [
+                '01',
+                'Review the result',
+                'Check motion, native audio, framing, and duration before approval.',
+              ],
+              [
+                '02',
+                'Build the queue',
+                'Keep approved H3 Max clips organized for the next publishing slots.',
+              ],
+              [
+                '03',
+                'Set the cadence',
+                'Connect Instagram and let the planned workflow move toward Reels posts.',
+              ],
+            ].map(([number, title, body]) => (
+              <article
+                key={number}
+                className="rounded-2xl border border-white/10 bg-white/[0.035] p-6"
+              >
+                <span className="font-mono text-xs tracking-[0.2em] text-cyan-300">
+                  {number}
+                </span>
+                <h3 className="mt-8 text-xl font-medium text-white">{title}</h3>
+                <p className="mt-3 text-sm leading-6 text-neutral-400">
+                  {body}
+                </p>
+              </article>
+            ))}
+          </div>
+        </section>
+
+        <Pricing
+          compact
+          title="H3 Max Clip Pricing"
+          description="Choose the $29 Start, $79 Creator, or $149 Studio tier, then view the full credit details on the pricing page."
+        />
 
         <section className="mx-auto max-w-3xl px-5 py-28 sm:px-8 md:py-40">
           <div className="text-center">
             <h2 className="text-4xl font-semibold tracking-[-0.05em] sm:text-6xl">
-              Frequently asked questions.
+              FAQ
             </h2>
           </div>
           <div className="mt-16 divide-y divide-white/10 border-y border-white/10">
@@ -599,6 +531,42 @@ export function ReelslaunchHomepage() {
                 </p>
               </details>
             ))}
+          </div>
+        </section>
+
+        <section className="mx-auto max-w-6xl border-t border-white/10 px-5 py-20 sm:px-8 sm:py-24">
+          <h2 className="text-3xl font-semibold tracking-[-0.045em] text-white sm:text-5xl">
+            More H3 Max Tools
+          </h2>
+          <p className="mt-4 max-w-2xl text-base leading-7 text-neutral-400">
+            Explore the full generator, compare credit plans, or read the
+            focused model overview before you start a batch of clips.
+          </p>
+          <div className="mt-8 flex flex-wrap gap-3 text-sm">
+            <Link
+              href="/text-to-video"
+              className="rounded-full border border-cyan-200/30 px-4 py-2 text-cyan-100 transition-colors hover:border-cyan-200 hover:bg-cyan-200/10"
+            >
+              H3 Max text to video
+            </Link>
+            <Link
+              href="/pricing"
+              className="rounded-full border border-cyan-200/30 px-4 py-2 text-cyan-100 transition-colors hover:border-cyan-200 hover:bg-cyan-200/10"
+            >
+              H3 Max pricing
+            </Link>
+            <Link
+              href="/h3-max-video-generator"
+              className="rounded-full border border-cyan-200/30 px-4 py-2 text-cyan-100 transition-colors hover:border-cyan-200 hover:bg-cyan-200/10"
+            >
+              H3 Max video generator overview
+            </Link>
+            <Link
+              href="/can-chatgpt-create-videos"
+              className="rounded-full border border-white/15 px-4 py-2 text-neutral-300 transition-colors hover:border-white/30 hover:bg-white/10 hover:text-white"
+            >
+              Read the ChatGPT video guide
+            </Link>
           </div>
         </section>
 
