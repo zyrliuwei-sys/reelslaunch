@@ -403,8 +403,27 @@
   }
 }
 
+/* Footer badge strip: scrolls left → right; the track holds two copies. */
+@keyframes footer-badge-marquee {
+  from {
+    transform: translateX(-50%);
+  }
+  to {
+    transform: translateX(0);
+  }
+}
+
+.footer-badge-marquee {
+  animation: footer-badge-marquee 40s linear infinite;
+}
+
+.footer-badge-marquee:hover {
+  animation-play-state: paused;
+}
+
 @media (prefers-reduced-motion: reduce) {
   .proactiv-meteor,
+  .footer-badge-marquee,
   .proactiv-marquee {
     animation: none !important;
   }
