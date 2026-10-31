@@ -23,6 +23,8 @@
   "common.sign.sign_out_title": "Sign Out",
   "common.sign.google_sign_in": "Continue with Google",
   "common.sign.github_sign_in": "Continue with GitHub",
+  "common.sign.admin_sign_in": "Admin sign-in",
+  "common.sign.admin_sign_in_hint": "After signing in you'll go straight to the admin console.",
   "common.sign.no_methods_title": "No sign-in methods available",
   "common.sign.no_methods_description": "The administrator hasn't enabled any sign-in methods yet. Please check back later.",
   "common.sign.forgot_password": "Forgot password?",

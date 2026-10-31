@@ -1,6 +1,7 @@
 import { useEffect, useRef, useState } from 'react';
 import { useForm } from '@tanstack/react-form';
 import { createFileRoute } from '@tanstack/react-router';
+import { ShieldCheck } from 'lucide-react';
 import { z } from 'zod';
 
 import { authClient, signIn, useSession } from '@/core/auth/client';
@@ -34,6 +35,8 @@ function SignInPage() {
   // Set right before we navigate so the already-signed-in effect doesn't also fire.
   const navigatingRef = useRef(false);
   const [error, setError] = useState('');
+  // "Admin sign-in" toggle: land on /admin after the next successful login.
+  const [adminMode, setAdminMode] = useState(false);
 
   // callbackUrl: internal page path, goes there directly after login.
   // redirect: either an internal path (same thing) or an app protocol URL like
@@ -64,7 +67,7 @@ function SignInPage() {
   const afterLoginUrl = resolveAfterAuthUrl({
     redirect: redirectParam,
     callbackUrl,
-    fallback: '/',
+    fallback: adminMode ? '/admin' : '/',
   });
 
   // Carry callbackUrl/redirect across to sign-up so the destination survives the switch.
@@ -282,6 +285,27 @@ function SignInPage() {
                 />
               </div>
             )}
+
+            <div className="mt-8 border-t border-white/10 pt-5">
+              <button
+                type="button"
+                aria-pressed={adminMode}
+                onClick={() => setAdminMode((v) => !v)}
+                className={`flex h-10 w-full items-center justify-center gap-2 rounded-lg border text-sm transition-colors ${
+                  adminMode
+                    ? 'border-cyan-300/40 bg-cyan-300/10 text-cyan-200'
+                    : 'border-white/10 text-zinc-400 hover:border-white/20 hover:text-zinc-100'
+                }`}
+              >
+                <ShieldCheck className="size-4" />
+                {m['common.sign.admin_sign_in']()}
+              </button>
+              {adminMode && (
+                <p className="mt-2 text-center text-xs text-cyan-300/80">
+                  {m['common.sign.admin_sign_in_hint']()}
+                </p>
+              )}
+            </div>
           </>
         )}
       </div>

@@ -23,6 +23,8 @@
   "common.sign.sign_out_title": "退出登录",
   "common.sign.google_sign_in": "通过 Google 继续",
   "common.sign.github_sign_in": "通过 GitHub 继续",
+  "common.sign.admin_sign_in": "管理员登录",
+  "common.sign.admin_sign_in_hint": "登录后将直接进入管理后台。",
   "common.sign.no_methods_title": "暂无可用的登录方式",
   "common.sign.no_methods_description": "管理员尚未启用任何登录方式，请稍后再试。",
   "common.sign.forgot_password": "忘记密码？",

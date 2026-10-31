@@ -1,0 +1,1 @@
+ALTER TABLE "user" ADD COLUMN "free_image_trial_available" boolean DEFAULT false NOT NULL;
