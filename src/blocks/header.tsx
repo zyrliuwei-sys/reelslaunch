@@ -15,6 +15,13 @@ export function Header() {
       primaryAction={{
         href: '/sign-in',
         label: 'Sign in',
+        links: [
+          { href: '/sign-in', label: m['common.sign.sign_in_title']() },
+          {
+            href: '/sign-in?redirect=%2Fadmin',
+            label: m['common.sign.admin_sign_in'](),
+          },
+        ],
       }}
     />
   );

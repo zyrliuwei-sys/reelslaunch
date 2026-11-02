@@ -1,5 +1,13 @@
 import { useState } from 'react';
-import { ArrowRight, LogOut, Menu, Settings, X } from 'lucide-react';
+import {
+  ArrowRight,
+  ChevronDown,
+  LogOut,
+  Menu,
+  Settings,
+  ShieldCheck,
+  X,
+} from 'lucide-react';
 import { AnimatePresence, m, useReducedMotion } from 'motion/react';
 
 import { signOut, useSession } from '@/core/auth/client';
@@ -29,6 +37,9 @@ export interface ReelslaunchNavProps {
   links?: ReelslaunchNavLink[];
   loginLabel?: string;
   loginHref?: string;
+  /** When set, the signed-out login button becomes a dropdown offering this admin entry. */
+  adminLoginLabel?: string;
+  adminLoginHref?: string;
   settingsLabel?: string;
   signOutLabel?: string;
 }
@@ -47,6 +58,8 @@ export function ReelslaunchNav({
   links = defaultLinks,
   loginLabel = 'Login',
   loginHref = '/sign-in',
+  adminLoginLabel,
+  adminLoginHref = '/sign-in?redirect=%2Fadmin',
   settingsLabel = 'Settings',
   signOutLabel = 'Sign out',
 }: ReelslaunchNavProps) {
@@ -93,6 +106,8 @@ export function ReelslaunchNav({
                 initial={accountInitial}
                 name={session?.user?.name || session?.user?.email || ''}
                 email={session?.user?.email || ''}
+                adminLoginLabel={adminLoginLabel}
+                adminLoginHref={adminLoginHref}
                 settingsLabel={settingsLabel}
                 signOutLabel={signOutLabel}
               />
@@ -154,6 +169,8 @@ export function ReelslaunchNav({
                       initial={accountInitial}
                       name={session?.user?.name || session?.user?.email || ''}
                       email={session?.user?.email || ''}
+                      adminLoginLabel={adminLoginLabel}
+                      adminLoginHref={adminLoginHref}
                       settingsLabel={settingsLabel}
                       signOutLabel={signOutLabel}
                     />
@@ -175,6 +192,8 @@ function AccountLink({
   initial,
   name,
   email,
+  adminLoginLabel,
+  adminLoginHref,
   settingsLabel,
   signOutLabel,
   onClick,
@@ -185,11 +204,24 @@ function AccountLink({
   initial: string;
   name: string;
   email: string;
+  adminLoginLabel?: string;
+  adminLoginHref?: string;
   settingsLabel: string;
   signOutLabel: string;
   onClick?: () => void;
 }) {
   if (!signedIn) {
+    if (adminLoginLabel) {
+      return (
+        <SignedOutLoginMenu
+          href={href}
+          label={label}
+          adminLoginLabel={adminLoginLabel}
+          adminLoginHref={adminLoginHref ?? '/sign-in?redirect=%2Fadmin'}
+          onClick={onClick}
+        />
+      );
+    }
     return (
       <a
         href={href}
@@ -216,6 +248,51 @@ function AccountLink({
       settingsLabel={settingsLabel}
       signOutLabel={signOutLabel}
     />
+  );
+}
+
+/**
+ * Signed-out login button that opens a menu: regular sign-in plus the
+ * admin entry (which lands on /admin after the next successful login).
+ */
+function SignedOutLoginMenu({
+  href,
+  label,
+  adminLoginLabel,
+  adminLoginHref,
+  onClick,
+}: {
+  href: string;
+  label: string;
+  adminLoginLabel: string;
+  adminLoginHref: string;
+  onClick?: () => void;
+}) {
+  return (
+    <DropdownMenu>
+      <DropdownMenuTrigger className="group inline-flex items-center gap-1.5 rounded-md px-3 py-1.5 text-sm font-medium text-zinc-500 transition-colors hover:text-zinc-950 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-zinc-950">
+        {label}
+        <ChevronDown
+          aria-hidden="true"
+          className="size-3.5 transition-transform duration-200 group-hover:translate-y-0.5"
+          strokeWidth={1.8}
+        />
+      </DropdownMenuTrigger>
+      <DropdownMenuContent align="end" sideOffset={10} className="min-w-44">
+        <DropdownMenuGroup>
+          <DropdownMenuItem render={<Link href={href} />} onClick={onClick}>
+            {label}
+          </DropdownMenuItem>
+          <DropdownMenuItem
+            render={<Link href={adminLoginHref} />}
+            onClick={onClick}
+          >
+            <ShieldCheck className="size-4" aria-hidden="true" />
+            {adminLoginLabel}
+          </DropdownMenuItem>
+        </DropdownMenuGroup>
+      </DropdownMenuContent>
+    </DropdownMenu>
   );
 }
 

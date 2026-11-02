@@ -245,6 +245,7 @@ export function ReelslaunchHomepage() {
           { label: 'Pricing plans', href: '/pricing' },
         ]}
         loginLabel="Sign in"
+        adminLoginLabel={m['common.sign.admin_sign_in']()}
       />
 
       <main>

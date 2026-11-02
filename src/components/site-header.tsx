@@ -1,7 +1,7 @@
 'use client';
 
 import { useState } from 'react';
-import { ArrowRight, Menu, X } from 'lucide-react';
+import { ArrowRight, ChevronDown, Menu, ShieldCheck, X } from 'lucide-react';
 
 import { useSession } from '@/core/auth/client';
 import { Link } from '@/core/i18n/navigation';
@@ -17,10 +17,79 @@ export interface NavLink {
   label: string;
   /** Open in a new tab. Off-site (http) hrefs always open in a new tab. */
   external?: boolean;
+  /** When present, the primary action renders as a dropdown of these entries. */
+  links?: NavLink[];
 }
 
 /** Off-site URLs render as plain <a>; internal paths use the locale-aware Link. */
 const isExternalHref = (href: string) => /^https?:\/\//.test(href);
+
+/**
+ * Primary action rendered as a dropdown (e.g. "Sign in" offering user vs
+ * admin sign-in). Backdrop layer closes the menu on outside clicks.
+ */
+function PrimaryActionDropdown({
+  action,
+  buttonClass,
+  onNavigate,
+}: {
+  action: NavLink & { links?: NavLink[] };
+  buttonClass: string;
+  onNavigate?: () => void;
+}) {
+  const [open, setOpen] = useState(false);
+  const links = action.links ?? [];
+  return (
+    <div className="relative">
+      <button
+        type="button"
+        className={cn(buttonClass, 'gap-1.5')}
+        onClick={() => setOpen((v) => !v)}
+        aria-expanded={open}
+        aria-haspopup="menu"
+      >
+        {action.label}
+        <ChevronDown
+          className={cn('size-4 transition-transform', open && 'rotate-180')}
+        />
+      </button>
+      {open && (
+        <>
+          <div
+            className="fixed inset-0 z-40"
+            onClick={() => setOpen(false)}
+            aria-hidden="true"
+          />
+          <div
+            role="menu"
+            className={cn(
+              'absolute top-full right-0 z-50 mt-2 w-48 overflow-hidden rounded-lg border py-1 shadow-lg',
+              'border-white/[0.09] bg-[#17181a] text-[#f7f2e9]'
+            )}
+          >
+            {links.map((link) => (
+              <Link
+                key={link.href}
+                href={link.href}
+                role="menuitem"
+                className="flex items-center gap-2 px-3 py-2 text-sm transition-colors hover:bg-white/[0.07] hover:text-[#f5b65e]"
+                onClick={() => {
+                  setOpen(false);
+                  onNavigate?.();
+                }}
+              >
+                {link.href.includes('admin') && (
+                  <ShieldCheck className="size-4" />
+                )}
+                {link.label}
+              </Link>
+            ))}
+          </div>
+        </>
+      )}
+    </div>
+  );
+}
 
 export function SiteHeader({
   navLinks,
@@ -113,6 +182,11 @@ export function SiteHeader({
               email={user.email}
               image={user.image}
             />
+          ) : action.links?.length ? (
+            <PrimaryActionDropdown
+              action={action}
+              buttonClass={primaryActionClass}
+            />
           ) : isExternalHref(action.href) ? (
             <a
               href={action.href}
@@ -191,6 +265,12 @@ export function SiteHeader({
                 name={user.name || 'User'}
                 email={user.email}
                 image={user.image}
+              />
+            ) : action.links?.length ? (
+              <PrimaryActionDropdown
+                action={action}
+                buttonClass={primaryActionClass}
+                onNavigate={() => setMobileOpen(false)}
               />
             ) : isExternalHref(action.href) ? (
               <a
